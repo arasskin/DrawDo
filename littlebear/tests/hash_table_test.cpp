@@ -53,7 +53,7 @@ void *test_allocate(size_t alignment, size_t bytes) {
 }
 
 void presence_and_boundaries() {
-  static_assert(sizeof(table::bucket) == 320);
+  static_assert(sizeof(table::bucket) == 192);
   static_assert(alignof(table::bucket) == 64);
   auto t = table::create(1, 16);
   CHECK(!table::bad(&t));
@@ -102,7 +102,7 @@ void collisions_and_deletion() {
   model expected;
   std::vector<table::key> keys;
   // All keys have the same two choices, filling both buckets completely.
-  for (uint64_t i = 0; i < 16; ++i) {
+  for (uint64_t i = 0; i < 2 * table::BUCKET_SIZE; ++i) {
     table::key k{.low64 = i * 2 + 1, .high64 = i * 2};
     keys.push_back(k);
     table::value v{};
@@ -113,7 +113,8 @@ void collisions_and_deletion() {
   verify(&t, expected);
   CHECK(!table::associate(&t, {101, 100}, {}));
   verify(&t, expected);
-  for (size_t i : {size_t(0), size_t(7), size_t(15), size_t(3), size_t(8)}) {
+  for (size_t i : {size_t(0), table::BUCKET_SIZE - 1, 2 * table::BUCKET_SIZE - 1,
+                   size_t(1), table::BUCKET_SIZE}) {
     table::unsafe_dissociate(&t, keys[i]);
     expected.erase(pair(keys[i]));
     verify(&t, expected);
@@ -128,7 +129,7 @@ void collisions_and_deletion() {
   // Same-bucket choices that remain clustered across every allowed size.
   t = table::create(1, 32);
   expected.clear();
-  for (uint64_t i = 0; i < 8; ++i) {
+  for (uint64_t i = 0; i < table::BUCKET_SIZE; ++i) {
     table::key k{256 * i, 256 * (i + 1)};
     CHECK(table::associate(&t, k, {}));
     expected.emplace(pair(k), table::value{});
@@ -157,14 +158,15 @@ void allocation_failures() {
 
   t = table::create(1, 16);
   model expected;
-  for (uint64_t i = 0; i < 8; ++i) {
+  for (uint64_t i = 0; i < table::BUCKET_SIZE; ++i) {
     table::key k{i, i};
     CHECK(table::associate(&t, k, {}));
     expected.emplace(pair(k), table::value{});
   }
   table::bucket *original = t.data;
   allocation_calls = 0; fail_at = 1;
-  CHECK(!table::associate(&t, {8, 8}, {}, test_allocate));
+  const table::key extra{table::BUCKET_SIZE, table::BUCKET_SIZE};
+  CHECK(!table::associate(&t, extra, {}, test_allocate));
   CHECK(t.data == original && t.bucket_count == 1 && allocation_calls == 1);
   verify(&t, expected);
   allocation_calls = 0;
@@ -177,15 +179,15 @@ void allocation_failures() {
   CHECK(table::associate(&t, table::EMPTY, {}, test_allocate));
   expected.emplace(pair(table::EMPTY), table::value{});
   CHECK(allocation_calls == 0);
-  CHECK(table::associate(&t, {8, 8}, {}));
-  expected.emplace(pair({8, 8}), table::value{});
+  CHECK(table::associate(&t, extra, {}));
+  expected.emplace(pair(extra), table::value{});
   CHECK(t.bucket_count == 2);
   verify(&t, expected);
   table::destroy(&t);
 
   t = table::create(1, 16);
   expected.clear();
-  for (uint64_t i = 0; i < 8; ++i) {
+  for (uint64_t i = 0; i < table::BUCKET_SIZE; ++i) {
     table::key k{256 * i, 256 * (i + 1)};
     CHECK(table::associate(&t, k, {}));
     expected.emplace(pair(k), table::value{});

@@ -13,9 +13,9 @@ using value = augmented_tree::header;
 inline bool operator==(key a, key b) { return a.high64 == b.high64 && a.low64 == b.low64; }
 
 constexpr key EMPTY{UINT64_MAX, UINT64_MAX};
-constexpr size_t BUCKET_SIZE = 8;
+constexpr size_t BUCKET_SIZE = 4;
 constexpr size_t DEFAULT_BUCKET_COUNT = 128;
-// 20 MiB of buckets at the ceiling; resizing temporarily holds both arrays.
+// 12 MiB of buckets at the ceiling; resizing temporarily holds both arrays.
 constexpr size_t DEFAULT_MAX_BUCKET_COUNT = 65536;
 
 struct alignas(64) bucket { key keys[BUCKET_SIZE]; value values[BUCKET_SIZE]; };

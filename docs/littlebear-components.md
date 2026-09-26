@@ -76,7 +76,7 @@ The fingerprints are still the prototype XOR scheme, not upstream negentropy's.
 
 ## Namespace table contract
 
-The two-choice table keeps eight slots per 320-byte, 64-byte-aligned bucket.
+The two-choice table keeps four slots per 192-byte, 64-byte-aligned bucket.
 Keys are internal 128-bit namespace fingerprints; the wire identity and ownership
 format remain storage/protocol work. Every key is usable, including all ones,
 which has a separate slot in the table header.
@@ -94,9 +94,9 @@ even with free slots elsewhere, so insertion can fail at the configured ceiling.
 Callers must check its result. Growth is synchronous and belongs in the eventual
 event-loop latency measurements.
 
-The default starts at 128 buckets (40 KiB) and caps at 65,536 buckets (20 MiB).
+The default starts at 128 buckets (24 KiB) and caps at 65,536 buckets (12 MiB).
 During rebuilding, old and new arrays coexist, with a maximum default bucket
-allocation of 30 MiB. These are configurable power-of-two limits, not a complete
+allocation of 18 MiB. These are configurable power-of-two limits, not a complete
 server memory budget. `memory_usage` reports the table header and current buckets,
 excluding tree nodes and temporary growth allocations.
 
@@ -129,7 +129,7 @@ memory. The logical file extent is not written or resident value data. These
 measurements cover allocator arithmetic and metadata only, not record I/O, tree
 throughput, or end-to-end sync; timings will vary on a shared virtual machine.
 
-The namespace-table benchmark on the same droplet produced:
+The original eight-slot namespace-table benchmark on the same droplet produced:
 
 | Namespaces | Table memory | Lookup hit | Lookup miss | Insert including growth |
 | --- | --- | --- | --- | --- |
@@ -140,6 +140,27 @@ Both samples occupied 50% of bucket slots, approximately 80 bytes per namespace.
 The process peaked at 3,948 KiB resident memory. Keys are uniformly distributed;
 these measurements cover table operations only, excluding trees and record I/O.
 Collision-heavy tests check bounded failure behavior separately.
+
+A subsequent comparison used five uniform key sets and three repetitions per
+set, alternating execution order. At 16,384 namespaces, median results were:
+
+| Design | Table memory | Lookup hit | Lookup miss | Insert including growth | Delete/reinsert, per operation |
+| --- | --- | --- | --- | --- | --- |
+| Eight slots | 1.25 MiB | 37.30 ns | 31.59 ns | 206.73 ns | 33.17 ns |
+| Four slots (selected) | 1.50–3.00 MiB | 28.07 ns | 23.39 ns | 221.13 ns | 26.24 ns |
+| `std::unordered_map` | 0.91 MiB | 44.09 ns | 54.19 ns | 193.35 ns | 114.19 ns |
+
+Four-slot buckets use 96 bytes per namespace at 50% occupancy, versus 80 for
+eight slots. One of the five key sets forced the four-slot table to grow again,
+to 25% occupancy and 192 bytes per namespace. The selected four-slot layout
+accepts this space cost for shorter scans; revisit it if namespace memory becomes
+a constraint. The bucket-count limit remains 65,536.
+
+The standard map used GCC/libstdc++ 13.3, its default allocator and maximum load
+factor of 1.0, and a `noexcept` hash XORing the two 64-bit key halves. Its allocation
+sizes were counted in a separate untimed pass. All table-memory figures exclude
+allocator bookkeeping and fragmentation; standard-map node allocations therefore
+have additional overhead. These are component microbenchmarks, not sync timings.
 
 The full Linux sanitizer suite passed under a 160 MB memory cap and 75% CPU
 quota, with peak resident memory of 53,760 KiB. An earlier run with the default
