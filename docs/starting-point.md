@@ -76,8 +76,9 @@ Component failures found in the source baseline:
 - Fixed: a 64-byte allocation request produced a 32-byte slot; 128 produced 64.
 - Fixed: tree-arena and fingerprint-array guard-page addresses were not
   page-aligned, causing `mprotect` to fail in local component checks.
-- The namespace-table header still references `zip_zip` instead of
-  `augmented_tree`, so compiling that header fails.
+- Fixed: the namespace table's stale `zip_zip` references, lookup/replacement,
+  bounded growth, deletion, and allocation-failure behavior. Its tests distinguish
+  absent namespaces from present empty trees.
 
 Tree insertion/deletion fingerprint updates, deletion traversal, allocation
 rollback, and maximum-key range handling have also been repaired. Nodes remain

@@ -44,9 +44,9 @@ dependency; repairing an existing component counts as unfinished work.
   explicitly handle the upper size limit and zero-length values.
 - [x] Fix tree-arena and fingerprint-array guard-page alignment; validate
   rank boundaries, index arithmetic, exhaustion, reuse, and mapping cleanup.
-- [ ] Repair the namespace table's stale `zip_zip` references; test lookup,
+- [x] Repair the namespace table's stale `zip_zip` references; test lookup,
   replacement, growth, deletion, and allocation failures.
-- [ ] Preserve the distinction between a missing table entry and an existing
+- [x] Preserve the distinction between a missing table entry and an existing
   entry with an empty tree. Do not use tree emptiness as namespace absence.
 - [x] Validate the growing slab allocator's growth and failure paths, including
   free-list pointer validity if memory moves.

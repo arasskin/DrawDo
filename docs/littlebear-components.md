@@ -12,6 +12,7 @@ On Ubuntu 24.04, install `build-essential` and `liburing-dev`, then run:
 make -C littlebear all test
 make -C littlebear sanitize
 make -C littlebear benchmark
+make -C littlebear benchmark-table
 ```
 
 `core` is an optimized server build. `make debug` produces `build/core-debug`;
@@ -73,6 +74,32 @@ are exactly `[low, high)`, with empty/reversed ranges returning zero.
 `UINT64_MAX` is a valid key, so use `get_full_fingerprint` for the entire set.
 The fingerprints are still the prototype XOR scheme, not upstream negentropy's.
 
+## Namespace table contract
+
+The two-choice table keeps eight slots per 320-byte, 64-byte-aligned bucket.
+Keys are internal 128-bit namespace fingerprints; the wire identity and ownership
+format remain storage/protocol work. Every key is usable, including all ones,
+which has a separate slot in the table header.
+
+`get` returns a pointer to the stored tree header, or `nullptr` for absence.
+An empty tree is still a present namespace. Re-look up headers after structural
+mutations because growth and deletion can move them. The table stores headers
+but does not own tree nodes or record allocations: callers must reclaim those
+before removing entries, clearing the table, or destroying it.
+
+`associate` inserts or replaces a header; `unsafe_insert` requires an absent key.
+Creation and growth report allocation failure. Failed growth leaves the original
+entries, capacity, and header addresses intact. Both candidate buckets can fill
+even with free slots elsewhere, so insertion can fail at the configured ceiling.
+Callers must check its result. Growth is synchronous and belongs in the eventual
+event-loop latency measurements.
+
+The default starts at 128 buckets (40 KiB) and caps at 65,536 buckets (20 MiB).
+During rebuilding, old and new arrays coexist, with a maximum default bucket
+allocation of 30 MiB. These are configurable power-of-two limits, not a complete
+server memory budget. `memory_usage` reports the table header and current buckets,
+excluding tree nodes and temporary growth allocations.
+
 ## Verification and measurements
 
 The suite checks every supported request size and its allocation/reuse behavior,
@@ -81,6 +108,11 @@ rank, and guard-page protection. Tree tests validate ordering, rank priorities,
 lookup results, leaf/node counts, free lists, subtree fingerprints, range results,
 and allocation rollback against a reference map. They include 40,000 seeded
 random operations and 2,304 four-key insertion/deletion permutation cases.
+
+Namespace-table tests compare 50,000 seeded operations with a reference map and
+exercise full buckets, identical bucket choices, the entire key space's boundary
+values, replacement, deletion, growth, and injected allocation failures. A test
+with two real trees checks mutable stored headers and absent-versus-empty behavior.
 
 On the one-core droplet (458 MiB reported RAM), GCC 13 with `-O3 -DNDEBUG`
 produced this sample on 2026-09-26:
@@ -96,6 +128,18 @@ bytes of heap metadata for 4,096 reusable slots and peaked at 1,664 KiB resident
 memory. The logical file extent is not written or resident value data. These
 measurements cover allocator arithmetic and metadata only, not record I/O, tree
 throughput, or end-to-end sync; timings will vary on a shared virtual machine.
+
+The namespace-table benchmark on the same droplet produced:
+
+| Namespaces | Table memory | Lookup hit | Lookup miss | Insert including growth |
+| --- | --- | --- | --- | --- |
+| 1,024 | 81,984 bytes | 8.85 ns | 18.48 ns | 107.39 ns |
+| 16,384 | 1,310,784 bytes | 38.92 ns | 31.50 ns | 228.40 ns |
+
+Both samples occupied 50% of bucket slots, approximately 80 bytes per namespace.
+The process peaked at 3,948 KiB resident memory. Keys are uniformly distributed;
+these measurements cover table operations only, excluding trees and record I/O.
+Collision-heavy tests check bounded failure behavior separately.
 
 The full Linux sanitizer suite passed under a 160 MB memory cap and 75% CPU
 quota, with peak resident memory of 53,760 KiB. An earlier run with the default
