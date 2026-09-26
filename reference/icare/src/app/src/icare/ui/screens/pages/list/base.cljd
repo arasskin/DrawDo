@@ -1,0 +1,194 @@
+(ns icare.ui.screens.pages.list.base
+  (:require ["package:flutter/material.dart" :as m]
+            [icare.ui.screens.pages.shared :refer [hsv get-phone-measurements autoscroll-away-from-keyboard]]
+            [icare.datafriend :as df]
+            [icare.ui.drawing :as drawing]
+            [cljd.flutter :as f]))
+
+(defn task [db index [task-id task]]
+  (let [{:keys [task/title task/completed task/is-add-task?]} task
+        todo-list-order (get-in db [:eav :global/config :config/todo-list-order])]
+    (if is-add-task?
+      {:ui-type ::add-task-task
+       :key task-id
+       :id task-id
+       :index index
+       :on-add-task (fn [side-effects]
+                      (fn [title]
+                        (when-not (empty? title)
+                          (let [{:keys [transact! render! make-uuid]} side-effects
+                                new-task-id (make-uuid)
+                                new-todo-list-order (reduce (fn [new-order task-id]
+                                                              (cond
+                                                                (and (empty? new-order) (> (count todo-list-order) 1) (= task-id :add-task-task))
+                                                                (conj new-order task-id new-task-id)
+
+                                                                (= task-id :add-task-task) (conj new-order new-task-id task-id)
+
+                                                                :else (conj new-order task-id)))
+                                                            []
+                                                            todo-list-order)]
+                            (transact! {'add {new-task-id {:task/title title
+                                                           :task/completed false
+                                                           :task/subitems []}
+                                              :global/config {:config/todo-list-order new-todo-list-order}}})
+                            (render!)))))}
+      {:ui-type ::task
+       :key task-id
+       :id (str "task-" task-id)
+       :title title
+       :index index
+       :on-complete (fn [side-effects]
+                      (fn []
+                        (let [{:keys [transact! render!]} side-effects]
+                          (transact! {'add {task-id {:task/completed (not completed)}}})
+                          (render!))))
+       :on-edit-task-title (fn [side-effects]
+                             (fn [new-title]
+                               (let [{:keys [transact! render!]} side-effects]
+                                 (if (empty? new-title)
+                                   (transact! {'retract {task-id (get-in db [:eav task-id])}
+                                               'add     {:global/config {:config/todo-list-order (vec (remove #(= % task-id) todo-list-order))}}})
+                                   (transact! {'add {task-id {:task/title new-title}}}))
+                                 (render!))))
+       :completed completed})))
+
+(defn state->ast [db]
+  (let [todo-list-order (get-in db [:eav :global/config :config/todo-list-order])
+        all-tasks       (mapv (fn [task-id] [task-id (get-in db [:eav task-id])]) todo-list-order)]
+
+    (prn "Rendering" (count (remove (fn [[_ task]] (:task/is-add-task? task))  all-tasks)) "tasks")
+
+    {:id "list-base"
+     :ui-type ::base
+     :on-reorder-tasks (fn [side-effects]
+                         (fn [old-idx new-idx]
+                           (prn "old" old-idx "new" new-idx)
+                           (let [adjusted-new-idx (if (> new-idx old-idx) (dec new-idx) new-idx)] ;; Flutter's ReorderableListView returns strange indices, this is us dealing with that
+                             (prn "adjusted new-idx:" adjusted-new-idx)
+                             (let [{:keys [transact! render!]} side-effects
+                                   moved-task-id       (nth todo-list-order old-idx)
+                                   tasks-without-moved (vec (concat (subvec todo-list-order 0 old-idx)
+                                                                    (subvec todo-list-order (inc old-idx))))
+                                   reordered-tasks     (vec (concat (subvec tasks-without-moved 0 adjusted-new-idx)
+                                                                   [moved-task-id]
+                                                                   (subvec tasks-without-moved adjusted-new-idx)))]
+                               (transact! {'add {:global/config {:config/todo-list-order reordered-tasks}}})
+                               (render!)))))
+     :tasks (vec (map-indexed (partial task db) all-tasks))}))
+
+(def task-padding {:left 40 :bottom 30})
+
+(def ^m/TextStyle task-text-style (m/TextStyle
+                                   .color m/Colors.black
+                                   .fontFamily "Roboto"
+                                   .fontWeight m/FontWeight.normal
+                                   .fontSize 20))
+
+(defn ast-store->widget
+  ([ast-store side-effects] (ast-store->widget side-effects ast-store "list-base"))
+  ([side-effects ast-store id]
+   (let [recursive-call (fn [ast-id]
+                          ;; (prn "ast-store->widget called with ast-id: " ast-id)
+                          (ast-store->widget side-effects ast-store ast-id))
+         get-ast-atom #(get @ast-store id)
+         {:keys [ui-type key]} @(get-ast-atom)]
+     (condp = ui-type
+       ::base
+       (f/widget
+        :keep-alive true
+        :context ctx
+        :let [{:keys [notch-height phone-height phone-width]} (get-phone-measurements ctx)
+              content-start (/ (+ notch-height 40) phone-height)]
+        m/Stack
+        .children
+        [(f/widget
+          ;; borrowed from the drawing registry (which owns it, never disposed)
+          ;; so the overlay can anchor :my-list strokes to this scroll position
+          :let [scroll-controller (drawing/scroll-controller-for :my-list)]
+          :watch [{:keys [tasks]} (get-ast-atom)]
+          (autoscroll-away-from-keyboard
+           .scrollController scroll-controller)
+          (m/ReorderableListView
+           .physics (m/AlwaysScrollableScrollPhysics)
+           ;; no long-press-to-reorder: it belongs to drawing now. Reorder by
+           ;; grabbing the checkbox (immediate drag), like dragging home icons.
+           .buildDefaultDragHandles false
+           .children (mapv recursive-call tasks)
+           ;;callbacks are fetched from the node atom at event time, a build-time :let would capture a closure over stale db data
+           .onReorder (fn [old-idx new-idx]
+                        (((:on-reorder-tasks @(get-ast-atom)) side-effects) old-idx new-idx))
+           .anchor content-start
+           .scrollController scroll-controller
+           .footer (m/SizedBox .height 400)))])
+
+       ::task
+       (f/widget
+        :key key
+        :watch [{:keys [title completed subitems index]} (get-ast-atom)]
+        :managed [text-controller (m/TextEditingController .text title)]
+        :padding task-padding
+        m/Row
+        .children
+        [(f/widget
+          :padding {:top 2}
+          ;; the checkbox doubles as the reorder handle: tap toggles, drag moves
+          (m/ReorderableDragStartListener .index index)
+          (m/IconButton
+           .icon (m/Icon (if completed
+                           m/Icons.check_box
+                           m/Icons.check_box_outline_blank)
+                         .size 26
+                         .color m.Colors/red)
+           .onPressed (fn []
+                        (((:on-complete @(get-ast-atom)) side-effects)))))
+         (f/widget
+          (m/SizedBox .width 200)
+          (m/TextField
+           .keyboardType m/TextInputType.text
+           .autocorrect false
+           .maxLines nil
+           ;;no long-press word selection: contested gesture arenas (drag handles,
+           ;;scroll, pen) can rob the field of its tap-down and Flutter's selectWord
+           ;;then crashes on a null _lastTapDownPosition
+           .enableInteractiveSelection false
+           .style (.copyWith task-text-style .color (if completed (hsv 0 0 0.5) m/Colors.black))
+           .onSubmitted (fn [new-title]
+                          (((:on-edit-task-title @(get-ast-atom)) side-effects) new-title))
+           .decoration (m/InputDecoration
+                        .border m/InputBorder.none)
+           .controller text-controller))])
+
+       ::add-task-task
+       (f/widget
+        :key key
+        :watch [{:keys [index]} (get-ast-atom)]
+        :padding task-padding
+        (m/Row)
+        .children
+        [(f/widget
+          :padding {:top 2}
+          ;; draggable like the task checkboxes: where this row sits decides
+          ;; where newly added tasks are inserted
+          (m/ReorderableDragStartListener .index index)
+          (m/IconButton
+           .icon (m/Icon m/Icons.check_box_outline_blank
+                         .size 26
+                         .color m/Colors.grey)
+           .onPressed nil))
+         (f/widget
+          :managed [text-controller (m/TextEditingController)]
+          (m/SizedBox .width 200)
+          (m/TextField
+           .style task-text-style
+           .textInputAction m.TextInputAction/done
+           .cursorHeight 38
+           .enableInteractiveSelection false
+           .onSubmitted (fn [new-task-title]
+                          (.clear text-controller)
+                          (((:on-add-task @(get-ast-atom)) side-effects) new-task-title))
+           .decoration (m/InputDecoration .border m/InputBorder.none)
+           .controller text-controller))])
+
+
+       (throw (Exception (str "Unknown ui-type in todo-list ast-store->widget: " @(get-ast-atom))))))))

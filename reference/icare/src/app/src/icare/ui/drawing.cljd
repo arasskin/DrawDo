@@ -1,0 +1,609 @@
+(ns icare.ui.drawing
+  "The coloring dot: a global drawing overlay. A small dot sits top-right showing
+   the current color; tapping it expands a palette (plus an eraser) leftward.
+   Long-pressing anywhere starts a stroke that follows the finger until lift.
+
+   Strokes are entities in our own namespace, so they ride the normal
+   transact -> sync -> pull -> rerender pipeline:
+     {stroke-id {:stroke/screen tag :stroke/color kw :stroke/points [nx cy ...]}}
+
+   Coordinates are content-space: x is normalized 0-1 by phone width (so doodles
+   survive different phone sizes), y is absolute content pixels INCLUDING the
+   scroll offset of the screen it was drawn on — so on scrollable lists the
+   drawing scrolls with the tasks. The paint layer translates each screen's
+   strokes by its live scroll offset, and by the PageView's live horizontal
+   position, so drawings ride along as you swipe between pages.
+
+   Screen tags: :home (queridos canvas), :my-list (personal list page), or the
+   list-owner's pubkey for an expanded querido list."
+  (:require ["package:flutter/material.dart" :as m]
+            ["package:flutter/scheduler.dart" :as scheduler]
+            ;; VelocityTracker is not re-exported by material
+            ["package:flutter/gestures.dart" :as gestures]
+            ["dart:ui" :as ui]
+            ["dart:math" :refer [sqrt]]
+            ["package:haptic_feedback/haptic_feedback.dart" :as haptics]
+            [icare.ui.screens.pages.shared :refer [get-phone-measurements]]
+            [icare.ui.screens.pages.queridos.shared :refer [blur-sigma scrim-opacity scrim-curve]]
+            [cljd.flutter :as f]))
+
+;; ── Ephemeral screen context ──────────────────────────────────────────────────
+;; Which PageView page is showing (0 home, 1 personal list), the PageView's
+;; controller, and a scroll controller per scrollable context. The registry OWNS
+;; the controllers (created on demand, never disposed) and the screens borrow
+;; them — so the paint layer can always safely listen to them, even across a
+;; list being unmounted and remounted. Pure UI state, lives outside the db.
+
+(defonce page-index (atom 0))
+(defonce ^:private page-ctrl-atom (atom nil))
+(defonce ^:private scroll-ctrl-atoms (atom {}))
+
+;; the icon expand/collapse AnimationController, registered by the queridos base;
+;; strokes crossfade with it (home ink fades out as a list expands over it, the
+;; list's own ink fades in, and the reverse on collapse)
+(defonce expand-transition (atom nil))
+
+(defn- expand-transition-value []
+  (if-let [c @expand-transition]
+    (.-value ^m/AnimationController c)
+    0.0))
+
+(defn page-controller ^m/PageController []
+  (or @page-ctrl-atom
+      (let [c (m/PageController)]
+        (reset! page-ctrl-atom c)
+        c)))
+
+(defn scroll-controller-for ^m/ScrollController [context]
+  (or (get @scroll-ctrl-atoms context)
+      (let [c (m/ScrollController)]
+        (swap! scroll-ctrl-atoms assoc context c)
+        c)))
+
+(defn- scroll-offset [ctrl]
+  (if (and (some? ctrl) (.-hasClients ^m/ScrollController ctrl))
+    (.-offset ^m/ScrollController ctrl)
+    0.0))
+
+(defn- page-position
+  "The PageView's live page position (fractional mid-swipe), falling back to the
+   settled page index before the controller has attached or laid out. Computed
+   from raw pixels rather than .page, because PageController clamps .page at the
+   edges and would freeze drawings during the overscroll rubber-band."
+  [^m/PageController ctrl fallback]
+  (try
+    (if (.-hasClients ctrl)
+      (let [pos (.-position ctrl)]
+        (/ (.-pixels pos) (max 1.0 (.-viewportDimension pos))))
+      fallback)
+    (catch dynamic _ fallback)))
+
+;; ── Palette ───────────────────────────────────────────────────────────────────
+
+(def palette [:black :red :orange :green :blue :purple])
+
+(defn color-of ^m/Color [color-kw]
+  (case color-kw
+    :black  m/Colors.black
+    :red    m/Colors.red
+    :orange m/Colors.orange
+    :green  m/Colors.green
+    :blue   m/Colors.blue
+    :purple m/Colors.purple
+    m/Colors.black))
+
+;; ── Painting ──────────────────────────────────────────────────────────────────
+
+(def ^:private stroke-width 4.0)
+
+(defn- stroke-paint [color-kw opacity]
+  (let [p (ui/Paint)]
+    (set! (.-color p) (.withOpacity (color-of color-kw) opacity))
+    (set! (.-style p) ui/PaintingStyle.stroke)
+    (set! (.-strokeWidth p) stroke-width)
+    (set! (.-strokeCap p) ui/StrokeCap.round)
+    (set! (.-strokeJoin p) ui/StrokeJoin.round)
+    p))
+
+(defn- fill-paint [color-kw opacity]
+  (let [p (ui/Paint)]
+    (set! (.-color p) (.withOpacity (color-of color-kw) opacity))
+    (set! (.-style p) ui/PaintingStyle.fill)
+    p))
+
+(defn- draw-points
+  "Draw one stroke. `points` is the flat content-space vector [nx cy nx cy ...];
+   screen x = nx * phone-width + x-offset, screen y = cy - y-offset."
+  [^ui/Canvas canvas points phone-width x-offset y-offset color opacity]
+  (let [n (count points)]
+    (when (>= n 2)
+      (let [x0 (+ (* (nth points 0) phone-width) x-offset)
+            y0 (- (nth points 1) y-offset)]
+        (if (= n 2)
+          (.drawCircle canvas (ui/Offset x0 y0) (/ stroke-width 1.5) (fill-paint color opacity))
+          (let [path (ui/Path)]
+            (.moveTo path x0 y0)
+            (loop [i 2]
+              (when (< i n)
+                (.lineTo path
+                         (+ (* (nth points i) phone-width) x-offset)
+                         (- (nth points (inc i)) y-offset))
+                (recur (+ i 2))))
+            (.drawPath canvas path (stroke-paint color opacity))))))))
+
+(defn- make-painter
+  "Paint a set of layers, each one screen's strokes at its own translation and
+   fade: {:strokes [...] :ip in-progress-or-nil :x x-offset :y y-offset
+   :opacity 0..1 (nil means opaque)}."
+  [layers phone-width]
+  (reify :extends (m/CustomPainter)
+    (paint [_ canvas size]
+      (doseq [{:keys [strokes ip x y opacity]} layers]
+        (let [opacity (or opacity 1.0)]
+          ;; skip faded-out layers and layers entirely off-screen (other page)
+          (when (and (> opacity 0.01) (< (- phone-width) x phone-width))
+            (doseq [{:keys [color points]} strokes]
+              (draw-points canvas points phone-width x y color opacity))
+            (when ip
+              (draw-points canvas (:points ip) phone-width x y (:color ip) opacity))))))
+    (shouldRepaint [_ _] true)))
+
+;; ── Eraser hit-testing (content space) ────────────────────────────────────────
+
+(def ^:private erase-radius-sq (* 18.0 18.0))
+
+(defn- dist-sq-to-segment [px py x1 y1 x2 y2]
+  (let [dx (- x2 x1) dy (- y2 y1)
+        len2 (+ (* dx dx) (* dy dy))
+        t (if (zero? len2) 0.0 (max 0.0 (min 1.0 (/ (+ (* (- px x1) dx) (* (- py y1) dy)) len2))))
+        cx (+ x1 (* t dx)) cy (+ y1 (* t dy))
+        ex (- px cx) ey (- py cy)]
+    (+ (* ex ex) (* ey ey))))
+
+(defn- stroke-hit?
+  "Is the content-space point (px py) within the erase radius of the stroke?"
+  [points phone-width px py]
+  (let [n (count points)]
+    (cond
+      (< n 2) false
+      (= n 2) (< (dist-sq-to-segment px py (* (nth points 0) phone-width) (nth points 1)
+                                     (* (nth points 0) phone-width) (nth points 1)) erase-radius-sq)
+      :else
+      (loop [i 0]
+        (if (>= (+ i 3) n)
+          false
+          (if (< (dist-sq-to-segment px py
+                                     (* (nth points i) phone-width) (nth points (inc i))
+                                     (* (nth points (+ i 2)) phone-width) (nth points (+ i 3)))
+                 erase-radius-sq)
+            true
+            (recur (+ i 2))))))))
+
+;; ── AST ───────────────────────────────────────────────────────────────────────
+
+(defn state->ast [db]
+  (let [expanded (get-in db [:eav :global/config :config/expanded-querido])
+        expanded-context (when expanded (get-in db [:eav expanded :querido/pub-key]))
+        strokes-by-screen (reduce-kv (fn [m entity screen-tag]
+                                       (update m screen-tag (fnil conj [])
+                                               {:id entity
+                                                :color (get-in db [:eav entity :stroke/color])
+                                                :points (get-in db [:eav entity :stroke/points])}))
+                                     {}
+                                     (get-in db [:aev :stroke/screen] {}))]
+    {:id "drawing-overlay"
+     :ui-type ::overlay
+     :dot-color (or (get-in db [:eav :global/config :config/dot-color]) :black)
+     :expanded-context expanded-context
+     ;; not-empty: an empty {} would be mistaken for a collection of ast nodes by
+     ;; the normalizer's vacuous ast-node-collection? check and crash flatten-ast
+     :strokes-by-screen (not-empty strokes-by-screen)
+     :on-set-color (fn [side-effects]
+                     (fn [color-kw]
+                       (let [{:keys [transact! render!]} side-effects]
+                         (transact! {'add {:global/config {:config/dot-color color-kw}}})
+                         (render!))))
+     :on-add-stroke (fn [side-effects]
+                      (fn [screen-tag color points]
+                        (let [{:keys [transact! render! make-uuid]} side-effects]
+                          (transact! {'add {(make-uuid) {:stroke/screen screen-tag
+                                                         :stroke/color color
+                                                         :stroke/points points}}})
+                          (render!))))
+     :on-erase (fn [side-effects]
+                 (fn [stroke-ids]
+                   (let [{:keys [transact! render!]} side-effects]
+                     (transact! {'retract (into {} (map (fn [id] [id (get-in db [:eav id])])) stroke-ids)})
+                     (render!))))}))
+
+;; ── Widget ────────────────────────────────────────────────────────────────────
+
+(def ^:private dot-size 30)
+
+;; ── Fling ─────────────────────────────────────────────────────────────────────
+;; Letting go of the pen does not stop it dead: it keeps the velocity of the
+;; throw and coasts to a halt, so the dot feels like an object you set down
+;; rather than a value you assigned.
+
+;; Deceleration is constant rather than proportional to speed: an exponential
+;; decay spends most of its time in a long, slow tail, which reads as the dot
+;; easing along a curve. A flat rate ramps the speed down in a straight line
+;; and stops crisply.
+(def ^:private fling-deceleration 5000.0) ;; px/s^2, so a toss travels v0^2/10000 px
+(def ^:private fling-restitution 0.4)     ;; edges give a little instead of swallowing the throw
+(def ^:private fling-min-speed 60.0)      ;; px/s under which it is already at rest
+(def ^:private fling-max-speed 1800.0)    ;; a hard flick should not launch it across the screen
+
+;; how near an edge counts as leaving the pen against the wall
+(def ^:private park-margin 24.0)
+
+(defn- circle
+  "A plain colored circle. Pass border? true for the ringed white eraser look."
+  [color border?]
+  (m/Container
+   .width dot-size
+   .height dot-size
+   .decoration (m/BoxDecoration
+                .shape m/BoxShape.circle
+                .color color
+                .border (if border? (m/Border.all .color m/Colors.black .width 1.5) nil))))
+
+(defn- dot
+  "A tappable colored circle for the palette column."
+  [color border? on-tap]
+  (m/GestureDetector
+   .onTap (fn [] (on-tap) nil)
+   .child (m/Container
+           .margin (m/EdgeInsets.only .top 10)
+           .child (circle color border?))))
+
+(defn ast-store->widget [ast-store side-effects]
+  (let [get-ast-atom #(get @ast-store "drawing-overlay")
+        ;; persist across renders: the stroke being drawn, the dot being carried,
+        ;; where the dot was last dropped, and the palette state
+        in-progress (atom nil)
+        carry-pos (atom nil)
+        dot-anchor (atom nil)
+        palette-open? (atom false)
+        ;; the coast after release: {:x :y :vx :vy} while moving, nil at rest.
+        ;; The ticker is created by :managed below and parked here so the tick
+        ;; itself can stop it once the dot settles.
+        fling (atom nil)
+        fling-ticker-atom (atom nil)
+        fling-prev (atom 0.0)
+        ;; Flutter hands a single-axis velocity to whichever recognizer won the
+        ;; arena — a vertical drag reports dx 0 — which would make every throw
+        ;; fly along an axis. Tracking the pointer ourselves keeps the real 2D
+        ;; velocity no matter which recognizer claimed the gesture.
+        carry-tracker (atom nil)
+        carry-clock (Stopwatch)]
+    (f/widget
+     :context ctx
+     ;; the overlay node only exists once a render has run with the new db->ast;
+     ;; watching the store itself also covers hot-reload before the first render
+     :watch [store ast-store]
+     :when (get store "drawing-overlay")
+     :let [{:keys [notch-height phone-width phone-height]} (get-phone-measurements ctx)
+           half (/ dot-size 2)
+           ;; where the finger is, in content space, for the active context
+           current-context (fn []
+                             (or (:expanded-context @(get-ast-atom))
+                                 (if (zero? @page-index) :home :my-list)))
+           context-x-offset (fn [context page-pos]
+                              (case context
+                                :home    (* (- 0.0 page-pos) phone-width)
+                                :my-list (* (- 1.0 page-pos) phone-width)
+                                0.0))
+           content-point (fn [^ui/Offset global-position context]
+                           (let [offset (scroll-offset (get @scroll-ctrl-atoms context))]
+                             [(/ (.-dx global-position) phone-width)
+                              (+ (.-dy global-position) offset)]))
+           ;; parked display: the anchor keeps its content position, but the
+           ;; shown dot clamps to the screen so it can never be lost offscreen
+           min-x (+ 6.0 half)
+           max-x (- phone-width 6.0 half)
+           min-y (+ notch-height 6.0 half)
+           max-y (- phone-height 24.0 half)
+           clamp-center (fn [[x y]]
+                          [(min (max x min-x) max-x)
+                           (min (max y min-y) max-y)])
+           ;; Set the pen down against an edge and it sticks to the screen rather
+           ;; than to the page: it stops scrolling with the content. This already
+           ;; happened by accident — a dot whose content position scrolled past an
+           ;; edge got held there by clamp-center — and the accident is worth
+           ;; having on purpose, so leaving it on a wall is how you ask for it.
+           against-wall? (fn [sx sy]
+                           (or (< sx (+ min-x park-margin)) (> sx (- max-x park-margin))
+                               (< sy (+ min-y park-margin)) (> sy (- max-y park-margin))))
+           ;; drop the dot: remember where it was left, in the content space of
+           ;; the screen it was dropped on, so it scrolls/swipes with the content —
+           ;; unless it was left on a wall, when :sy pins it to the screen instead
+           set-anchor! (fn [sx sy]
+                         (let [context (current-context)
+                               page-pos (page-position (page-controller) @page-index)
+                               y-off (scroll-offset (get @scroll-ctrl-atoms context))]
+                           (reset! dot-anchor
+                                   (cond-> {:context context
+                                            :nx (/ (- sx (context-x-offset context page-pos)) phone-width)
+                                            :cy (+ sy y-off)}
+                                     (against-wall? sx sy) (assoc :sy sy)))))
+           anchor->screen (fn [{:keys [context nx cy sy]} page-pos]
+                            [(+ (* nx phone-width) (context-x-offset context page-pos))
+                             ;; :sy means parked on a wall — screen fixed, so scrolling
+                             ;; the page underneath slides past it
+                             (if (some? sy)
+                               sy
+                               (- cy (scroll-offset (get @scroll-ctrl-atoms context))))])
+           ;; .stop and .start are void, so these must not fall out of the tail —
+           ;; Dart infers Null for the function and then rejects the void return
+           stop-ticker! (fn []
+                          (when-let [^scheduler/Ticker t @fling-ticker-atom]
+                            (when (.-isActive t) (.stop t)))
+                          nil)
+           ;; touching the dot mid-flight catches it: it settles where it was
+           cancel-fling! (fn []
+                           (when-let [{:keys [x y]} @fling]
+                             (reset! fling nil)
+                             (stop-ticker!)
+                             (set-anchor! x y)))
+           fling-tick! (fn [^Duration elapsed]
+                         (let [now (/ (.-inMicroseconds elapsed) 1000000.0)
+                               ;; a dropped frame must not teleport the dot
+                               dt (min 0.05 (max 0.0 (- now @fling-prev)))]
+                           (reset! fling-prev now)
+                           (when-let [{:keys [x y vx vy]} @fling]
+                             (let [speed (sqrt (+ (* vx vx) (* vy vy)))
+                                   shed (* fling-deceleration dt)
+                                   ;;shave a fixed amount off the speed, keeping
+                                   ;;direction, and never overshoot into reverse
+                                   scale (if (> speed shed) (/ (- speed shed) speed) 0.0)
+                                   vx (* vx scale)
+                                   vy (* vy scale)
+                                   x (+ x (* vx dt))
+                                   y (+ y (* vy dt))
+                                   [x vx] (cond
+                                            (< x min-x) [min-x (* -1.0 fling-restitution vx)]
+                                            (> x max-x) [max-x (* -1.0 fling-restitution vx)]
+                                            :else       [x vx])
+                                   [y vy] (cond
+                                            (< y min-y) [min-y (* -1.0 fling-restitution vy)]
+                                            (> y max-y) [max-y (* -1.0 fling-restitution vy)]
+                                            :else       [y vy])]
+                               (if (< (+ (* vx vx) (* vy vy)) (* fling-min-speed fling-min-speed))
+                                 ;; at rest: hand the resting place back to the anchor,
+                                 ;; which is what makes it scroll and swipe with content
+                                 (do (reset! fling nil)
+                                     (stop-ticker!)
+                                     (set-anchor! x y))
+                                 (reset! fling {:x x :y y :vx vx :vy vy}))))
+                           nil))
+           begin-fling! (fn [x y vx vy]
+                          (let [speed (sqrt (+ (* vx vx) (* vy vy)))]
+                            (if (< speed fling-min-speed)
+                              (set-anchor! x y)
+                              (let [scale (if (> speed fling-max-speed) (/ fling-max-speed speed) 1.0)]
+                                (reset! fling {:x x :y y :vx (* vx scale) :vy (* vy scale)})
+                                (reset! fling-prev 0.0)
+                                (when-let [^scheduler/Ticker t @fling-ticker-atom]
+                                  (when-not (.-isActive t) (.start t)))))
+                            nil))
+           carry-start (fn [^m/DragStartDetails details]
+                         (reset! palette-open? false)
+                         (cancel-fling!)
+                         (let [^ui/Offset gp (.-globalPosition details)]
+                           (.reset carry-clock)
+                           (.start carry-clock)
+                           (reset! carry-tracker (gestures/VelocityTracker.withKind ui/PointerDeviceKind.touch))
+                           (.addPosition ^gestures/VelocityTracker @carry-tracker (.-elapsed carry-clock) gp)
+                           (reset! carry-pos [(.-dx gp) (.-dy gp)])))
+           carry-move (fn [^m/DragUpdateDetails details]
+                        (let [^ui/Offset gp (.-globalPosition details)]
+                          (when-let [^gestures/VelocityTracker tracker @carry-tracker]
+                            (.addPosition tracker (.-elapsed carry-clock) gp))
+                          (reset! carry-pos [(.-dx gp) (.-dy gp)])))
+           carry-end (fn [_]
+                       (when-let [[x y] @carry-pos]
+                         (let [^ui/Offset v (if-let [^gestures/VelocityTracker tracker @carry-tracker]
+                                              (.-pixelsPerSecond (.getVelocity tracker))
+                                              ui/Offset.zero)]
+                           (begin-fling! x y (.-dx v) (.-dy v))))
+                       (.stop carry-clock)
+                       (reset! carry-tracker nil)
+                       (reset! carry-pos nil))
+           handle-start (fn [^m/LongPressStartDetails details]
+                          (reset! palette-open? false)
+                          (cancel-fling!)
+                          ;; the pen touches down — let the finger feel it
+                          (haptics/Haptics.vibrate haptics/HapticsType.medium)
+                          (let [context (current-context)
+                                dot-color (:dot-color @(get-ast-atom))
+                                ^ui/Offset gp (.-globalPosition details)
+                                [nx cy] (content-point gp context)
+                                finger [(.-dx gp) (.-dy gp)]]
+                            (if (= dot-color :eraser)
+                              (reset! in-progress {:screen context :erasing? true :finger finger})
+                              (reset! in-progress {:screen context :color dot-color :points [nx cy] :finger finger}))))
+           erase-at! (fn [context ^ui/Offset global-position]
+                       (let [offset (scroll-offset (get @scroll-ctrl-atoms context))
+                             px (.-dx global-position)
+                             py (+ (.-dy global-position) offset)
+                             strokes (get (:strokes-by-screen @(get-ast-atom)) context)
+                             hit-ids (into [] (comp (filter #(stroke-hit? (:points %) phone-width px py))
+                                                    (map :id))
+                                           strokes)]
+                         (when (seq hit-ids)
+                           (((:on-erase @(get-ast-atom)) side-effects) hit-ids))))
+           handle-move (fn [^m/LongPressMoveUpdateDetails details]
+                         (when-let [{:keys [screen erasing?]} @in-progress]
+                           (let [^ui/Offset gp (.-globalPosition details)]
+                             ;; the dot rides under the finger while drawing
+                             (swap! in-progress assoc :finger [(.-dx gp) (.-dy gp)])
+                             (if erasing?
+                               (erase-at! screen gp)
+                               (let [[nx cy] (content-point gp screen)
+                                     points (:points @in-progress)
+                                     last-x (* (nth points (- (count points) 2)) phone-width)
+                                     last-y (nth points (dec (count points)))
+                                     dx (- (* nx phone-width) last-x)
+                                     dy (- cy last-y)]
+                                 ;; downsample: only record a point every ~4px of movement
+                                 (when (> (+ (* dx dx) (* dy dy)) 16.0)
+                                   (swap! in-progress update :points conj nx cy)))))))
+           handle-end (fn [_]
+                        (when-let [{:keys [screen color points erasing? finger]} @in-progress]
+                          (when (and (not erasing?) (>= (count points) 2))
+                            (((:on-add-stroke @(get-ast-atom)) side-effects) screen color points))
+                          ;; the pen stays where the stroke ended
+                          (when-let [[fx fy] finger]
+                            (set-anchor! fx fy)))
+                        (reset! in-progress nil))]
+     ;; unmanaged by a TickerProvider on purpose: it only runs during a coast,
+     ;; and stops itself the moment the dot settles
+     ;; :dispose is threaded into the resource, so it is a form, not a function.
+     ;; Ticker.dispose asserts the ticker is inactive, hence the stop first.
+     :managed [fling-ticker (scheduler/Ticker fling-tick!)
+               :dispose (doto .stop .dispose)]
+     :let [_ (reset! fling-ticker-atom fling-ticker)]
+     (m/Stack
+      .children
+      [;; paint layer: each screen's strokes at its own scroll translation, and
+       ;; the whole thing rides the PageView's live horizontal position
+       (f/widget
+        :watch [{:keys [strokes-by-screen expanded-context]} (get-ast-atom)
+                page-idx page-index]
+        :let [page-ctrl (page-controller)
+              home-ctrl (scroll-controller-for :home)
+              mylist-ctrl (scroll-controller-for :my-list)
+              exp-ctrl (when expanded-context (scroll-controller-for expanded-context))]
+        (f/widget
+         :watch [ip in-progress
+                 _ (m/Listenable.merge [page-ctrl home-ctrl mylist-ctrl exp-ctrl
+                                        @expand-transition])]
+         :let [;;an expanding querido veils the page behind it with a white scrim
+               ;;and a backdrop blur. This overlay is global, so page ink is ABOVE
+               ;;that veil in the tree and the BackdropFilter can never reach it —
+               ;;it has to wear the same veil itself, or the ink would float over
+               ;;a blurred page as the one crisp thing left on screen.
+               t (if expanded-context (expand-transition-value) 0.0)
+               sigma (* blur-sigma (.transform m/Curves.easeInOut t))
+               ;;compositing white at 0.6 over a line is arithmetically identical
+               ;;to drawing that line at 0.4 alpha on white, so the scrim costs a
+               ;;multiplier rather than a second layer
+               page-opacity (- 1.0 (* scrim-opacity (.transform scrim-curve t)))
+               p (page-position page-ctrl page-idx)
+               page-layers [{:strokes (get strokes-by-screen :home)
+                             :ip (when (= (:screen ip) :home) ip)
+                             :x (* (- 0 p) phone-width)
+                             :y (scroll-offset home-ctrl)
+                             :opacity page-opacity}
+                            {:strokes (get strokes-by-screen :my-list)
+                             :ip (when (= (:screen ip) :my-list) ip)
+                             :x (* (- 1 p) phone-width)
+                             :y (scroll-offset mylist-ctrl)
+                             :opacity page-opacity}]
+               page-ink (m/CustomPaint .painter (make-painter page-layers phone-width))]
+         (m/IgnorePointer)
+         (m/Stack .fit m/StackFit.expand)
+         .children
+         [;;only pay for the blur layer while a list is actually opening
+          (if (> sigma 0.01)
+            (m/ImageFiltered
+             .imageFilter (ui/ImageFilter.blur .sigmaX sigma .sigmaY sigma)
+             .child page-ink)
+            page-ink)
+          ;;the expanded list's own ink belongs on top of the veil, with the list
+          (if expanded-context
+            (m/CustomPaint
+             .painter (make-painter [{:strokes (get strokes-by-screen expanded-context)
+                                      :ip (when (= (:screen ip) expanded-context) ip)
+                                      :x 0.0
+                                      :y (scroll-offset exp-ctrl)
+                                      :opacity t}]
+                                    phone-width))
+            (m/SizedBox.shrink))]))
+       ;; the pen: a single always-mounted dot you can carry (drag), draw with
+       ;; (long-press then move), or open the palette from (tap). Its position is
+       ;; state-driven so active gestures survive rebuilds; when parked, it sits
+       ;; at its content anchor clamped to the screen edges.
+       (f/widget
+        :watch [{:keys [dot-color expanded-context]} (get-ast-atom)
+                page-idx page-index]
+        :let [page-ctrl (page-controller)
+              home-ctrl (scroll-controller-for :home)
+              mylist-ctrl (scroll-controller-for :my-list)
+              exp-ctrl (when expanded-context (scroll-controller-for expanded-context))]
+        (f/widget
+         :watch [ip in-progress
+                 carry carry-pos
+                 coast fling
+                 anchor dot-anchor
+                 open? palette-open?
+                 _ (m/Listenable.merge [page-ctrl home-ctrl mylist-ctrl exp-ctrl])]
+         :let [page-pos (page-position page-ctrl page-idx)
+               [cx cy] (cond
+                         (some? carry) carry
+                         (some? (:finger ip)) (:finger ip)
+                         ;;a coasting dot owns its own screen position; the anchor
+                         ;;only takes over once it comes to rest
+                         (some? coast) [(:x coast) (:y coast)]
+                         (some? anchor) (clamp-center (anchor->screen anchor page-pos))
+                         :else [(- phone-width 16.0 half) (+ notch-height 8.0 half)])
+               left (- cx half)
+               top (- cy half)
+               idle? (and (nil? carry) (nil? ip) (nil? coast))
+               palette-dots (vec
+                             (concat
+                              ;; the selected color is already on the dot itself
+                              (for [color-kw palette
+                                    :when (not= color-kw dot-color)]
+                                (dot (color-of color-kw) false
+                                     (fn []
+                                       (((:on-set-color @(get-ast-atom)) side-effects) color-kw)
+                                       (reset! palette-open? false))))
+                              (when (not= dot-color :eraser)
+                                [(dot m/Colors.white true
+                                      (fn []
+                                        (((:on-set-color @(get-ast-atom)) side-effects) :eraser)
+                                        (reset! palette-open? false)))])))
+               ;; each palette dot is dot-size tall plus its 10px top margin
+               palette-height (* (+ dot-size 10.0) (count palette-dots))
+               ;; fan toward whichever end of the screen has room, so the palette
+               ;; never runs off the bottom when the pen is parked low
+               fan-up? (> cy (/ phone-height 2))]
+         (m/SizedBox.expand)
+         (m/Stack)
+         .children
+         [;; palette slot: kept in the child list either way so the dot below
+          ;; never changes position in the tree mid-gesture
+          (if (and open? idle?)
+            (f/widget
+             (m/Positioned .left left
+                           .top (if fan-up?
+                                  (- top 6.0 palette-height)
+                                  (+ top dot-size 6.0)))
+             (m/Column .mainAxisSize m/MainAxisSize.min)
+             .children palette-dots)
+            (f/widget
+             (m/Positioned .left 0.0 .top 0.0)
+             (m/SizedBox)))
+          (f/widget
+           (m/Positioned .left left .top top)
+           (m/GestureDetector
+            .behavior m/HitTestBehavior.opaque
+            ;;tapping a coasting dot catches it where it is
+            .onTap (fn [] (cancel-fling!) (swap! palette-open? not) nil)
+            ;; paired axis recognizers instead of pan: pan needs kPanSlop while a
+            ;; scroll view only needs kTouchSlop, so a pan would lose vertical
+            ;; carries to the scrollable underneath. Both callbacks carry the full
+            ;; 2D position, so whichever axis wins, the carry follows the finger.
+            .onVerticalDragStart carry-start
+            .onVerticalDragUpdate carry-move
+            .onVerticalDragEnd carry-end
+            .onHorizontalDragStart carry-start
+            .onHorizontalDragUpdate carry-move
+            .onHorizontalDragEnd carry-end
+            .onLongPressStart handle-start
+            .onLongPressMoveUpdate handle-move
+            .onLongPressEnd handle-end)
+           (circle (if (= dot-color :eraser) m/Colors.white (color-of dot-color))
+                   (= dot-color :eraser)))]))]))))

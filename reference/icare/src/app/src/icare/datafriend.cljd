@@ -1,0 +1,264 @@
+(ns icare.datafriend
+  (:require [aztree :as aztree]))
+
+;; A datafriend db is a map of five structures:
+;;   :eav :aev :ave   the query indexes {entity {attribute value}} and friends
+;;   :ordered         an aztree keyed by timestamp -> {entity {attribute value}}
+;;                    holding one entry per (non-empty) entity, ordered by the recency
+;;                    of that entity's last update. This is the sole structure persisted
+;;                    and the one negentropy reconciles over; its per-entry fingerprint
+;;                    aggregate lets two endpoints localize their differences. The
+;;                    timestamp alone is unique (see :next-timestamp); the entity is
+;;                    recovered from the value when needed, so it stays out of the key.
+;;   :e->key          {entity -> timestamp} locating each entity's current :ordered
+;;                    key, so an update can remove the old key before inserting the new
+;;                    one (the timestamp changes on every touch).
+;;   :next-timestamp  a monotonically increasing counter, unique per entity update; it
+;;                    keys :ordered and clusters recently-updated entities adjacently.
+
+(defn empty-db []
+  {:eav {}
+   :aev {}
+   :ave {}
+   :ordered (aztree/atree)
+   :e->key {}
+   :next-timestamp 0})
+
+(defn- clear-entity-indexes
+  "Remove all of an entity's attributes from the :eav/:aev/:ave query indexes."
+  [db entity]
+  (reduce (fn [db [attribute value]]
+            (-> db
+                (update-in [:eav entity] dissoc attribute)
+                (update-in [:aev attribute] dissoc entity)
+                (update-in [:ave attribute value] dissoc entity)))
+          db
+          (get-in db [:eav entity])))
+
+(defn apply-records
+  "Apply a set of authoritative timestamp-keyed records to `db`, preserving the
+   given timestamps rather than minting new ones — the shape produced by a
+   negentropy pull and by an LMDB reload. `puts` is a seq of [timestamp
+   {entity attmap}] to add or replace; `delete-keys` is a seq of timestamps whose
+   entities are removed (the entity is recovered from the db's own :ordered value at
+   that timestamp — a delete always names something the db currently holds). All
+   five structures (:eav/:aev/:ave, :ordered, :e->key) are updated. Unlike transact,
+   this does not re-timestamp, so a friend's or disk's :ordered keys stay identical
+   to their source and later syncs stay incremental."
+  [db puts delete-keys]
+  (let [db (reduce (fn [db timestamp]
+                     (let [entity (ffirst (get (:ordered db) timestamp))]
+                       (-> db
+                           (clear-entity-indexes entity)
+                           (update :eav dissoc entity)
+                           (update :ordered dissoc timestamp)
+                           (update :e->key dissoc entity))))
+                   db delete-keys)
+        db (reduce (fn [db [timestamp entity-map]]
+                     (let [entity (ffirst entity-map)
+                           attmap (get entity-map entity)
+                           old-key (get-in db [:e->key entity])
+                           db (cond-> (clear-entity-indexes db entity)
+                                (some? old-key) (update :ordered dissoc old-key))
+                           db (reduce (fn [db [attribute value]]
+                                        (-> db
+                                            (assoc-in [:eav entity attribute] value)
+                                            (assoc-in [:aev attribute entity] value)
+                                            (assoc-in [:ave attribute value entity] nil)))
+                                      db attmap)]
+                       (-> db
+                           (assoc :ordered (assoc (:ordered db) timestamp entity-map))
+                           (assoc-in [:e->key entity] timestamp)
+                           (update :next-timestamp max (inc timestamp)))))
+                   db puts)]
+    db))
+
+(defn transact
+  "Executes a transaction. diff is a map with optional 'add and 'retract keys,
+  each mapping to an entity->attmap: {entity {attr val} ...}.
+  Retracts are applied before adds. Updates all five indexes, including the
+  :ordered aztree and :e->key locator used for negentropy reconciliation.
+
+  Stored values may not be nil: nil unambiguously means \"absent\", so an add with a
+  nil value throws. To remove an attribute, retract it."
+  [db diff]
+  (let [retract-map (get diff 'retract {})
+        add-map     (get diff 'add {})
+        db          (reduce (fn [db [entity attmap]]
+                              (reduce (fn [db [attribute _]]
+                                        (let [old-v (get-in (:eav db) [entity attribute])]
+                                          (if (nil? old-v)
+                                            db
+                                            (-> db
+                                                (update-in [:eav entity] dissoc attribute)
+                                                (update-in [:aev attribute] dissoc entity)
+                                                (update-in [:ave attribute old-v] dissoc entity)))))
+                                      db attmap))
+                            db retract-map)
+        db          (reduce (fn [db [entity attmap]]
+                              (reduce (fn [db [attribute value]]
+                                        (when (nil? value)
+                                          (throw (Exception (str "datafriend: nil value for " entity " " attribute "; retract to remove an attribute"))))
+                                        (let [old-v (get-in (:eav db) [entity attribute])]
+                                          (-> db
+                                              (cond-> (some? old-v)
+                                                (update-in [:ave attribute old-v] dissoc entity))
+                                              (assoc-in [:eav entity attribute] value)
+                                              (assoc-in [:aev attribute entity] value)
+                                              (assoc-in [:ave attribute value entity] nil))))
+                                      db attmap))
+                            db add-map)
+        touched     (into (set (keys retract-map)) (keys add-map))
+        db          (reduce (fn [db entity]
+                              (let [attmap  (get-in db [:eav entity])
+                                    old-key (get-in db [:e->key entity])
+                                    ordered (cond-> (:ordered db) (some? old-key) (dissoc old-key))]
+                                (if (seq attmap)
+                                  (let [timestamp (:next-timestamp db)]
+                                    (-> db
+                                        (assoc :ordered ordered)
+                                        (assoc-in [:ordered timestamp] {entity attmap})
+                                        (assoc-in [:e->key entity] timestamp)
+                                        (assoc :next-timestamp (inc timestamp))))
+                                  (-> db
+                                      (assoc :ordered ordered)
+                                      (update :e->key dissoc entity)))))
+                            db touched)]
+    db))
+
+(defn- triple-tier
+  "Takes a triple and returns an int representing how difficult it is to query on that triple with our indexes
+  All lookups are currently fixed-point, so it might not make sense to keep on to this."
+  [[e a v]]
+  (condp = [(symbol? e) (symbol? v)]
+    [false false] 0 ;;this just means we're querying for a triple with all values specified.
+    [false true]  1
+    [true  false] 2
+    [true  true]  3))
+
+(defn get-value
+  "The value of attribute a on entity e, or nil if absent (values are never nil)."
+  [db {e :entity a :attribute}]
+  (get-in (:eav db) [e a]))
+
+(defn get-entities [db {a :attribute v :value}]
+  (-> db
+      :ave
+      (get-in [a v])
+      keys))
+
+(defn get-evpairs [db {a :attribute}]
+  (-> db
+      :aev
+      (get a)
+      seq))
+
+(defn- try-bind
+  "bindings holds a one to one mapping between symbols and values
+  that means we don't allow many to one relations such as {:a 1 :b 1 :c 1}.
+  if a symbol or value is already bound, we abort the whole transaction and return nil"
+  [bindings & sym-val-pairs]
+  (loop [bindings bindings sym-val-pairs (partition 2 sym-val-pairs)]
+    (if (or (empty? sym-val-pairs) (nil? bindings))
+      bindings
+      (let [[sym val]  (first sym-val-pairs)
+             bound-val (get-in bindings [:sym->val sym])
+             bound-sym (get-in bindings [:val->sym val])
+             bindings  (cond (and bound-val (not= bound-val val)) nil
+                             (and bound-sym (not= bound-sym sym)) nil
+                             :else (-> bindings
+                                       (assoc-in [:sym->val sym] val)
+                                       (assoc-in [:val->sym val] sym)))]
+        (recur bindings (next sym-val-pairs))))))
+
+(def empty-bindings {:sym->val {} :val->sym {}})
+
+(defn execute
+  ([db triples] (execute db triples {} [] empty-bindings))
+  ([db triples result pending bindings]
+   (if (empty? triples)
+     (reduce (fn [result [[e a] v]] (assoc-in result [e a] v)) result pending)
+     (let [[e a v :as triple] (apply min-key triple-tier triples)
+           remaining (remove #{triple} triples)
+           e (get-in bindings [:sym->val e] e)
+           v (get-in bindings [:sym->val v] v)]
+       (condp = [(symbol? e) (symbol? v)]
+         [false false]
+         (execute db remaining result (conj pending [[e a] v]) bindings)
+
+         [false true]
+         (let [found (get-value db {:entity e :attribute a})]
+           (when (some? found)
+             (when-let [bindings (try-bind bindings v found)]
+               (execute db remaining result (conj pending [[e a] found]) bindings))))
+
+         [true false]
+         (when-let [entities (get-entities db {:attribute a :value v})]
+           (reduce (fn [result-sofar found]
+                     (or (when-let [bindings (try-bind bindings e found)]
+                           (execute db remaining result-sofar (conj pending [[found a] v]) bindings))
+                         result-sofar))
+                   result entities))
+
+         [true true]
+         (when-let [ev-pairs (get-evpairs db {:attribute a})]
+           (reduce (fn [result-sofar [found-entity found-value]]
+                     (or (when-let [bindings (try-bind bindings e found-entity v found-value)]
+                           (execute db remaining result-sofar (conj pending [[found-entity a] found-value]) bindings))
+                         result-sofar))
+                   result ev-pairs)))))))
+
+(defn parse-triples
+  "converts an entity->attmap: {entity1 {attr1 val1 attr2 val2} entity2 {...} ...}
+  to a list of triples: [[entity1 attr1 val1] [entity1 attr2 val2] [entity2 attr1 val3] ...
+  prunes all triples with no symbols since those aren't actually queries"
+  [entity->attmap]
+  (mapcat (fn [[entity attmap]]
+            (let [is-entity-symbol? (symbol? entity)]
+              (reduce (fn [acc [attribute value]]
+                        (if (or is-entity-symbol? (symbol? attribute) (symbol? value))
+                          (conj acc [entity attribute value])
+                          acc))
+                      []
+                      attmap)))
+          entity->attmap))
+
+(defn query
+  [db entity->attmap & options]
+  (let [triples (parse-triples entity->attmap)]
+    (or (execute db triples) {})))
+
+;; ── Pose: spatial attributes on a physics canvas ──────────────────────────────
+;;
+;; :position/x and :position/y are the stored truth; :position/cell is a spatial hash derived
+;; at write time so radius queries only scan nearby cells through the ave index.
+;; Always write poses through position-attributes so x, y and cell can never drift apart.
+
+(def cell-size 128.0)
+
+(defn xy->cell [x y]
+  [(.floor (/ (double x) cell-size)) (.floor (/ (double y) cell-size))])
+
+(defn position-attributes [canvas x y]
+  {:position/canvas canvas
+   :position/x (double x)
+   :position/y (double y)
+   :position/cell (xy->cell x y)})
+
+(defn entities-near
+  "Entities on canvas whose stored pose is within radius px of [x y].
+  Scans only the spatial hash cells that intersect the query square."
+  [db canvas x y radius]
+  (let [[c0 r0] (xy->cell (- x radius) (- y radius))
+        [c1 r1] (xy->cell (+ x radius) (+ y radius))
+        radius2 (* (double radius) (double radius))]
+    (vec
+     (for [c (range c0 (inc c1))
+           r (range r0 (inc r1))
+           entity (get-entities db {:attribute :position/cell :value [c r]})
+           :let [attrs (get-in db [:eav entity])
+                 dx (- (:position/x attrs) x)
+                 dy (- (:position/y attrs) y)]
+           :when (and (= canvas (:position/canvas attrs))
+                      (<= (+ (* dx dx) (* dy dy)) radius2))]
+       entity))))

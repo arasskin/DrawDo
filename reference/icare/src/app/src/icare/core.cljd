@@ -1,0 +1,296 @@
+(ns icare.core
+  (:require ["package:flutter/material.dart" :as m]
+            ["package:google_fonts/google_fonts.dart" :as gf]
+            ["package:flutter/services.dart" :as services]
+            ["package:firebase_core/firebase_core.dart" :as firebase]
+            ["firebase_options.dart" :as firebase-options]
+            ["package:haptic_feedback/haptic_feedback.dart" :as haptics]
+            ["package:firebase_messaging/firebase_messaging.dart" :as firebase-messaging]
+            ["package:nostr/nostr.dart" :refer [Keychain]]
+            ["package:flutter_secure_storage/flutter_secure_storage.dart" :refer [FlutterSecureStorage]]
+            ["dart:isolate" :as isolate]
+            ["dart:ui" :as dart-ui]
+            ["package:uuid/uuid.dart" :refer [Uuid]]
+            [cljd.flutter :as f]
+            [cljd.dart.isolates :as isolates]
+            [icare.datafriend :as df]
+            [icare.storage :as storage]
+            [icare.network :as network]
+            [icare.ui :as ui]))
+
+(def uuid-generator (.-v4 (Uuid)))
+
+;;A release build has no console attached, so a boot that stalls can only tell
+;;you what it managed to reach. Each step names itself here and the loading
+;;screen shows it, which turns "stuck on Loading..." into "stuck opening the
+;;database".
+(defonce boot-progress (atom "starting"))
+
+(defn- boot-step! [label]
+  (prn "Boot:" label)
+  (reset! boot-progress label))
+
+(defn default-initial-data [pub-key]
+  (let [example-task-uuid (uuid-generator)
+        example-querido-uuid (uuid-generator)]
+    {'add
+     {:global/config {:config/animated-assets ["penguin.webp"
+                                               "fish.webp"
+                                               "heart.gif"
+                                               "star.gif"
+                                               "movies.gif"
+                                               "dancing.gif"
+                                               "settings-slow.gif"]
+                      :config/current-screen :pages
+                      :config/user-pub-key pub-key
+                      :config/todo-list-order [example-task-uuid :add-task-task]}
+
+      example-task-uuid {:task/title "Example task"
+                         :task/completed false
+                         :task/subitems []}
+
+      example-querido-uuid (merge {:querido/name "claude"
+                                   :querido/asset "star.gif"
+                                   :querido/pub-key "2597afb70fd3ff7eccbf52c5f0360c730f7327b552b14c6602a234b6c3a25ce6"}
+                                  (df/position-attributes :home 130 260))
+
+      :add-task-task {:task/is-add-task? true
+                      :task/title ""
+                      :task/completed false
+                      :task/subitems []}}}))
+
+(defn- ^Future fcm-token
+  "The FCM token, or nil if notifications are not authorised."
+  [messaging]
+  (await (-> (.getToken messaging)
+             (.catchError (fn [e] (prn "Failed to get device token:" e) nil)))))
+
+(defn ^Future get-device-token-future
+  "The device token if notifications are ALREADY authorised, else nil.
+
+   Deliberately does not prompt. Asking at launch spends the one permission
+   request the app ever gets before the user has seen anything that needs it —
+   see request-notifications!, which asks at the moment it becomes meaningful."
+  []
+  (let [messaging (firebase-messaging/FirebaseMessaging.instance)
+        settings (await (.getNotificationSettings messaging))
+        status (.-authorizationStatus settings)]
+    (when-not (or (= status firebase-messaging/AuthorizationStatus.denied)
+                  (= status firebase-messaging/AuthorizationStatus.notDetermined))
+      (await (fcm-token messaging)))))
+
+(defn ^Future request-notifications!
+  "Prompt for notification permission if it has not been decided, then return the
+   token (nil if declined). Called when the user first likes a task, since that is
+   the point at which notifications mean something concrete: your friend finishing
+   the thing you liked.
+
+   Asks for full authorisation rather than provisional. Provisional is granted
+   silently but delivers with no banner and no sound, straight to Notification
+   Centre — which is indistinguishable from the feature being broken, and was."
+  []
+  (let [messaging (firebase-messaging/FirebaseMessaging.instance)
+        settings (await (.getNotificationSettings messaging))
+        status (.-authorizationStatus settings)]
+    (when (= status firebase-messaging/AuthorizationStatus.notDetermined)
+      (await (.requestPermission messaging .alert true .sound true .badge true)))
+    (let [settings (await (.getNotificationSettings messaging))]
+      (when-not (= (.-authorizationStatus settings)
+                   firebase-messaging/AuthorizationStatus.denied)
+        (await (fcm-token messaging))))))
+
+(defn ^Future get-secure-credentials []
+  (let [storage (FlutterSecureStorage)
+        contains-private-key? (await (.containsKey storage .key "private-key"))
+        contains-public-key? (await (.containsKey storage .key "public-key"))]
+    (cond
+      (and contains-private-key? contains-public-key?)
+      ;;derive the public key from the private one rather than trusting what is
+      ;;stored: an older build could persist a mismatched pair, and because the
+      ;;iOS keychain survives app deletion that mismatch outlives a reinstall and
+      ;;every commit signature is then rejected by the server. Deriving self-heals.
+      (let [private-key (await (.read storage .key "private-key"))
+            stored-public (await (.read storage .key "public-key"))
+            public-key (.-public (Keychain private-key))]
+        (when (not= stored-public public-key)
+          (prn "stored public key did not match the private key; repairing" stored-public "->" public-key)
+          (await (.write storage .key "public-key" .value public-key)))
+        [private-key public-key])
+
+      (and (not contains-private-key?) (not contains-public-key?))
+      (let [{:flds [private public]} ^Keychain (.generate Keychain)]
+        (await (.write storage .key "private-key" .value private))
+        (await (.write storage .key "public-key" .value public))
+        [private public])
+
+      :else (throw (Exception "Secure credentials exist partially")))))
+
+(defn main []
+  (await (m/WidgetsFlutterBinding.ensureInitialized))
+  (await (firebase/Firebase.initializeApp
+          .options firebase-options/DefaultFirebaseOptions.currentPlatform))
+  (await (haptics/Haptics.canVibrate))
+  (services/SystemChrome.setEnabledSystemUIMode services/SystemUiMode.edgeToEdge)
+  (f/run
+   (m/MaterialApp
+    .title "iCare"
+    .theme (m/ThemeData
+              .colorScheme (m/ColorScheme.light
+                            .surface m/Colors.white
+                            .background m/Colors.white)
+              .textTheme (gf/GoogleFonts.getTextTheme "Dekko")))
+   .home
+   (m/AnnotatedRegion
+    .value (services/SystemUiOverlayStyle
+            ;;android settings
+            .systemNavigationBarColor m/Colors.transparent
+            .systemNavigationBarIconBrightness services/Brightness.dark
+            .systemNavigationBarContrastEnforced false
+            .statusBarColor m/Colors.transparent
+            .statusBarIconBrightness services/Brightness.dark))
+   (m/Scaffold
+    ;; .backgroundColor (m/Color 0xFFE8F5E9)
+    .resizeToAvoidBottomInset false) ;;we handle this manually by scrolling to make our text fields visible
+   .body
+   (f/widget
+    ;;Nothing in this chain used to be caught, so any failure left the app on
+    ;;"Loading..." forever with no way to tell a slow await from a dead one —
+    ;;which is all a release build could show you.
+    :watch [booted (try
+                     (let [root-token               dart-ui/RootIsolateToken.instance
+                           _                        (boot-step! "spawning storage isolate")
+                           ;;errorsAreFatal means an unhandled throw kills the
+                           ;;isolate outright; without this port that death is
+                           ;;completely silent from over here
+                           isolate-errors           (isolate/ReceivePort)
+                           _                        (.listen isolate-errors
+                                                             (fn [e] (prn "STORAGE ISOLATE DIED:" e) nil))
+                           {ports :ports}           (await (isolates/spawn!
+                                                            (fn [{:keys [to-storage from-storage]}]
+                                                              (services/BackgroundIsolateBinaryMessenger.ensureInitialized ^dart-ui/RootIsolateToken root-token)
+                                                              (.listen ^isolate/ReceivePort to-storage
+                                                                       (fn [message] (storage/handle-message from-storage message)))
+                                                              nil)
+                                                            {:ports {:to-storage :send :from-storage :recv}
+                                                             :on-error (.-sendPort isolate-errors)}))
+                           responses                (.asBroadcastStream ^isolate/ReceivePort (:from-storage ports))
+                           ports*                   (assoc ports :from-storage responses)
+                           _                        (boot-step! "opening the database")
+                           _                        (.send ^isolate/SendPort (:to-storage ports) [:boot])
+                           ;;a reply that never comes is the one failure mode this
+                           ;;await cannot see, so give it a deadline rather than
+                           ;;letting the app sit on a loading screen indefinitely
+                           boot-reply               (await (.timeout ^Future (.-first responses)
+                                                                     (Duration .seconds 20)
+                                                                     .onTimeout
+                                                                     (fn [] [:error :boot "storage isolate did not answer within 20s" ""])))
+                           _                        (when (= :error (first boot-reply))
+                                                      (throw (Exception (str "storage failed on " (nth boot-reply 1) ": "
+                                                                             (nth boot-reply 2) "\n" (nth boot-reply 3)))))
+                           datafriend-db            (second boot-reply)
+                           _                        (prn "Datafriend initialized with" (count (get-in datafriend-db [:eav])) "entities")
+                           _                        (boot-step! "reading the keychain")
+                           [private-key public-key] (await (get-secure-credentials))
+                           _                        (prn "Loaded credentials for pub-key:" public-key)
+                           _                        (boot-step! "building the first screen")
+                           is-empty?                (zero? (count (get-in datafriend-db [:eav])))
+                           db                       (if is-empty? (do (prn "Populating default initial data...")
+                                                                      (df/transact datafriend-db (default-initial-data public-key)))
+                                                                  datafriend-db)
+                           conn                     (atom db)
+                           ;;the device token is push plumbing; nothing on the first
+                           ;;frame needs it. Awaiting it here put Firebase between the
+                           ;;user and their own data, so an FCM call that never
+                           ;;answered was an app that never started. It lands in the
+                           ;;db whenever it arrives, and the watch loop re-registers
+                           ;;interests every cycle, so arriving late costs nothing.
+                           ;;df/transact is pure — swap! is what actually stores it.
+                           _                        (-> (get-device-token-future)
+                                                        (.then (fn [device-token]
+                                                                 (prn "Device token:" device-token)
+                                                                 (when device-token
+                                                                   (swap! conn df/transact
+                                                                          {'add {:global/config {:config/device-token device-token}}}))
+                                                                 nil))
+                                                        (.catchError (fn [e] (prn "device token lookup failed:" e) nil)))
+                           ;; re-render after a friend pull updates the db; guarded so
+                           ;; an early pull can't fire before the initial build-widgets!
+                           rerender!                (fn []
+                                                      (prn "rerender! called; widgets-built?=" @ui/widgets-built?)
+                                                      (when @ui/widgets-built?
+                                                        (prn "rerender! -> calling ui/render-ui!")
+                                                        (ui/render-ui! @conn)))
+                           ;;FCM rotates tokens (reinstall, restore, its own schedule).
+                           ;;Without this the stored token silently goes stale: the
+                           ;;server keeps pushing to a dead address, FCM answers
+                           ;;UNREGISTERED, and notifications stop for good while the
+                           ;;app looks perfectly healthy.
+                           _                        (.listen (.-onTokenRefresh (firebase-messaging/FirebaseMessaging.instance))
+                                                             (fn [new-token]
+                                                               (prn "Device token refreshed:" new-token)
+                                                               (when new-token
+                                                                 (swap! conn df/transact
+                                                                        {'add {:global/config {:config/device-token new-token}}})
+                                                                 (-> (network/register-interests! conn)
+                                                                     (.catchError (fn [e] (prn "re-register after token refresh failed:" e)))))
+                                                               nil))
+                           _                        (network/watch-friends-loop! conn rerender!)]
+                        {:db-conn conn :ports ports* :public-key public-key :private-key private-key})
+                     (catch dynamic e st
+                       (prn "BOOT FAILED:" e)
+                       (prn st)
+                       {:boot-error (str e)}))]
+    :bypass (cond
+              (nil? booted)
+              ;;nested so this rebuilds on progress without re-running the boot
+              ;;future that the outer :watch is subscribed to
+              (f/widget
+               :watch [progress boot-progress]
+               (m/SafeArea)
+               (m/Center)
+               (m/Text (str "Loading...\n" progress)
+                       .textAlign m/TextAlign.center
+                       .style (m/TextStyle .fontSize 15 .color m/Colors.black)))
+
+              (:boot-error booted)
+              (f/widget
+               (m/SafeArea)
+               (m/Padding .padding (m/EdgeInsets.all 24))
+               (m/SingleChildScrollView)
+               (m/Text (str "Startup failed\n\n" (:boot-error booted))
+                       .style (m/TextStyle .fontSize 15 .color m/Colors.black))))
+    :let [{:keys [db-conn ports public-key private-key]} booted
+          side-effects {;; every local change transacts and then pushes our namespace
+                        ;; up to the server; sync-to-server! is coalesced, so a burst
+                        ;; of edits collapses into one trailing sync.
+                        :transact!       (fn [diff]
+                                           (swap! db-conn df/transact diff)
+                                           (network/sync-to-server! db-conn public-key private-key))
+                        :render!         (fn [] (ui/render-ui! @db-conn))
+                        ;;liking is the moment notifications start to mean something,
+                        ;;so it is where we ask for permission (once) and where we
+                        ;;register interests immediately rather than waiting on the
+                        ;;watch loop's cycle
+                        :register-interests! (fn []
+                                               (-> (if (get-in @db-conn [:eav :global/config :config/device-token])
+                                                     (network/register-interests! db-conn)
+                                                     (.then (request-notifications!)
+                                                            (fn [token]
+                                                              (when token
+                                                                (swap! db-conn df/transact
+                                                                       {'add {:global/config {:config/device-token token}}}))
+                                                              (network/register-interests! db-conn))))
+                                                   (.catchError (fn [e] (prn "interest registration failed:" e)))))
+                        ;;pull one friend right now, for when waiting on the watch
+                        ;;loop's cycle would be too slow (adding a friend)
+                        :pull-friend!    (fn [pubkey]
+                                           (-> (network/pull-friend! db-conn pubkey
+                                                                     (fn [] (ui/render-ui! @db-conn)))
+                                               (.catchError (fn [e] (prn "immediate pull failed:" e)))))
+                        :persist!        (fn [] (storage/persist-to-disk! ports db-conn))
+                        :sync-to-server! (fn [] (network/sync-to-server! db-conn public-key private-key))
+                        :make-uuid       uuid-generator}]
+    (m/SafeArea ;;we handle the top and bottom manually for edge to edge rendering
+     .bottom false
+     .top false)
+    (ui/build-widgets! @db-conn side-effects))))

@@ -1,0 +1,144 @@
+(ns icare.storage
+  (:require ["package:flutter_lmdb2/lmdb.dart" :as lmdb]
+            ["package:path_provider/path_provider.dart" :as path]
+            ["dart:io" :as io]
+            ["dart:isolate" :as isolate]
+            [cljd.edn :refer [read-string]]
+            [icare.datafriend :as df]
+            [negentropy :as negentropy]))
+
+(def db-dir "icare")
+
+(defonce ^:private store (atom nil))
+
+(defn- ^Future app-db-path [dir-name]
+  (let [app-dir ^io/Directory (await (path/getApplicationDocumentsDirectory))]
+    (str (.-path app-dir) "/lmdb-" dir-name)))
+
+(defn- open
+  "Initialize the LMDB store at dir-name in the app documents directory, read all
+   persisted entity records, and return a fully reconstructed datafriend db."
+  [dir-name]
+  (let [db-path (await (app-db-path dir-name))
+        store* (lmdb/LMDB)]
+    (await (.init store* db-path
+                  .config (lmdb/LMDBInitConfig .mapSize (* 1 1024 1024 1024) .maxDbs 0)))
+    (reset! store store*)
+    ;; a read-write txn (not MDB_RDONLY): flutter_lmdb2 opens the DBI with MDB_CREATE,
+    ;; which is illegal in a read-only txn on a fresh, empty database. This runs once
+    ;; at boot and commits immediately, so the write txn is harmless.
+    (let [txn (await (.txnStart store*))]
+      (try
+        (let [cursor (await (.cursorOpen store* txn))
+              records (loop [^lmdb/CursorEntry? entry (await (.cursorGet store* cursor nil lmdb/CursorOp.first))
+                             records []]
+                        (if (nil? entry)
+                          records
+                          (let [ordered-key (read-string (.-keyAsString entry))
+                                entity-map (read-string (.-dataAsString entry))]
+                            (recur (await (.cursorGet store* cursor nil lmdb/CursorOp.next))
+                                   (conj records [ordered-key entity-map])))))]
+          (.cursorClose store* cursor)
+          (await (.txnCommit store* txn))
+          ;; all records are adds, no deletes
+          (df/apply-records (df/empty-db) records []))
+        (catch dynamic e
+          (await (.txnAbort store* txn))
+          (throw (Exception (str "Failed to read from lmdb storage: " e))))))))
+
+(defn- apply-reconciliation!
+  "Apply a batch of reconciliation writes in a single transaction. `puts` is a seq
+   of [timestamp {entity attmap}] to store; `delete-keys` is a seq of timestamps to
+   remove — both keyed exactly as :ordered."
+  [puts delete-keys]
+  (let [store* ^lmdb/LMDB @store
+        txn (await (.txnStart store*))]
+    (try
+      (doseq [ordered-key delete-keys]
+        (await (.delete store* txn (pr-str ordered-key))))
+      (doseq [[ordered-key entity-map] puts]
+        (await (.putUtf8 store* txn (pr-str ordered-key) (pr-str entity-map))))
+      (await (.txnCommit store* txn))
+      {:success nil}
+      (catch dynamic e
+        (await (.txnAbort store* txn))
+        (println (str "STORAGE WRITE FAILED, disk has diverged from memory! error: " e))
+        {:failure e}))))
+
+;; ── Isolate message handling ──────────────────────────────────────────────────
+
+;; The isolate's view of disk's :ordered aztree, kept in sync with LMDB so each
+;; sync diffs against current state. Only ever touched inside the storage isolate.
+(defonce ^:private disk-ordered (atom nil))
+
+(defn handle-message
+  "Dispatch one message received inside the storage isolate, replying on
+   `from-storage`. `[:boot]` opens LMDB, reconstructs the db, keeps its :ordered
+   tree and replies `[:boot db]`; `[:sync ranges]` replies `[:sync-response ...]`;
+   `[:reconcile puts deletes]` applies the diff to LMDB and the tree."
+  [^isolate/SendPort from-storage message]
+  ;;Anything thrown here escapes an async .listen callback, and the isolate is
+  ;;spawned with errorsAreFatal, so it dies — leaving whoever is awaiting a reply
+  ;;waiting for one that can never arrive. That is a silent hang with no console
+  ;;on a release build, so failures are caught and sent back as data instead.
+  ;;dynamic, not Exception: in Dart an Error is not an Exception, and the
+  ;;interesting failures down here (state, type, unimplemented) are Errors.
+  (try
+    (case (first message)
+      :boot
+      (let [boot-db (await (open db-dir))]
+        (reset! disk-ordered (:ordered boot-db))
+        (.send from-storage [:boot boot-db]))
+
+      :sync
+      (let [[_ ranges] message]
+        (.send from-storage [:sync-response (negentropy/respond @disk-ordered ranges)]))
+
+      :reconcile
+      (let [[_ puts delete-keys] message]
+        (swap! disk-ordered
+               (fn [tree]
+                 (as-> tree tree
+                   (reduce dissoc tree delete-keys)
+                   (reduce (fn [t [k v]] (assoc t k v)) tree puts))))
+        (await (apply-reconciliation! puts delete-keys)))
+
+      (println (str "storage isolate: unknown message " (first message))))
+    (catch dynamic e st
+      (println (str "storage isolate failed handling " (first message) ": " e "\n" st))
+      (.send from-storage [:error (first message) (str e) (str st)]))))
+
+(defonce ^:private persist-syncing? (atom false))
+(defonce ^:private persist-pending? (atom false))
+
+(defn persist-to-disk!
+  "Reconcile the current db's :ordered to the storage isolate's LMDB over the
+   negentropy protocol. `ports` has :to-storage (SendPort) and :from-storage (the
+   broadcast response stream). Coalesced: overlapping calls collapse to one trailing
+   run against the latest db, so they never queue or race."
+  [ports db-conn]
+  (if @persist-syncing?
+    (reset! persist-pending? true)
+    (letfn [(run-sync! [ordered]
+              (let [^isolate/SendPort to-storage (:to-storage ports)
+                    responses (:from-storage ports)]
+                (loop [ranges (negentropy/initial-ranges ordered) only-ours [] only-theirs []]
+                  (if (empty? ranges)
+                    (.send to-storage [:reconcile only-ours (mapv first only-theirs)])
+                    (do (.send to-storage [:sync ranges])
+                        (let [[_ sub-ranges] (await (.firstWhere responses (fn [m] (= (first m) :sync-response))))
+                              {next-ranges :next-ranges
+                               new-ours :only-ours
+                               new-theirs :only-theirs} (negentropy/process-response ordered sub-ranges)]
+                          (recur next-ranges (into only-ours new-ours) (into only-theirs new-theirs)))))))
+              nil)]
+      (reset! persist-syncing? true)
+      (reset! persist-pending? false)
+      (-> (run-sync! (:ordered @db-conn))
+          (.then (fn [_]
+                   (reset! persist-syncing? false)
+                   (when @persist-pending? (persist-to-disk! ports db-conn))))
+          (.catchError (fn [e]
+                         (reset! persist-syncing? false)
+                         (println (str "persist-to-disk! failed: " e)))))))
+  nil)

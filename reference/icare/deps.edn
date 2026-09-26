@@ -1,0 +1,19 @@
+{:paths ["src/app/src" "src/shared/src"] ; cljd app sources + .cljc shared with the servers
+ :deps {tensegritics/clojuredart {:git/url "https://github.com/tensegritics/ClojureDart.git"
+                                  :sha "4ee792f3044589c96b019c2a86db9b23f1b283ab"}}
+ :cljd/opts {:kind :flutter
+             :main icare.core}
+ :aliases {:cljd {:main-opts ["-m" "cljd.build"]}
+           ;; one backend: sync + push notifications. data.json/clj-http/google-auth
+           ;; are for FCM; the old relay client (and its WebSocket dep) is gone.
+           :datamigo {:extra-paths ["src/server/src" "src/shared/src"]
+                      :extra-deps {org.clojure/clojure {:mvn/version "1.12.4"}
+                                   fr.acinq.secp256k1/secp256k1-kmp-jni-jvm {:mvn/version "0.15.0"}
+                                   org.lmdbjava/lmdbjava {:mvn/version "0.9.0"}
+                                   org.clojure/data.json {:mvn/version "2.5.0"}
+                                   clj-http/clj-http {:mvn/version "3.12.3"}
+                                   com.google.auth/google-auth-library-oauth2-http {:mvn/version "1.19.0"}}
+                      :jvm-opts ["--add-opens" "java.base/java.nio=ALL-UNNAMED"
+                                 "--add-opens" "java.base/sun.nio.ch=ALL-UNNAMED"
+                                 "--enable-native-access=ALL-UNNAMED"]
+                      :main-opts ["-m" "datamigo.core"]}}}

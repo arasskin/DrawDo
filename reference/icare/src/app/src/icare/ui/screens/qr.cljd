@@ -1,0 +1,30 @@
+(ns icare.ui.screens.qr
+  (:require ["package:flutter/material.dart" :as m]
+            ["package:flutter_svg/flutter_svg.dart" :as svg]
+            ["package:qr_flutter/qr_flutter.dart" :as qr]
+            ["package:share_plus/share_plus.dart" :as share]
+            ["package:haptic_feedback/haptic_feedback.dart" :as haptics]
+            ["dart:ui" :as ui]
+            ["dart:math" :as math]
+            [cljd.flutter :as f]))
+
+;;TODO this is just a placeholder
+(defn state->ast [db]
+  {:id "qr-base"
+   :ui-type ::base})
+
+(defn ast-store->widget
+  ([ast-store side-effects] (ast-store->widget side-effects ast-store "qr-base"))
+  ([side-effects ast-store id]
+   (let [recursive-call (fn [ast-id]
+                          ;; (prn "ast-store->widget called with ast-id: " ast-id)
+                          (ast-store->widget side-effects ast-store ast-id))
+         get-ast-atom #(get @ast-store id)
+         {:keys [ui-type key]} @(get-ast-atom)]
+     (condp = ui-type
+       ::base
+       (f/widget
+        (m/Center)
+        (m/Text "QR screen placeholder"))
+
+       (throw (Exception (str "Unknown ui-type in qr ast-store->widget: " @(get-ast-atom))))))))

@@ -1,0 +1,27 @@
+.DS_Store
+.idea/
+.gradle/
+.kotlin/
+**/build/
+**/.cxx/
+local.properties
+*.log
+*.swp
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.pch
+*.gch
+xcuserdata/
+DerivedData/
+
+# Local credentials and runtime data
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*firebase-adminsdk*.json
+/data/

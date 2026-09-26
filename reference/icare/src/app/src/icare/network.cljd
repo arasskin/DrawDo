@@ -1,0 +1,233 @@
+(ns icare.network
+  "REST sync client for the datamigo server. Drives the negentropy protocol over
+   HTTP: the client is always the initiator.
+
+   Push (own namespace): sync rounds against /sync compute the diff the server must
+   apply; the client signs it and POSTs /commit. Pull (a friend's namespace): the
+   same sync rounds, but the client applies the resulting diff to its own copy and
+   never commits. Watch: long-poll /watch to be told when a friend committed, then
+   pull-sync that friend."
+  (:require ["dart:io" :as io]
+            ["dart:convert" :as convert]
+            ["package:crypto/crypto.dart" :as crypto]
+            ["package:convert/convert.dart" :as dartconvert]
+            ["package:nostr/nostr.dart" :refer [Keychain]]
+            [cljd.edn :as edn]
+            [icare.datafriend :as df]
+            [negentropy :as negentropy]))
+
+;; cloudflared tunnel to the dev server: HTTPS, so iOS App Transport Security
+;; allows it on a physical device (cleartext http to a LAN IP would be blocked).
+;; This URL is regenerated every tunnel session — swap it when the tunnel restarts.
+(def server-url "http://167.172.19.91:8080") ;; TODO configurable
+
+(defonce ^:private http-client (io/HttpClient))
+
+(defn- sha256-hex
+  "SHA-256 of the UTF-8 bytes of `s`, hex-encoded — the 32-byte-hash-as-hex form
+   bip340/Keychain.sign expects and the server's verifySchnorr checks."
+  [^String s]
+  (dartconvert/hex.encode (.-bytes (.convert crypto/sha256 (convert/utf8.encode s)))))
+
+;; ── HTTP ──────────────────────────────────────────────────────────────────────
+
+(defn ^Future post-edn
+  "POST an EDN body to `path` and return the parsed EDN response."
+  [path body]
+  (let [uri (Uri/parse (str server-url path))
+        request (await (.postUrl ^io/HttpClient http-client uri))]
+    ;; write UTF-8 bytes rather than letting the sink choose: Dart's
+    ;; HttpClientRequest defaults to ISO-8859-1 when the content type carries no
+    ;; charset, and latin1 throws on any code unit above 255 — so a single smart
+    ;; quote from iOS autocorrect broke every sync carrying that task.
+    (.add request (convert/utf8.encode (pr-str body)))
+    (let [response (await (.close request))
+          text (await (.join (.transform response convert/utf8.decoder)))]
+      (edn/read-string text))))
+
+;; ── Sync rounds ───────────────────────────────────────────────────────────────
+
+(defn ^Future run-sync-rounds
+  "Drive the negentropy rounds against the server for `namespace`, with `tree` as
+   the initiator's view. Returns {:only-ours [[k v]...] :only-theirs [[k v]...]
+   :commit-token t}: only-ours are entries the client has that the server lacks,
+   only-theirs the reverse. Callers pick direction (push vs pull)."
+  [public-key-hex namespace]
+  (loop [ranges (negentropy/initial-ranges namespace)
+         only-ours []
+         only-theirs []
+         commit-token nil
+         rounds 0]
+    (if (or (empty? ranges) (> rounds 64))
+      {:only-ours only-ours :only-theirs only-theirs :commit-token commit-token}
+      (let [response (await (post-edn "/sync" {:namespace public-key-hex :ranges ranges}))
+            {:keys [sub-ranges]} response
+            token (:commit-token response)
+            {next-ranges :next-ranges new-ours :only-ours new-theirs :only-theirs} (negentropy/process-response namespace sub-ranges)]
+        (recur next-ranges (into only-ours new-ours) (into only-theirs new-theirs) token (inc rounds))))))
+
+;; ── Push (own namespace) ──────────────────────────────────────────────────────
+
+(defn ^Future push-sync!
+  [public-key-hex private-key-hex namespace]
+  (let [{:keys [only-ours only-theirs commit-token]} (await (run-sync-rounds public-key-hex namespace))
+        diff {:puts only-ours :deletes (mapv first only-theirs)}]
+    (if (and (empty? (:puts diff)) (empty? (:deletes diff)))
+      {:ok true :noop true} ;; already in sync, nothing to commit
+      ;; Sign the exact string we transmit, and send that string verbatim. Signing
+      ;; a structure instead means the server must re-serialize what it parsed to
+      ;; check the signature — and that is not byte-stable: Clojure switches maps
+      ;; from array-map (insertion order) to hash-map (hash order) above 8 entries,
+      ;; so any map that large came back reordered and every signature failed.
+      (let [diff-edn (pr-str diff)
+            message-hash-hex (sha256-hex (str public-key-hex "|" diff-edn "|" commit-token))
+            signature (.sign (Keychain private-key-hex) message-hash-hex)]
+        (await (post-edn "/commit" {:namespace public-key-hex
+                                    :diff-edn diff-edn
+                                    :commit-token commit-token
+                                    :signature signature}))))))
+
+;; Coalescing state for sync-to-server!, independent of the local :persist! sync.
+;; While a server sync runs, further calls only mark that another is needed, so
+;; exactly one trailing run fires afterward against the latest db snapshot.
+(defonce ^:private syncing? (atom false))
+(defonce ^:private pending? (atom false))
+
+(defn- drive-server-sync! [db-conn public-key-hex private-key-hex]
+  (reset! pending? false)
+  (-> (push-sync! public-key-hex private-key-hex (:ordered @db-conn))
+      (.then (fn [_]
+               (if @pending?
+                 (drive-server-sync! db-conn public-key-hex private-key-hex)
+                 (reset! syncing? false))))
+      (.catchError (fn [e]
+                     (reset! syncing? false)
+                     (prn "sync-to-server! failed:" e)))))
+
+(defn sync-to-server!
+  "Push our namespace up to the server, coalesced: while a sync runs, further calls
+   only mark that another is needed, so exactly one trailing run fires afterward
+   against the latest db. Each run snapshots :ordered and signs the commit with the
+   private key."
+  [db-conn public-key-hex private-key-hex]
+  (if @syncing?
+    (reset! pending? true)
+    (do (reset! syncing? true)
+        (drive-server-sync! db-conn public-key-hex private-key-hex)))
+  nil)
+
+(defn ^Future pull-friend!
+  "Pull one friend's latest changes into db-conn under their pubkey-hex. Runs the
+   negentropy rounds against our current copy of the friend's db and applies the
+   resulting diff, preserving the server's timestamps so the next pull is
+   incremental. When the pull actually changes anything, calls `on-update` (if
+   given) so callers can re-render off the freshly-updated db."
+  ([db-conn friend-public-key-hex] (pull-friend! db-conn friend-public-key-hex nil))
+  ([db-conn friend-public-key-hex on-update]
+   (let [friend-db (get @db-conn friend-public-key-hex (df/empty-db))
+         {:keys [only-ours only-theirs]} (await (run-sync-rounds friend-public-key-hex (:ordered friend-db)))
+         updated (df/apply-records friend-db only-theirs (mapv first only-ours))]
+     (prn "pull-friend!" friend-public-key-hex
+          "received" (count only-theirs) "puts," (count only-ours) "deletes;"
+          "friend now has" (count (:eav updated)) "entities")
+     (swap! db-conn assoc friend-public-key-hex updated)
+     ;; only re-render when the pull brought something new (puts or deletes)
+     (if (and on-update (or (seq only-theirs) (seq only-ours)))
+       (do (prn "pull-friend! -> calling on-update (rerender)") (on-update))
+       (prn "pull-friend! -> no change, skipping rerender"))
+     nil)))
+
+(def ^:private watch-retry-delay (Duration .seconds 5))
+
+(defn- current-friend-hexes
+  "The distinct friend pubkey-hexes currently in the db — re-derived each loop so
+   friends added at runtime are picked up without a restart."
+  [db-conn]
+  (->> (df/query @db-conn {'e {:querido/pub-key 'p}})
+       vals
+       (map :querido/pub-key)
+       distinct
+       vec))
+
+(defn- friend-names
+  "{pubkey name} from our own queridos — what *we* call each friend."
+  [db]
+  (into {}
+        (keep (fn [[_ q]]
+                (when-let [pk (:querido/pub-key q)]
+                  [pk (:querido/name q)])))
+        (df/query db {'e {:querido/pub-key 'p :querido/name 'n}})))
+
+(defn- liked-interests
+  "{friend-pubkey {:name n :entities [task-id ...]}} for the tasks of theirs we've
+   liked — what we want pushed to us when they complete something. Our likes are
+   entities in our own db carrying :like/liked; their tasks live in their pulled
+   namespace, so the interest set is just the intersection.
+
+   The name goes up with it so the server can title the notification without
+   knowing anything about who owns a namespace. It is our own label for them, which
+   is also the name we would want to read in the notification."
+  [db friends]
+  (let [liked (set (keys (df/query db {'e {:like/liked true}})))
+        names (friend-names db)]
+    (into {}
+          (keep (fn [friend]
+                  (let [their-eav (get-in db [friend :eav])
+                        theirs (filterv #(contains? their-eav %) liked)]
+                    (when (seq theirs)
+                      [friend {:name (get names friend) :entities theirs}]))))
+          friends)))
+
+(defn ^Future register-interests!
+  "Tell the server what to push us, now. The watch loop sends the same payload,
+   but only once per cycle and only while parked, so a fresh like would otherwise
+   sit unregistered — and be lost outright if the app were backgrounded first.
+   The interest map is recomputed from the db, so this stays a pure refresh: no
+   bookkeeping to drift, and unliking corrects itself."
+  [db-conn]
+  (let [db @db-conn
+        friends (current-friend-hexes db-conn)]
+    (await (post-edn "/register"
+                     {:device-token (get-in db [:eav :global/config :config/device-token])
+                      :interests (liked-interests db friends)}))
+    nil))
+
+(defn ^Future watch-friends-loop!
+  "Run for the life of the app: reconcile every friend, then park on /watch until
+   someone commits or the poll times out, and repeat.
+
+   The sweep is what guarantees convergence, not the poke. A poke is only offered
+   to watchers parked at the instant the commit lands — the server registers a
+   queue for the duration of one long-poll and discards it on the way out — so a
+   commit arriving while we are pulling, backing off, or reconnecting reaches
+   nobody and is never redelivered. Relying on pokes alone meant a single missed
+   one stranded that friend's data for the life of the app. Pokes are therefore a
+   latency optimisation: they cut the poll short so the next sweep runs now rather
+   than up to a minute from now.
+
+   Sweeping every friend each cycle is cheap — an already-in-sync namespace settles
+   in one round with no leaves visited. The friend set is re-derived each iteration,
+   so friends added at runtime need no restart, and `on-update` fires after any pull
+   that actually changed something."
+  ([db-conn] (watch-friends-loop! db-conn nil))
+  ([db-conn on-update]
+   (loop []
+     (let [friends (current-friend-hexes db-conn)]
+       (doseq [friend friends]
+         ;; catch dynamic rather than Exception: a Dart Error (a failed cast while
+         ;; rendering, say) is not an Exception, and one escaping here would kill
+         ;; this loop for the life of the app and silently stop all syncing.
+         (try (await (pull-friend! db-conn friend on-update))
+              (catch dynamic e (prn "pull failed for" friend e))))
+       (try
+         ;; the watch call doubles as our push registration: it already names the
+         ;; friends we follow, so it carries the device token and the tasks of
+         ;; theirs we have liked. Re-sent every round, so it self-heals.
+         (await (post-edn "/watch"
+                          {:namespaces friends
+                           :device-token (get-in @db-conn [:eav :global/config :config/device-token])
+                           :interests (liked-interests @db-conn friends)}))
+         (catch dynamic e
+           (prn "watch error:" e)
+           (await (Future.delayed watch-retry-delay))))
+       (recur)))))
