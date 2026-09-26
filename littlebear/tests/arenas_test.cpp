@@ -2,28 +2,29 @@
 #include "main_data_containers/geometric_rank_partitioned_virtual_arena.h"
 #include "main_data_containers/endless_virtual_memory_field.h"
 #include <csignal>
-#include <sys/resource.h>
 #include <sys/wait.h>
 
 namespace arena_tests {
 namespace arena = geometric_rank_partioned_virtual_slab_arena;
 
+void guard_fault(int) {
+  // Exit directly instead of involving the host's crash/core-dump service.
+  _exit(77);
+}
+
 void check_guard(void *start, size_t bytes) {
   pid_t child = fork();
   CHECK(child >= 0);
   if (child == 0) {
-    rlimit no_core{0, 0};
-    setrlimit(RLIMIT_CORE, &no_core);
-    signal(SIGSEGV, SIG_DFL);
-    signal(SIGBUS, SIG_DFL);
+    signal(SIGSEGV, guard_fault);
+    signal(SIGBUS, guard_fault);
     volatile uint8_t *guard = static_cast<uint8_t *>(start) + virtual_mapping::usable_size(bytes);
     *guard = 1;
     _exit(0);
   }
   int status = 0;
   CHECK(waitpid(child, &status, 0) == child);
-  CHECK(WIFSIGNALED(status));
-  CHECK(WTERMSIG(status) == SIGSEGV || WTERMSIG(status) == SIGBUS);
+  CHECK(WIFEXITED(status) && WEXITSTATUS(status) == 77);
 }
 
 void ranks_and_reuse() {

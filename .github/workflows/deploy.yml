@@ -32,9 +32,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential liburing-dev
       - name: Build and check storage components
-        run: make -C littlebear all test
+        run: timeout 180 make -C littlebear all test
       - name: Run address and undefined-behavior sanitizers
-        run: make -C littlebear sanitize
+        run: timeout 180 make -C littlebear sanitize
 
   deploy:
     needs: checks
