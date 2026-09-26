@@ -4,12 +4,12 @@
 #include <cstdint>
 #include <cstdio>
 #include <sys/mman.h>
+#include "virtual_mapping.h"
 
 namespace geometric_rank_partioned_virtual_slab_arena {
 
 constexpr size_t SIZE_OF_SLAB = 16;
 constexpr size_t SIZE = UINT32_MAX * SIZE_OF_SLAB;
-constexpr size_t PAGE_SIZE = 4096;
 constexpr size_t NUMBER_OF_RANKS = 32;
 constexpr uint32_t INVALID_INDEX = UINT32_MAX;
 
@@ -27,22 +27,29 @@ struct allocator {
 
 struct maybe_allocator {allocator a; bool has_error;};
 
+constexpr uint32_t partition_begin(uint8_t rank) {
+  return UINT32_MAX - (static_cast<uint64_t>(UINT32_MAX) >> rank);
+}
+
+constexpr uint32_t partition_end(uint8_t rank) {
+  return UINT32_MAX - (static_cast<uint64_t>(UINT32_MAX) >> (rank + 1));
+}
+
 inline maybe_allocator create() {
-  if (void *start = mmap(nullptr, SIZE + PAGE_SIZE, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-      start != MAP_FAILED) {
-    if (mprotect((uint8_t *)start + SIZE, PAGE_SIZE, PROT_NONE) == 0) {
-      allocator  a = allocator{};
-      a.start = (uint8_t *)start;
-      size_t rank = 0;
-      while (rank < NUMBER_OF_RANKS) {
-        a.by_rank[rank].high_watermark = (UINT32_MAX - (UINT32_MAX >> rank));
-        rank++;
-      }
-      return {.a = a, .has_error = false};
-    } else perror("geometric_rank_partitioned_virtual_slab_arena failed mprotect");
-  } else perror("geometric_rank_partitioned_virtual_slab_arena failed mmap");
+  if (void *start = virtual_mapping::create(SIZE); start != nullptr) {
+    allocator a{};
+    a.start = (uint8_t *)start;
+    for (uint8_t rank = 0; rank < NUMBER_OF_RANKS; ++rank)
+      a.by_rank[rank].high_watermark = partition_begin(rank);
+    return {.a = a, .has_error = false};
+  }
 
   return {.a = {}, .has_error = true};
+}
+
+inline void destroy(allocator *a) {
+  virtual_mapping::destroy(a->start, SIZE);
+  a->start = nullptr;
 }
 
 inline void *address(allocator *a, uint32_t index) {
@@ -50,6 +57,7 @@ inline void *address(allocator *a, uint32_t index) {
 }
 
 inline uint32_t reserve(allocator *a, uint8_t rank) {
+  if (rank >= NUMBER_OF_RANKS || a->start == nullptr) return INVALID_INDEX;
   allocator::head_and_watermark *rank_allocator = &a->by_rank[rank];
 
   if (uint32_t free_slab_index = rank_allocator->head.next_index; free_slab_index != INVALID_INDEX) {
@@ -58,7 +66,7 @@ inline uint32_t reserve(allocator *a, uint8_t rank) {
   }
 
   if (const uint32_t high_watermark_index = rank_allocator->high_watermark;
-      high_watermark_index < (UINT32_MAX - (UINT32_MAX >> (rank + 1)))) {
+      high_watermark_index < partition_end(rank)) {
     rank_allocator->high_watermark++;
     return high_watermark_index;
   }

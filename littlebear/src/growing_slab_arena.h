@@ -1,16 +1,18 @@
 #pragma once
 #include <cstdlib>
 #include <cstdint>
+#include <climits>
+#include <cstddef>
 #include <sys/types.h>
 
 namespace growing_slab_arena {
 
 struct slab {
-  slab *next = nullptr;
+  int next_index = -1;
 };
 
 struct allocator {
-  u_int8_t *start;
+  uint8_t *start;
   int high_watermark_index;
   int size;
   size_t slab_size;
@@ -20,6 +22,8 @@ struct allocator {
 inline bool bad(allocator *a) {return a->start == nullptr;}
 
 inline allocator create(size_t slab_size, int bytes) {
+  if (slab_size < sizeof(slab) || slab_size % alignof(slab) != 0 ||
+      bytes <= 0 || slab_size > static_cast<size_t>(bytes)) return {};
   void *arena_start = malloc(bytes);
   return allocator {
     .start = (uint8_t *)arena_start,
@@ -29,22 +33,26 @@ inline allocator create(size_t slab_size, int bytes) {
     .free_slab_head = {}};
 }
 
-inline void destroy(allocator *a){free(a->start);}
+inline void destroy(allocator *a){free(a->start); *a = {};}
 
 inline bool grow(allocator *a) {
-  a->size *= 2;
-  if (void *new_start = realloc(a->start, a->size * a->slab_size);
+  if (bad(a) || a->size <= 0 || a->size > INT_MAX / 2 ||
+      a->slab_size > SIZE_MAX / (static_cast<size_t>(a->size) * 2)) return false;
+  const int new_size = a->size * 2;
+  if (void *new_start = realloc(a->start, new_size * a->slab_size);
       new_start != nullptr) {
     a->start = (uint8_t *)new_start;
+    a->size = new_size;
     return true;
   }
   return false;
 }
 
 inline int reserve(allocator *a) {
-  if (a->free_slab_head.next != nullptr) {
-    int free_slab_index = ((uint8_t *)a->free_slab_head.next - a->start) / a->slab_size;
-    a->free_slab_head.next = a->free_slab_head.next->next;
+  if (bad(a)) return -1;
+  if (a->free_slab_head.next_index != -1) {
+    int free_slab_index = a->free_slab_head.next_index;
+    a->free_slab_head.next_index = ((slab *)(a->start + free_slab_index * a->slab_size))->next_index;
     return free_slab_index;
   }
 
@@ -69,8 +77,8 @@ inline void *voidp(allocator *a, int index) {
 
 inline void release(allocator *a, int index) {
   slab *new_slab = (slab *)voidp(a, index);
-  new_slab->next = a->free_slab_head.next;
-  a->free_slab_head.next = new_slab;
+  new_slab->next_index = a->free_slab_head.next_index;
+  a->free_slab_head.next_index = index;
 }
 
 }

@@ -20,7 +20,7 @@ namespace augmented_tree {
 using value_pointer = uint64_t;
 constexpr uint64_t NULLVALUEPOINTER = 0;
 
-inline value_pointer vpointer_create(void *address, uint16_t size) {return (((uint64_t)address & six_byte_mask) | (uint64_t)size << 48);}
+inline value_pointer vpointer_create(uint64_t offset, uint16_t size) {return ((offset & six_byte_mask) | (uint64_t)size << 48);}
 inline uint64_t vpointer_get_offset(const value_pointer p) {return p & six_byte_mask;}
 inline uint16_t vpointer_get_size(const value_pointer p) {return (p >> 48) & two_byte_mask;}
 
@@ -110,7 +110,7 @@ inline int compare_node_ranks(uint32_t a, uint32_t b) {
   uint_fast8_t rank_b = geometric_rank_partioned_virtual_slab_arena::partition(b) - 1;
   if (rank_a > rank_b) return 1;
   if (rank_a < rank_b) return -1;
-  return a - b;
+  return (a > b) - (a < b);
 }
 
 inline bool can_replace_node(key existing_node_key, uint32_t existing_node_index, uint32_t inserted_node_index, key inserted_node_key, uint_fast8_t inserted_rank) {
@@ -127,21 +127,26 @@ constexpr uint8_t EXTERNAL_NODE_PARTITION = 0;
 
 //unsafe because we assume that k isn't already in our tree
 inline int unsafe_associate(header *tree, key k, value_pointer v, XXH64_hash_t value_hash) {
+  // An empty tree needs no internal node or rank allocation.
+  if (is_empty(tree)) {
+    const uint32_t leaf = geometric_rank_partioned_virtual_slab_arena::reserve(tree->node_allocator, EXTERNAL_NODE_PARTITION);
+    if (leaf == INVALID_NODE_INDEX) return OUT_OF_MEMORY;
+    node_set_external(tree, node_get_data(tree, leaf), leaf, k, value_hash, v);
+    tree->root = leaf;
+    return NO_ERRORS;
+  }
   //allocate new nodes
   uint_fast8_t rank = std::min(std::countl_zero(value_hash), NUMBER_OF_RANKS - 1);
   uint32_t new_internal_node_index = geometric_rank_partioned_virtual_slab_arena::reserve(tree->node_allocator, rank + 1);
+  if (new_internal_node_index == INVALID_NODE_INDEX) return OUT_OF_MEMORY;
   uint32_t new_external_node_index = geometric_rank_partioned_virtual_slab_arena::reserve(tree->node_allocator, EXTERNAL_NODE_PARTITION);
-  if (new_internal_node_index == INVALID_NODE_INDEX || new_external_node_index == INVALID_NODE_INDEX) return error_codes::OUT_OF_MEMORY;
+  if (new_external_node_index == INVALID_NODE_INDEX) {
+    geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, new_internal_node_index);
+    return OUT_OF_MEMORY;
+  }
   node_data new_internal_node = node_get_data(tree, new_internal_node_index);
   node_data new_external_node = node_get_data(tree, new_external_node_index);
   node_set_external(tree, new_external_node, new_external_node_index, k, value_hash, v);
-
-  //if tree is empty only place the external node
-  if (is_empty(tree)) {
-    tree->root = new_external_node_index;
-    geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, new_internal_node_index);
-    return error_codes::NO_ERRORS;
-  }
 
   //traverse the tree till we find the insertion point for our new internal node
   uint32_t parent_index = tree->root;
@@ -162,157 +167,114 @@ inline int unsafe_associate(header *tree, key k, value_pointer v, XXH64_hash_t v
     case travel_hint::right: node_get_data(tree, parent_index)[node_item::children].right_index = new_internal_node_index; break;
   }
 
-  //traverse from the found node to the end of the path, adding nodes to the left unzip and the right unzip
+  // Find the split fingerprint before modifying the path. Each unzip spine
+  // then gets its final summary directly, without a stack or ancestor repair.
+  uint64_t left_hash = XOR_IDENTITY;
+  uint32_t leaf_index = current_index;
+  while (node_rank(leaf_index) != -1) {
+    node_data n = node_get_data(tree, leaf_index);
+    if (k < n[node_item::pathmarker].value) leaf_index = n[node_item::children].left_index;
+    else {
+      left_hash ^= tree->hash_accumulator_array[n[node_item::children].left_index];
+      leaf_index = n[node_item::children].right_index;
+    }
+  }
+  node_data leaf = node_get_data(tree, leaf_index);
   node_set_partial_internal(tree, new_internal_node, new_internal_node_index, k, value_hash ^ tree->hash_accumulator_array[current_index]);
+  if (k < leaf[node_item::k].value) {
+    // Prepending to this subtree leaves its structure and summaries unchanged.
+    new_internal_node[node_item::pathmarker].value = leaf[node_item::k].value;
+    new_internal_node[node_item::children].left_index = new_external_node_index;
+    new_internal_node[node_item::children].right_index = current_index;
+    return NO_ERRORS;
+  }
+  left_hash ^= tree->hash_accumulator_array[leaf_index];
+  uint64_t right_hash = tree->hash_accumulator_array[current_index] ^ left_hash ^ value_hash;
   node_data left_unzip_iterator = nullptr;
-  uint32_t left_unzip_iterator_index = INVALID_NODE_INDEX;
   node_data right_unzip_iterator = nullptr;
-  uint32_t right_unzip_iterator_index = INVALID_NODE_INDEX;
   while (node_rank(current_index) != -1) {
     if (current[node_item::pathmarker].value < k) {
       if (left_unzip_iterator == nullptr) new_internal_node[node_item::children].left_index = current_index;
-      else node_repoint_right(tree, left_unzip_iterator, left_unzip_iterator_index, current_index);
+      else left_unzip_iterator[node_item::children].right_index = current_index;
+      tree->hash_accumulator_array[current_index] = left_hash;
+      left_hash ^= tree->hash_accumulator_array[current[node_item::children].left_index];
       left_unzip_iterator = current;
-      left_unzip_iterator_index = current_index;
       current_index = current[node_item::children].right_index;
       current = node_get_data(tree, current_index);
     } else {
       if (right_unzip_iterator == nullptr) new_internal_node[node_item::children].right_index = current_index;
-      else node_repoint_left(tree, right_unzip_iterator, right_unzip_iterator_index, current_index);
+      else right_unzip_iterator[node_item::children].left_index = current_index;
+      tree->hash_accumulator_array[current_index] = right_hash;
+      right_hash ^= tree->hash_accumulator_array[current[node_item::children].right_index];
       right_unzip_iterator = current;
-      right_unzip_iterator_index = current_index;
-      tree->hash_accumulator_array[right_unzip_iterator_index] ^= value_hash;
       current_index = current[node_item::children].left_index;
       current = node_get_data(tree, current_index);
     }
   }
 
-  if (current[node_item::k].value < k) {
-    if (left_unzip_iterator == nullptr) new_internal_node[node_item::children].left_index = current_index;
-    else node_repoint_right(tree, left_unzip_iterator, left_unzip_iterator_index, current_index);
-    if (right_unzip_iterator == nullptr) new_internal_node[node_item::children].right_index = new_external_node_index;
-    else node_repoint_left(tree, right_unzip_iterator, right_unzip_iterator_index, new_external_node_index);
-  } else {
-    new_internal_node[node_item::children].left_index = new_external_node_index;
-    new_internal_node[node_item::pathmarker].value = current[node_item::k].value;
-    if (right_unzip_iterator == nullptr) new_internal_node[node_item::children].right_index = current_index;
-    else node_repoint_left(tree, right_unzip_iterator, right_unzip_iterator_index, current_index);
-    uint32_t right_unzip_iterator_index = new_internal_node[node_item::children].right_index;
-    while (node_rank(right_unzip_iterator_index) != -1) {
-      node_data node_at_iterator = node_get_data(tree, right_unzip_iterator_index);
-      tree->hash_accumulator_array[right_unzip_iterator_index] ^= value_hash;
-      right_unzip_iterator_index = node_at_iterator[node_item::children].left_index;
-    }
-  }
+  if (left_unzip_iterator == nullptr) new_internal_node[node_item::children].left_index = current_index;
+  else left_unzip_iterator[node_item::children].right_index = current_index;
+  if (right_unzip_iterator == nullptr) new_internal_node[node_item::children].right_index = new_external_node_index;
+  else right_unzip_iterator[node_item::children].left_index = new_external_node_index;
 
   return error_codes::NO_ERRORS;
 }
 
-//unsafe because we assume that k is in our tree
+// Unsafe: k must exist and value_hash must match its leaf fingerprint.
 inline void unsafe_dissociate(header *tree, key k, XXH64_hash_t value_hash) {
-  //clear tree if it only contains one item
-  if (node_rank(tree->root) == -1) {
-    geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, tree->root);
-    tree->root = INVALID_NODE_INDEX;
-    return;
-  }
+  uint32_t *link = &tree->root;
+  uint32_t *parent_link = nullptr;
+  uint32_t parent_index = INVALID_NODE_INDEX;
+  uint32_t current_index = *link;
+  node_data current = node_get_data(tree, current_index);
 
-  uint32_t grand_parent_index = tree->root;
-  node_data grand_parent = node_get_data(tree, tree->root);
-  travel_hint grand_parent_to_parent_relationship = travel_hint::none;
-  uint32_t parent_index = grand_parent_index;
-  node_data parent = grand_parent;
-  travel_hint parent_to_current_relationship = travel_hint::none;
-  uint32_t current_index = parent_index;
-  node_data current = parent;
-
-  //search for the internal node with the key, keep track of grand_parent (travel_direction) parent (travel_direction) node_with_key
-  while (current[node_item::k_or_pathmarker].value != k) {
-    grand_parent_index = parent_index;
-    grand_parent = parent;
-    grand_parent_to_parent_relationship = parent_to_current_relationship;
-    parent_index = current_index;
-    parent = current;
+  while (node_rank(current_index) != -1 && current[node_item::pathmarker].value != k) {
     tree->hash_accumulator_array[current_index] ^= value_hash;
-    if (k < current[node_item::k_or_pathmarker].value) {
-      parent_to_current_relationship = travel_hint::left;
-      current = node_get_data(tree, current[node_item::children].left_index);
-    } else {
-      parent_to_current_relationship = travel_hint::right;
-      current = node_get_data(tree, current[node_item::children].right_index);
-    }
+    parent_link = link;
+    parent_index = current_index;
+    link = k < current[node_item::pathmarker].value
+      ? &current[node_item::children].left_index
+      : &current[node_item::children].right_index;
+    current_index = *link;
+    current = node_get_data(tree, current_index);
   }
 
-  //if the found node is actually external (means we're deleting the smallest key in the tree), delete it and its parent, replace the deleted parent with its right child, end
+  // The smallest key has no internal node with its key as a pathmarker.
   if (node_rank(current_index) == -1) {
-    if (grand_parent_to_parent_relationship == travel_hint::none) tree->root = parent[node_item::children].right_index;
-    else                                                          node_repoint_left(tree, grand_parent, grand_parent_index, parent[node_item::children].right_index);
-    geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, parent_index);
+    if (parent_link == nullptr) tree->root = INVALID_NODE_INDEX;
+    else {
+      *parent_link = node_get_data(tree, parent_index)[node_item::children].right_index;
+      geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, parent_index);
+    }
     geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, current_index);
     return;
   }
 
-  //zip together left and right spines
-  enum spine {
-    right_pointing,
-    left_pointing,
-  };
-
-  uint32_t top_of_zip;
-  spine top_of_zip_spine;
-  if (node_rank(current[node_item::children].right_index) == -1) { top_of_zip = current[node_item::children].left_index; top_of_zip_spine = right_pointing;}
-  else if (node_rank(current[node_item::children].left_index) == -1) { top_of_zip = current[node_item::children].right_index; top_of_zip_spine = left_pointing;}
-  else if (compare_node_ranks(current[node_item::children].left_index, current[node_item::children].right_index) >= 0) { top_of_zip = current[node_item::children].left_index; top_of_zip_spine = right_pointing;}
-  else { top_of_zip = current[node_item::children].right_index; top_of_zip_spine = left_pointing;}
-
-  auto has_greater_rank = [](uint32_t a, uint32_t b) {return (((node_rank(b) != -1) && compare_node_ranks(a,b) >= 0) || (node_rank(b) == -1));};
-
-  uint32_t zip_path_iterator = (node_rank(current[node_item::children].right_index) == -1) ? current[node_item::children].right_index : top_of_zip;
-  spine iterator_spine = top_of_zip_spine;
-  uint32_t right_pointing_spine_iterator = current[node_item::children].left_index;
-  uint32_t left_pointing_spine_iterator = current[node_item::children].right_index;
-
-  while (node_get_data(tree, zip_path_iterator)[node_item::k].value != k) {
-    switch (iterator_spine) {
-      case right_pointing:
-        if ((node_rank(zip_path_iterator) != -1) && has_greater_rank(zip_path_iterator, left_pointing_spine_iterator)) {
-          do {
-            right_pointing_spine_iterator = zip_path_iterator;
-            zip_path_iterator = node_get_data(tree, zip_path_iterator)[node_item::children].right_index;
-          } while ((node_rank(zip_path_iterator) != -1) && has_greater_rank(zip_path_iterator, left_pointing_spine_iterator));
-          node_repoint_right(tree, node_get_data(tree, right_pointing_spine_iterator), right_pointing_spine_iterator, left_pointing_spine_iterator);
-          right_pointing_spine_iterator = zip_path_iterator;
-        }
-        zip_path_iterator = left_pointing_spine_iterator;
-        iterator_spine = left_pointing;
-        break;
-      case left_pointing:
-        if ((node_rank(zip_path_iterator) != -1) && has_greater_rank(zip_path_iterator, right_pointing_spine_iterator)) {
-          do {
-            left_pointing_spine_iterator = zip_path_iterator;
-            tree->hash_accumulator_array[zip_path_iterator] ^= value_hash;
-            zip_path_iterator = node_get_data(tree, zip_path_iterator)[node_item::children].left_index;
-          } while ((node_rank(zip_path_iterator) != -1) && has_greater_rank(zip_path_iterator, right_pointing_spine_iterator));
-          node_repoint_left(tree, node_get_data(tree, left_pointing_spine_iterator), left_pointing_spine_iterator, right_pointing_spine_iterator);
-          left_pointing_spine_iterator = zip_path_iterator;
-        }
-        zip_path_iterator = right_pointing_spine_iterator;
-        iterator_spine = right_pointing;
-        break;
+  // Zip the two spines, replacing the right subtree's minimum leaf (k) with
+  // the remaining left subtree. Carry the final XOR summary down the path;
+  // fixed off-path subtrees can be subtracted without a stack or extra nodes.
+  uint32_t left = current[node_item::children].left_index;
+  uint32_t right = current[node_item::children].right_index;
+  uint64_t remaining_hash = tree->hash_accumulator_array[current_index] ^ value_hash;
+  while (node_rank(right) != -1) {
+    if (node_rank(left) != -1 && compare_node_ranks(left, right) > 0) {
+      node_data n = node_get_data(tree, left);
+      *link = left;
+      tree->hash_accumulator_array[left] = remaining_hash;
+      remaining_hash ^= tree->hash_accumulator_array[n[node_item::children].left_index];
+      link = &n[node_item::children].right_index;
+      left = *link;
+    } else {
+      node_data n = node_get_data(tree, right);
+      *link = right;
+      tree->hash_accumulator_array[right] = remaining_hash;
+      remaining_hash ^= tree->hash_accumulator_array[n[node_item::children].right_index];
+      link = &n[node_item::children].left_index;
+      right = *link;
     }
   }
-
-  //replace the found internal node with the top of the zip path
-  switch (parent_to_current_relationship) {
-    case travel_hint::left:  node_repoint_left(tree, parent, parent_index, top_of_zip); break;
-    case travel_hint::right: node_repoint_right(tree, parent, parent_index, top_of_zip); break;
-    case travel_hint::none:  tree->root = top_of_zip; break;
-  }
-
-  //delete the external node containing our key
-  geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, zip_path_iterator);
-
-  //delete the found internal node
+  *link = left;
+  geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, right);
   geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, current_index);
 }
 
@@ -329,51 +291,32 @@ inline value_pointer get(header *tree, key k) {
   else return NULLVALUEPOINTER;
 }
 
-// get fingerprint [NEGATIVE_INFINITY k)
-inline XXH64_hash_t get_fingerprint(header *tree, uint32_t n_index, key k, XXH64_hash_t acc_so_far = XOR_IDENTITY, travel_hint last_direction = travel_hint::none) {
-  node_data n = node_get_data(tree, n_index);
-  bool is_external_node = (node_rank(n_index) == -1);
-  travel_hint travel_to;
-  XXH64_hash_t propagating_hash = acc_so_far;
-  if (k < n[node_item::k_or_pathmarker].value) {
-    switch (last_direction) {
-      case travel_hint::left:        break;
-      case travel_hint::right:       propagating_hash ^= tree->hash_accumulator_array[n_index]; break;
-      case travel_hint::none:        propagating_hash = XOR_IDENTITY; break;}
-    travel_to = travel_hint::left;
-
-  } else if (k > n[node_item::k_or_pathmarker].value) {
-    switch (last_direction) {
-      case travel_hint::left:        propagating_hash ^= tree->hash_accumulator_array[n_index]; break;
-      case travel_hint::right:       break;
-      case travel_hint::none:        propagating_hash = tree->hash_accumulator_array[n_index]; break;}
-    travel_to = travel_hint::right;
-
-  } else {
-    switch (last_direction) {
-      case travel_hint::left:        propagating_hash ^= (is_external_node ? XOR_IDENTITY : tree->hash_accumulator_array[n[node_item::children].left_index]); break;
-      case travel_hint::right:       propagating_hash ^= (is_external_node ? XOR_IDENTITY : tree->hash_accumulator_array[n_index] ^ tree->hash_accumulator_array[n[node_item::children].left_index]); break;
-      case travel_hint::none:        propagating_hash  = (is_external_node ? XOR_IDENTITY : tree->hash_accumulator_array[n[node_item::children].left_index]); break;}
-    travel_to = travel_hint::none;
+// Fingerprint of keys strictly below k within the supplied subtree.
+inline XXH64_hash_t get_fingerprint(header *tree, uint32_t index, key k) {
+  uint64_t hash = XOR_IDENTITY;
+  if (index == INVALID_NODE_INDEX) return hash;
+  while (node_rank(index) != -1) {
+    node_data n = node_get_data(tree, index);
+    if (k <= n[node_item::pathmarker].value) index = n[node_item::children].left_index;
+    else {
+      hash ^= tree->hash_accumulator_array[n[node_item::children].left_index];
+      index = n[node_item::children].right_index;
+    }
   }
-
-  if (is_external_node) return propagating_hash;
-  else switch (travel_to) {case travel_hint::left:  return get_fingerprint(tree, n[node_item::children].left_index, k, propagating_hash, travel_to);
-                           case travel_hint::right: return get_fingerprint(tree, n[node_item::children].right_index, k, propagating_hash, travel_to);
-                           case travel_hint::none:  return propagating_hash;};
+  if (node_get_data(tree, index)[node_item::k].value < k)
+    hash ^= tree->hash_accumulator_array[index];
+  return hash;
 }
 
+// Exact half-open interval [low, high); UINT64_MAX is a valid key, not infinity.
 inline XXH64_hash_t get_range_fingerprint(header *tree, key low_inclusive, key high_exclusive) {
-  if (is_empty(tree)) return XOR_IDENTITY;
+  if (is_empty(tree) || low_inclusive >= high_exclusive) return XOR_IDENTITY;
+  const uint64_t low = low_inclusive == 0 ? XOR_IDENTITY : get_fingerprint(tree, tree->root, low_inclusive);
+  return low ^ get_fingerprint(tree, tree->root, high_exclusive);
+}
 
-  XXH64_hash_t start_to_low = XOR_IDENTITY;
-  if (low_inclusive != MIN_KEY) start_to_low = get_fingerprint(tree, tree->root, low_inclusive);
-
-  XXH64_hash_t start_to_high = XOR_IDENTITY;
-  if (high_exclusive != MAX_KEY) start_to_high = get_fingerprint(tree, tree->root, high_exclusive);
-  else start_to_high = tree->hash_accumulator_array[tree->root];
-
-  return start_to_high ^ start_to_low;
+inline XXH64_hash_t get_full_fingerprint(header *tree) {
+  return is_empty(tree) ? XOR_IDENTITY : tree->hash_accumulator_array[tree->root];
 }
 
 }

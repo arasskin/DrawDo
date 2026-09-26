@@ -12,27 +12,85 @@ protocol. Kotlin/Native can consume a C interface on iOS; Android will need a
 JNI adapter behind the same shared Kotlin interface. The Linux server can call
 the C++ engine directly.
 
+The namespace owner is always authoritative. Owner-to-server reconciliation
+must make the server's cached namespace match the owner's state, including
+removing records that are absent from the owner's authoritative view. The
+server does not merge competing versions or override the owner's state.
+
+Littlebear is a reconstructable cache, not a durable source of truth. Cached
+data may be lost and rebuilt from the owner. An empty or incomplete server
+cache must not be interpreted as an instruction to delete the owner's local
+data. Durable owner-side storage and cache reconstruction are required;
+server-side durable storage is not a requirement.
+
+Synchronization is eventually consistent. The goal is to make reconciliation
+fast enough that inconsistent states are brief, rather than requiring readers
+to wait for a cache-completeness or freshness guarantee.
+
+A missing namespace and an existing empty namespace have different meanings:
+
+- If a namespace is absent from the server (for example after a server crash),
+  a non-owner keeps its last-known local copy until the owner syncs again.
+- If a namespace exists on the server but contains no records, a non-owner
+  reconciling against it obtains an empty namespace, regardless of why it is
+  empty. Readers do not need to distinguish rebuilding from owner deletions.
+
+Non-owners reconcile their local copies to existing server namespaces; owners
+reconcile the server to their own authoritative local state.
+
+## Backend resource and performance baseline
+
+The target droplet has one CPU core, approximately 500 MB RAM, and 10 GB total
+storage. These constraints underlie Littlebear's design. Compact data structures
+and high throughput on this machine are requirements throughout implementation.
+
+The record index dominates metadata volume, so per-record and per-node overhead,
+allocation behavior, and cache locality deserve particular attention. The
+namespace hash table is expected to hold an order of magnitude fewer entries
+than the index and may trade space for faster lookup when the total cost fits
+the machine's budget. Structures need not all make the same space/speed tradeoff.
+
+The single-threaded io_uring event loop is a throughput-oriented design. Preserve
+its opportunities for batching, asynchronous I/O, buffer reuse, and low syscall
+overhead. Assess hot-path changes with component measurements as they are built.
+Include negentropy's IDs, accumulators, counts, and any additional indexes in the
+memory accounting before settling their representation.
+
+Measure resident memory separately from reserved virtual address space, and
+account for page cache, connection buffers, and operating-system headroom.
+The 10 GB disk budget also includes the OS, build tools, deployment releases,
+and logs. The current 45 GiB value-file allocation limit is a prototype default
+that must be reconciled with the actual available cache-storage budget.
+
 ## Littlebear's current state
 
 The network loop parses and echoes `add` and `retract` requests, but does not yet
 connect them to the namespace table, tree, or value storage. Record persistence,
 recovery, reconciliation requests, authentication, and subscriptions remain
-unfinished. There is no automated test suite in the imported project.
+unfinished. Component tests now cover the file-offset allocator, its metadata
+arena, rank-partitioned arena, fingerprint array, and augmented tree. The GitHub
+workflow builds the server and runs normal and sanitizer checks before deployment.
 
-Confirmed component failures in the source baseline:
+Component failures found in the source baseline:
 
-- A 64-byte allocation request produces a 32-byte slot; 128 produces 64.
-- Tree-arena and fingerprint-array guard-page addresses are not page-aligned,
-  causing `mprotect` to fail in local component checks.
+- Fixed: a 64-byte allocation request produced a 32-byte slot; 128 produced 64.
+- Fixed: tree-arena and fingerprint-array guard-page addresses were not
+  page-aligned, causing `mprotect` to fail in local component checks.
 - The namespace-table header still references `zip_zip` instead of
   `augmented_tree`, so compiling that header fails.
+
+Tree insertion/deletion fingerprint updates, deletion traversal, allocation
+rollback, and maximum-key range handling have also been repaired. Nodes remain
+16 bytes; tree operations use iterative paths and explicit allocation/cleanup.
+See [component development](littlebear-components.md) for contracts and checks.
 
 Inspection also found missing TCP framing, partial-send handling, and graceful
 connection-pool exhaustion. The README includes design goals and historical
 concurrency descriptions; it should not be read as a list of working features.
 
-The full server has not been run during this import: it requires Linux and
-`liburing`, and the local Docker daemon was unavailable.
+The server now builds and runs on the Linux droplet with liburing through the
+[deployment workflow](deployment.md). Its health check verifies the prototype's
+request loop; storage and reconciliation remain disconnected.
 
 ## Negentropy integration
 
@@ -51,13 +109,17 @@ This does not verify mobile packaging or littlebear integration.
 
 ## First milestones
 
+See [the Littlebear operational checklist](littlebear-checklist.md) for the
+detailed backend work and acceptance checks.
+
 1. Add regression checks and repair the known littlebear component failures.
 2. Validate tree insert/update/delete and range operations against a simple
    reference model, including randomized sequences and sanitizers.
-3. Define namespace ownership, public/private collections, record encoding,
-   versions, deletion semantics, and reconciliation consistency.
-4. Decide whether littlebear remains a reconstructable cache or gains durable
-   storage. Client persistence and restart recovery must work in either model.
+3. Define ownership authentication, public/private collections, record encoding,
+   versions, and owner-authoritative reconciliation under eventual consistency.
+4. Implement durable owner-side persistence and server-cache reconstruction,
+   preserving non-owner local copies when the server namespace is absent and
+   reconciling them to empty when the server namespace exists but is empty.
 5. Establish upstream-compatible reconciliation and record transfer in the
    backend and mobile native bindings.
 6. Build a Kotlin client slice on both platforms: drawing and dragging, local

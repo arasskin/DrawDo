@@ -2,7 +2,10 @@
 
 Pushing to `main`, including merging a pull request into `main`, runs
 `.github/workflows/deploy.yml`. The workflow can also be run manually on `main`.
-It uploads the exact checked-out revision to `147.182.181.182`, builds Littlebear
+It first builds the server and runs component tests with and without address
+and undefined-behavior sanitizers on a GitHub runner. Pull requests to `main`
+run those checks too; only `main` deploys. Once the checks pass, the workflow
+uploads the exact checked-out revision to `147.182.181.182`, builds Littlebear
 on Ubuntu 24.04, switches the current release, and restarts the systemd service.
 Deployments are serialized and do not cancel a deployment already in progress.
 

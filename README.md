@@ -19,6 +19,8 @@ scaffold or working end-to-end integration yet.
 | `assets/` | iCare illustrations, animations, and icons for the new client |
 | `reference/icare/` | ClojureDart client and Clojure backend source snapshot for porting behavior |
 | `docs/starting-point.md` | Current state, architectural decisions, and first development milestones |
+| `docs/littlebear-checklist.md` | Implementation checklist for an operational backend |
+| `docs/littlebear-components.md` | Component contracts, tests, and allocator measurements |
 | `docs/provenance.md` | Import sources and revisions |
 
 ## Development direction
@@ -33,6 +35,10 @@ Littlebear currently targets Linux with C++23 and `liburing`. Its existing
 `make -C littlebear` and `make -C littlebear debug` commands build the server and
 sanitizer configuration respectively on a suitable Linux environment. It is
 still a prototype, not a functioning storage backend.
+
+`make -C littlebear test` runs storage component checks, `make -C littlebear
+sanitize` runs their sanitizer builds, and `make -C littlebear benchmark` runs
+the optimized allocator microbenchmark. Debug output is `littlebear/build/core-debug`.
 
 The original iCare source is reference material, not a buildable Flutter project
 in this repository. Generated Dart, platform projects, local databases, and
