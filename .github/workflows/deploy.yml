@@ -1,0 +1,71 @@
+name: Deploy Littlebear
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: littlebear-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      DEPLOY_HOST: 147.182.181.182
+      DEPLOY_USER: drawdo-deploy
+    steps:
+      - name: Check out the pushed revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DODO_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DODO_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$SSH_PRIVATE_KEY"
+          test -n "$SSH_KNOWN_HOSTS"
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$SSH_PRIVATE_KEY" > "$HOME/.ssh/dodo"
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/dodo" "$HOME/.ssh/known_hosts"
+          cat > "$HOME/.ssh/config" <<EOF
+          Host dodo-deploy
+            HostName $DEPLOY_HOST
+            User $DEPLOY_USER
+            IdentityFile ~/.ssh/dodo
+            IdentitiesOnly yes
+            BatchMode yes
+            StrictHostKeyChecking yes
+            ConnectTimeout 15
+            ServerAliveInterval 15
+            ServerAliveCountMax 4
+          EOF
+
+      - name: Upload, build, and restart
+        run: |
+          set -euo pipefail
+          release_id="${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git archive --format=tar.gz --output="$RUNNER_TEMP/source.tar.gz" HEAD
+          scp "$RUNNER_TEMP/source.tar.gz" "dodo-deploy:/opt/littlebear/incoming/${release_id}.tar.gz"
+          # The identifier consists only of GitHub-provided SHA and numeric run IDs.
+          # shellcheck disable=SC2029
+          ssh dodo-deploy "bash -s -- '$release_id'" < deploy/deploy.sh
+          printf 'Deployed %s to %s.\n' "$GITHUB_SHA" "$DEPLOY_HOST" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove runner SSH credentials
+        if: always()
+        run: rm -f "$HOME/.ssh/dodo" "$HOME/.ssh/config" "$HOME/.ssh/known_hosts"
