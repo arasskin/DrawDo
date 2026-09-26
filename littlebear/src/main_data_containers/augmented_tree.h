@@ -278,8 +278,8 @@ inline void unsafe_dissociate(header *tree, key k, XXH64_hash_t value_hash) {
   geometric_rank_partioned_virtual_slab_arena::release(tree->node_allocator, current_index);
 }
 
-inline value_pointer get(header *tree, key k) {
-  if (is_empty(tree)) return NULLVALUEPOINTER;
+inline uint32_t find(header *tree, key k) {
+  if (is_empty(tree)) return INVALID_NODE_INDEX;
   uint32_t current_index = tree->root;
   while (node_rank(current_index) != -1) {
     node_data current = node_get_data(tree, current_index);
@@ -287,8 +287,29 @@ inline value_pointer get(header *tree, key k) {
     else current_index = current[node_item::children].right_index;
   }
   node_data current = node_get_data(tree, current_index);
-  if (current[node_item::k].value == k) return current[node_item::v].value;
-  else return NULLVALUEPOINTER;
+  return current[node_item::k].value == k ? current_index : INVALID_NODE_INDEX;
+}
+
+inline value_pointer get(header *tree, key k) {
+  const uint32_t index = find(tree, k);
+  return index == INVALID_NODE_INDEX ? NULLVALUEPOINTER : node_get_data(tree, index)[node_item::v].value;
+}
+
+// Replace without allocating or changing the tree topology/rank priorities.
+// Find first so a missing key leaves every subtree fingerprint untouched.
+inline bool replace(header *tree, key k, value_pointer v, XXH64_hash_t value_hash) {
+  const uint32_t leaf = find(tree, k);
+  if (leaf == INVALID_NODE_INDEX) return false;
+  const uint64_t delta = tree->hash_accumulator_array[leaf] ^ value_hash;
+  uint32_t index = tree->root;
+  while (index != leaf) {
+    tree->hash_accumulator_array[index] ^= delta;
+    node_data n = node_get_data(tree, index);
+    index = k < n[node_item::pathmarker].value
+      ? n[node_item::children].left_index : n[node_item::children].right_index;
+  }
+  node_set_external(tree, node_get_data(tree, leaf), leaf, k, value_hash, v);
+  return true;
 }
 
 // Fingerprint of keys strictly below k within the supplied subtree.

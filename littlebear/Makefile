@@ -4,7 +4,7 @@ CXXFLAGS = -std=c++23 -Wall -Wextra $(NIX_CFLAGS_COMPILE)
 LDFLAGS ?=
 LDLIBS = -luring
 HEADERS := $(wildcard src/*.h src/main_data_containers/*.h)
-TEST_NAMES := size_class_test arenas_test tree_test hash_table_test
+TEST_NAMES := size_class_test arenas_test tree_test hash_table_test storage_test
 TESTS := $(addprefix build/tests/,$(TEST_NAMES))
 SANITIZER_TESTS := $(addprefix build/sanitize/,$(TEST_NAMES))
 # Keep sanitizer bookkeeping practical on the 500 MB target; checks stay enabled.
@@ -24,11 +24,15 @@ build/core-debug: src/core.cpp $(HEADERS)
 
 build/tests/%: tests/%.cpp tests/check.h $(HEADERS)
 	@mkdir -p $(@D)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -O2 -g -o $@ $< $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -O2 -g -o $@ $< $(LDFLAGS) $(TEST_LIBS)
 
 build/sanitize/%: tests/%.cpp tests/check.h $(HEADERS)
 	@mkdir -p $(@D)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -o $@ $< $(LDFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -o $@ $< $(LDFLAGS) $(TEST_LIBS)
+
+ifeq ($(shell uname -s),Linux)
+build/tests/storage_test build/sanitize/storage_test: TEST_LIBS = -luring
+endif
 
 test: $(TESTS)
 	@set -e; for test in $(TESTS); do "$$test"; done

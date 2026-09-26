@@ -152,9 +152,15 @@ void random_operations() {
     for (unsigned step = 0; step < 5000; ++step) {
       const uint64_t key = random() % 128;
       auto existing = expected.find(key);
-      if (existing != expected.end()) erase(&f, &expected, key);
-      // Replacing through delete+insert exercises the current primitive API.
-      if (random() % 3 != 0) insert(&f, &expected, key, random() | 1, random());
+      if (random() % 3 == 0) {
+        if (existing != expected.end()) erase(&f, &expected, key);
+      } else if (existing != expected.end()) {
+        const record replacement{random() | 1, random()};
+        CHECK(tree::replace(&f.index, key, replacement.value, replacement.hash));
+        existing->second = replacement;
+        verify(&f, expected);
+      } else insert(&f, &expected, key, random() | 1, random());
+      CHECK(!tree::replace(&f.index, 1000, 1, 1));
       CHECK(tree::get(&f.index, 1000) == tree::NULLVALUEPOINTER);
       uint64_t low = random() % 130;
       uint64_t high = random() % 130;

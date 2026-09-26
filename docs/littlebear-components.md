@@ -17,8 +17,9 @@ make -C littlebear benchmark-table
 
 `core` is an optimized server build. `make debug` produces `build/core-debug`;
 it does not overwrite the release binary. Header changes trigger rebuilds.
-Component tests do not require liburing, so `make test CXX=clang++` also works
-on macOS. Sanitizer validation is performed on Linux.
+On Linux the storage test also links liburing and exercises real kernel I/O.
+`make test CXX=clang++` works on macOS with that kernel-specific portion omitted.
+Sanitizer validation is performed on Linux.
 
 Sanitizer checks use a 16 MB quarantine and a 64 KB per-thread quarantine by
 default. This keeps test bookkeeping appropriate for the small server while
@@ -40,8 +41,8 @@ a separate resource limit; the deployment workflow runs checks on GitHub runners
   so the caller can retry. This primitive does not track double releases.
 - Metadata free lists use indexes so growing/reallocating their arena cannot
   invalidate links. Growth failure preserves the old capacity and allocation.
-- This allocator manages file offsets. Record I/O and the storage API remain
-  separate work.
+- This allocator manages file offsets. The [storage API](littlebear-storage.md)
+  supplies record I/O and reserves release metadata before asynchronous work.
 
 ## Arena and tree contract
 
@@ -68,8 +69,9 @@ per-node storage, recursion, or temporary heap allocations. Failed insertion
 returns any partially allocated nodes and leaves the existing tree unchanged.
 
 `unsafe_associate` requires an absent key; `unsafe_dissociate` requires an
-existing key and its matching value hash. Replacement is currently delete plus
-insert; an atomic replacement API remains storage-layer work. Range queries
+existing key and its matching value hash. `replace` updates a present record and
+its path fingerprints without allocation, preserving topology and rank priorities;
+an absent key leaves the tree unchanged. Range queries
 are exactly `[low, high)`, with empty/reversed ranges returning zero.
 `UINT64_MAX` is a valid key, so use `get_full_fingerprint` for the entire set.
 The fingerprints are still the prototype XOR scheme, not upstream negentropy's.

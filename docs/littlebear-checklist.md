@@ -59,16 +59,20 @@ dependency; repairing an existing component counts as unfinished work.
 
 - [ ] Specify namespace identity and ownership, record keys, byte encoding,
   size limits, and how records obtain negentropy timestamps and 32-byte IDs.
-- [ ] Add explicit namespace lookup, creation, clearing, and removal operations;
+- [x] Add explicit namespace lookup, creation, clearing, and removal operations;
   clearing preserves an empty namespace, while removal makes it absent.
-- [ ] Implement value-file reads and writes using the size-class allocator,
+- [x] Implement value-file reads and writes using the size-class allocator,
   with explicit offset/length handling and I/O error reporting.
-- [ ] Connect namespaces, trees, and values through insert/replace, get, and
+- [x] Connect namespaces, trees, and values through insert/replace, get, and
   delete operations; reclaim replaced/deleted values and removed namespace data.
-- [ ] Keep tree entries and value allocations valid across asynchronous I/O
+- [x] Keep tree entries and value allocations valid across asynchronous I/O
   and failures; publish records only when their bytes are available to read.
-- [ ] Define a clean cache reset on startup so stale value-file contents or
+- [x] Define a clean cache reset on startup so stale value-file contents or
   lost allocation metadata cannot be mistaken for valid cached records.
+
+The internal [storage API](littlebear-storage.md) now provides these operations
+and an io_uring adapter. Connecting them to authenticated TCP requests and
+negentropy remains work in the following sections.
 
 ## 4. Adapt the custom tree to upstream negentropy
 
@@ -127,9 +131,9 @@ dependency; repairing an existing component counts as unfinished work.
   concurrent sync sessions, and resource exhaustion under integration tests.
 - [ ] Add configuration for listen address/port, cache file, and resource limits,
   plus useful error logs, resource cleanup, and startup/shutdown instructions.
-- [ ] Set memory and cache-file budgets with OS/page-cache headroom; replace the
-  prototype's 45 GiB value-file limit and bound deployment-release/log retention
-  so total disk use fits the 10 GB server.
+- [ ] Complete memory and cache-file budgets with OS/page-cache headroom, and
+  bound deployment-release/log retention so total disk use fits the 10 GB server.
+  The value-file limit has been reduced from the prototype's 45 GiB to 1 GiB.
 - [ ] Measure sync latency, round trips, bytes transferred, memory use, and
   event-loop responsiveness for initial sync, no changes, small edits, and cache
   rebuilds at representative namespace sizes and connection counts.

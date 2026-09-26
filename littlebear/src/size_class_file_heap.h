@@ -129,17 +129,32 @@ inline maybe_offset reserve(allocator *a, size_t size) {
 
 // Release a live allocation exactly once with its original payload size.
 // On metadata exhaustion it remains allocated; callers can retry the release.
+// Storage operations can reserve metadata before issuing I/O, guaranteeing that
+// completion or rollback needs no further allocation. Tickets are arena indexes.
+inline int prepare_release(allocator *a) {
+  return growing_slab_arena::reserve(&a->slab_allocator);
+}
+
+inline void cancel_release(allocator *a, int ticket) {
+  if (ticket != -1) growing_slab_arena::release(&a->slab_allocator, ticket);
+}
+
+// Preconditions: live allocation, matching size, and an unused release ticket.
+inline void release_prepared(allocator *a, uint64_t data, size_t size, int ticket) {
+  slab *head = &a->size_class_heads[size_class_index(size)];
+  slab *entry = to_slab(ticket, &a->slab_allocator);
+  entry->file_offset = data;
+  entry->next_slab_index = head->next_slab_index;
+  head->next_slab_index = ticket;
+}
+
 [[nodiscard]] inline bool release(allocator *a, uint64_t data, size_t size) {
   const uint8_t size_class = size_class_index(size);
   if (size_class == INVALID_SIZE_CLASS || data >= a->high_watermark ||
       slot_size(size_class) > a->high_watermark - data) return false;
-  slab *size_allocator_slab_list_head = &a->size_class_heads[size_class];
-  int new_free_slab_index = growing_slab_arena::reserve(&a->slab_allocator);
-  if (new_free_slab_index == -1) return false;
-  slab *new_slab_head = to_slab(new_free_slab_index, &a->slab_allocator);
-  new_slab_head->file_offset = data;
-  new_slab_head->next_slab_index = size_allocator_slab_list_head->next_slab_index;
-  size_allocator_slab_list_head->next_slab_index = new_free_slab_index;
+  const int ticket = prepare_release(a);
+  if (ticket == -1) return false;
+  release_prepared(a, data, size, ticket);
   return true;
 }
 

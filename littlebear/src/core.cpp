@@ -13,6 +13,7 @@
 #include "stack_of_network_message_buffers.h"
 #include "slab_arena.h"
 #include "size_class_file_heap.h"
+#include "storage.h"
 #include "parsing.h"
 #include "config.h"
 
@@ -255,8 +256,9 @@ void handle_sent(connection_buffer_allocator *allocator, io_uring *ring, int sen
 
 int main() {
   core_error error = no_error;
-  if (auto [values_file_descriptor, values_allocator, has_error] = size_class_file_heap::create(config::VAUES_FILE_NAME, config::VALUES_FILE_SIZE);
-      !has_error) {
+  storage::store cache{};
+  if (auto result = storage::create(&cache, config::VAUES_FILE_NAME, config::VALUES_FILE_SIZE);
+      result.code == storage::error::ok) {
     if (auto [client_connection_allocator, has_error] = create_client_two_way_allocator(); !has_error) {
       struct io_uring ring_on_stack{};
       struct io_uring *ring = &ring_on_stack;
@@ -306,6 +308,8 @@ int main() {
     } else error = could_not_create_connection_allocator;
   } else error = could_not_open_values_file;
 
+  const auto cleanup = storage::destroy(&cache);
+  (void)cleanup; // No record I/O is submitted by the prototype request loop yet.
   print_core_error(error);
   return -1;
 }

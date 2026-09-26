@@ -59,16 +59,17 @@ memory accounting before settling their representation.
 Measure resident memory separately from reserved virtual address space, and
 account for page cache, connection buffers, and operating-system headroom.
 The 10 GB disk budget also includes the OS, build tools, deployment releases,
-and logs. The current 45 GiB value-file allocation limit is a prototype default
-that must be reconciled with the actual available cache-storage budget.
+and logs. The value-file allocation limit is now 1 GiB. Resident-memory admission
+and deployment/log retention still need a complete server resource budget.
 
 ## Littlebear's current state
 
 The network loop parses and echoes `add` and `retract` requests, but does not yet
-connect them to the namespace table, tree, or value storage. Record persistence,
-recovery, reconciliation requests, authentication, and subscriptions remain
-unfinished. Component tests now cover the file-offset allocator, its metadata
-arena, rank-partitioned arena, fingerprint array, and augmented tree. The GitHub
+invoke record operations. The internal storage API now connects namespace trees
+and value-file I/O, including an io_uring adapter, safe asynchronous lifetimes,
+rollback, and cache reset at startup. Reconciliation requests, authentication,
+TCP storage dispatch, and subscriptions remain unfinished. Component tests cover
+allocators, arenas, fingerprints, the tree/table, and storage I/O. The GitHub
 workflow builds the server and runs normal and sanitizer checks before deployment.
 
 Component failures found in the source baseline:
@@ -91,7 +92,8 @@ concurrency descriptions; it should not be read as a list of working features.
 
 The server now builds and runs on the Linux droplet with liburing through the
 [deployment workflow](deployment.md). Its health check verifies the prototype's
-request loop; storage and reconciliation remain disconnected.
+request loop. See the [storage API contract](littlebear-storage.md) for implemented
+internal operations and the remaining TCP/protocol integration.
 
 ## Negentropy integration
 
