@@ -11,14 +11,14 @@
 
 namespace storage_tests {
 namespace st = storage;
-namespace tr = augmented_tree;
+namespace tr = record_index;
 const st::namespace_id A{1, 2}, B{3, 4};
 struct fixture { st::store s{}; char path[64] = "/tmp/littlebear-storage-XXXXXX"; };
 void create(fixture *f, uint64_t limit = 1024 * 1024, size_t pending = 64) {
   int fd = mkstemp(f->path);
   CHECK(fd >= 0);
   close(fd);
-  CHECK(st::create(&f->s, f->path, limit, pending, 1, 4096).code == st::error::ok);
+  CHECK(st::create(&f->s, f->path, limit, pending, 1).code == st::error::ok);
 }
 void destroy(fixture *f) {
   CHECK(st::destroy(&f->s).code == st::error::ok);
@@ -107,10 +107,10 @@ void pending_and_replacement() {
   CHECK(st::clear_namespace(&f.s, A).code == st::error::busy);
   CHECK(st::remove_namespace(&f.s, A).code == st::error::busy);
   CHECK(st::destroy(&f.s).code == st::error::busy);
-  const auto before_growth = f.s.namespaces.bucket_count;
+  const auto before_growth = f.s.namespaces.entries.bucket_count();
   for (uint64_t i = 100; i < 300; ++i)
     CHECK(st::create_namespace(&f.s, {i, i * 3}).code == st::error::ok);
-  CHECK(f.s.namespaces.bucket_count > before_growth);
+  CHECK(f.s.namespaces.entries.bucket_count() > before_growth);
   CHECK(drive(&write, 1).code == st::error::ok);
   CHECK(get(&f.s, A, 10) == "new");
   put(&f.s, A, 11, "reuse");
@@ -175,26 +175,7 @@ void failures_and_reuse() {
   CHECK(get(&f.s, A, 1) == "new");
   CHECK(st::erase_record(&f.s, A, 2).code == st::error::ok);
   CHECK(st::prepare_write(&f.s, &r, A, 3, "fail index", 10, 0).code == st::error::ok);
-  // Exhaust every node partition only at commit, after file allocation succeeds.
-  uint32_t saved[32];
-  for (uint8_t rank = 0; rank < 32; ++rank) {
-    saved[rank] = f.s.nodes.by_rank[rank].high_watermark;
-    f.s.nodes.by_rank[rank].high_watermark = st::arena::partition_end(rank);
-    // Deleting the previous record left free nodes; save and hide these below.
-  }
-  st::arena::slab heads[32];
-  for (size_t rank = 0; rank < 32; ++rank) {
-    heads[rank] = f.s.nodes.by_rank[rank].head;
-    f.s.nodes.by_rank[rank].head.next_index = st::arena::INVALID_INDEX;
-  }
-  CHECK(drive(&r).code == st::error::no_memory);
-  // Existing records can still be replaced with every node partition exhausted.
-  CHECK(st::prepare_write(&f.s, &r, A, 1, "new", 3, hash("new")).code == st::error::ok);
-  CHECK(drive(&r).code == st::error::ok);
-  for (size_t rank = 0; rank < 32; ++rank) {
-    f.s.nodes.by_rank[rank].high_watermark = saved[rank];
-    f.s.nodes.by_rank[rank].head = heads[rank];
-  }
+  CHECK(st::cancel(&r).code==st::error::cancelled);
   CHECK(get(&f.s, A, 1) == "new");
   put(&f.s, A, 3, "retry");
   CHECK(get(&f.s, A, 3) == "retry");
@@ -204,6 +185,70 @@ void failures_and_reuse() {
   CHECK(st::prepare_read(&f.s, &r, A, 1, buffer, sizeof(buffer)).code == st::error::ok);
   CHECK(drive(&r).code == st::error::io_failure);
   destroy(&f);
+}
+inline bool fail_index_allocation=false;
+void* allocate_index(size_t alignment,size_t bytes) {
+  if(fail_index_allocation) return nullptr;
+  return alignment ? std::aligned_alloc(alignment,bytes) : std::malloc(bytes);
+}
+void index_failure() {
+  fixture f;
+  int fd=mkstemp(f.path); CHECK(fd>=0); close(fd);
+  CHECK(st::create(&f.s,f.path,128,64,1,allocate_index).code==st::error::ok);
+  CHECK(st::create_namespace(&f.s,A).code==st::error::ok);
+  st::request r;
+  CHECK(st::prepare_write(&f.s,&r,A,1,"old",3,hash("old")).code==st::error::ok);
+  const auto failed_offset=tr::vpointer_get_offset(r.value);
+  fail_index_allocation=true;
+  CHECK(drive(&r).code==st::error::no_memory);
+  CHECK(st::lookup_namespace(&f.s,A)==st::presence::empty);
+  CHECK(f.s.nodes.stats().live_bytes==0 && f.s.nodes.stats().reserved_bytes==0);
+  fail_index_allocation=false;
+  put(&f.s,A,1,"old");
+  CHECK(offset(&f.s,A,1)==failed_offset);
+  fail_index_allocation=true;
+  put(&f.s,A,1,"new"); // replacement needs no index allocation
+  CHECK(get(&f.s,A,1)=="new");
+  fail_index_allocation=false;
+  // Populated special-key namespaces must also be reclaimed on store teardown.
+  CHECK(st::create_namespace(&f.s,hash_table::ALL_ONES).code==st::error::ok);
+  put(&f.s,hash_table::ALL_ONES,UINT64_MAX,"special");
+  CHECK(st::destroy(&f.s).code==st::error::ok);
+  CHECK(f.s.nodes.stats().live_bytes==0 && f.s.nodes.stats().reserved_bytes==0);
+  destroy(&f);
+}
+void deletion_failure() {
+  fixture f;
+  int fd=mkstemp(f.path); CHECK(fd>=0); close(fd);
+  CHECK(st::create(&f.s,f.path,1024*1024,64,1,allocate_index).code==st::error::ok);
+  CHECK(st::create_namespace(&f.s,A).code==st::error::ok);
+  std::vector<uint64_t> keys;
+  for(size_t i=0;i<512;++i) {keys.push_back(tr::key_hash(i));put(&f.s,A,keys.back(),"old");}
+  bool failed=false;
+  for(auto key:keys) {
+    // Occupy the pool's spare blocks and deny new system allocations. This
+    // forces a joining deletion to fail without depending on slab occupancy.
+    std::vector<std::pair<void*,size_t>> held;
+    fail_index_allocation=true;
+    for(size_t cap=4;24+8*cap<=4096;cap+=std::max<size_t>(1,cap/4)) {
+      const auto bytes=24+8*cap;
+      while(auto* block=f.s.nodes.allocate(bytes)) held.emplace_back(block,bytes);
+    }
+    auto* index=hash_table::get(&f.s.namespaces,A);
+    const auto before=tr::list(index);
+    const auto erased=st::erase_record(&f.s,A,key);
+    for(auto [block,bytes]:held) f.s.nodes.deallocate(block,bytes);
+    fail_index_allocation=false;
+    if(erased.code==st::error::no_memory) {
+      CHECK(tr::list(index)==before);tr::validate(index);
+      CHECK(get(&f.s,A,key)=="old");
+      CHECK(st::erase_record(&f.s,A,key).code==st::error::ok);
+      put(&f.s,A,key,"new");CHECK(get(&f.s,A,key)=="new");
+      failed=true;break;
+    }
+    CHECK(erased.code==st::error::ok);
+  }
+  CHECK(failed);destroy(&f);
 }
 void metadata_failure() {
   fixture f; create(&f);
@@ -233,6 +278,54 @@ void metadata_failure() {
   put(&f.s, A, 1, "retry");
   destroy(&f);
 }
+inline size_t namespace_allocations = 0, fail_namespace_at = 0;
+void* allocate_namespace(size_t alignment, size_t bytes) {
+  if (++namespace_allocations == fail_namespace_at) return nullptr;
+  return std::aligned_alloc(alignment, bytes);
+}
+void namespace_failures_and_relocation() {
+  fixture f; create(&f);
+  CHECK(st::destroy(&f.s).code == st::error::ok);
+  for (size_t failure : {size_t(1), size_t(2)}) {
+    namespace_allocations = 0; fail_namespace_at = failure;
+    CHECK(st::create(&f.s, f.path, 1024, 64, 16, nullptr,
+                     allocate_namespace).code == st::error::no_memory);
+    CHECK(!f.s.opened && hash_table::bad(&f.s.namespaces));
+    CHECK(st::destroy(&f.s).code == st::error::ok);
+  }
+  fail_namespace_at = 0;
+  CHECK(st::create(&f.s, f.path, 1024, 64, 0, nullptr,
+                   allocate_namespace).code == st::error::ok);
+  CHECK(st::create_namespace(&f.s, B).code == st::error::ok);
+  put(&f.s, B, 20, "remove");
+  CHECK(st::create_namespace(&f.s, A).code == st::error::ok);
+  put(&f.s, A, 10, "old");
+  st::request write{};
+  CHECK(st::prepare_write(&f.s, &write, A, 10, "new", 3, hash("new")).code == st::error::ok);
+  // Erasing the first dense entry moves the last header, whose I/O is pending.
+  CHECK(st::remove_namespace(&f.s, B).code == st::error::ok);
+  CHECK(hash_table::equal{}(f.s.namespaces.entries.begin()->first, A));
+  size_t failed_growths = 0;
+  for (uint64_t i = 100; i < 300; ++i) {
+    const auto count = hash_table::count(&f.s.namespaces);
+    fail_namespace_at = namespace_allocations + 1;
+    auto outcome = st::create_namespace(&f.s, {i, i * 3});
+    if (outcome.code != st::error::ok) {
+      CHECK(outcome.code == st::error::no_memory);
+      ++failed_growths;
+      CHECK(hash_table::count(&f.s.namespaces) == count);
+      CHECK(st::lookup_namespace(&f.s, {i, i * 3}) == st::presence::absent);
+      CHECK(tr::get_full_fingerprint(hash_table::get(&f.s.namespaces, A)) == hash("old"));
+      fail_namespace_at = 0;
+      CHECK(st::create_namespace(&f.s, {i, i * 3}).code == st::error::ok);
+    }
+  }
+  CHECK(failed_growths > 5);
+  fail_namespace_at = 0;
+  CHECK(drive(&write).code == st::error::ok);
+  CHECK(get(&f.s, A, 10) == "new");
+  destroy(&f);
+}
 void reset_and_lock() {
   fixture f; create(&f);
   CHECK(st::create_namespace(&f.s, A).code == st::error::ok);
@@ -242,7 +335,7 @@ void reset_and_lock() {
   CHECK(get(&f.s, A, 1) == "cached");
   CHECK(st::destroy(&other).code == st::error::ok);
   CHECK(st::create(&other, f.path, 0).code == st::error::invalid_argument);
-  CHECK(st::create(&other, f.path, six_byte_mask + 2).code == st::error::invalid_argument);
+  CHECK(st::create(&other, f.path, tr::OFFSET_MASK + 2).code == st::error::invalid_argument);
   CHECK(st::destroy(&f.s).code == st::error::ok);
   CHECK(st::create(&f.s, f.path, 1024).code == st::error::ok);
   struct stat info{};
@@ -290,6 +383,8 @@ void randomized() {
     uint64_t fingerprint = 0;
     for (auto &[k, bytes] : expected) fingerprint ^= hash(bytes);
     auto *index = hash_table::get(&f.s.namespaces, A);
+    CHECK(tr::size(index)==expected.size());
+    tr::validate(index);
     CHECK(tr::get_full_fingerprint(index) == fingerprint);
     uint64_t range = 0;
     for (auto &[k, bytes] : expected) if (k >= 32 && k < 96) range ^= hash(bytes);
@@ -363,6 +458,9 @@ int main() {
   storage_tests::pending_and_replacement();
   storage_tests::failures_and_reuse();
   storage_tests::metadata_failure();
+  storage_tests::index_failure();
+  storage_tests::deletion_failure();
+  storage_tests::namespace_failures_and_relocation();
   storage_tests::reset_and_lock();
   storage_tests::concurrent_records();
   storage_tests::randomized();

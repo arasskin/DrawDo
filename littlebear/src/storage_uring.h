@@ -4,7 +4,8 @@
 
 namespace storage_uring {
 // false leaves a prepared request ready for a later submission attempt.
-inline bool enqueue(io_uring *ring, storage::request *request) {
+// A driver may supply its own completion tag; tests use the request itself.
+inline bool enqueue(io_uring *ring, storage::request *request, void *tag = nullptr) {
   if (request->owner == nullptr || request->state != storage::phase::ready) return false;
   io_uring_sqe *sqe = io_uring_get_sqe(ring);
   if (sqe == nullptr) return false;
@@ -15,10 +16,11 @@ inline bool enqueue(io_uring *ring, storage::request *request) {
     io_uring_prep_write(sqe, operation.fd, operation.buffer, operation.length, operation.offset);
   else
     io_uring_prep_read(sqe, operation.fd, operation.buffer, operation.length, operation.offset);
-  io_uring_sqe_set_data(sqe, request);
+  io_uring_sqe_set_data(sqe, tag ? tag : request);
   return true;
 }
 
+// Default-tag completion only. Custom tags route to storage::complete_io directly.
 // Driver must route only storage CQEs here and mark them seen itself. more_io
 // requests need re-enqueueing; failed io_uring_submit must not free queued buffers.
 inline storage::result complete(const io_uring_cqe *cqe) {

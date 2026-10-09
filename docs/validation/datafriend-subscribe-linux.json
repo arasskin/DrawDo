@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "facts": 1998,
+  "notifications": 5,
+  "connectionsOpened": 3,
+  "subscriberRestarts": 0,
+  "checks": [
+    "persistent multiplexed connection",
+    "server-initiated reconciliation",
+    "absent namespace preservation",
+    "signed empty creation",
+    "no subscriber polling",
+    "paged transfer",
+    "updates during sync",
+    "stale fetch discarded before publication",
+    "unsubscribe isolation",
+    "public reads",
+    "piggybacked challenges",
+    "zero authentication round trips",
+    "framing",
+    "Unicode",
+    "same-key updates",
+    "deletion",
+    "automatic push",
+    "offline edits",
+    "reconnect/resubscribe",
+    "close during I/O"
+  ],
+  "time": "2026-09-28T16:22:03.825859+00:00",
+  "server": "Linux io_uring TCP / Ed25519 writes",
+  "server_sha256": "9a8fc459dc0db7b047eee18d830dbc101cfaab8dea40a1c0615a838ea9a7c4f4"
+}

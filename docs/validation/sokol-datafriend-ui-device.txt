@@ -1,0 +1,64 @@
+--------- beginning of main
+10-08 11:03:44.571  7138  7163 I DrawDoSokol: Ready: Datafriend controls + 96 cell views; database validated
+10-08 11:03:44.573  7138  7163 I DrawDoSokol: frame=1 count=1000 mode=local paused=0 fps=6.3 step_us=1874 moved=80 cells=10 button_builds=7
+10-08 11:03:45.074  7138  7163 I DrawDoSokol: frame=31 count=1000 mode=local paused=0 fps=59.8 step_us=1715 moved=74 cells=9 button_builds=7
+10-08 11:03:46.624  7138  7163 I DrawDoSokol: frame=124 count=1000 mode=local paused=0 fps=60.0 step_us=1721 moved=68 cells=11 button_builds=7
+10-08 11:03:48.667  7138  7163 I DrawDoSokol: frame=246 count=1000 mode=local paused=0 fps=59.5 step_us=5517 moved=61 cells=9 button_builds=7
+10-08 11:03:50.731  7138  7163 I DrawDoSokol: frame=370 count=1000 mode=local paused=0 fps=59.7 step_us=4425 moved=92 cells=11 button_builds=7
+10-08 11:03:52.780  7138  7163 I DrawDoSokol: frame=493 count=1000 mode=local paused=0 fps=60.5 step_us=7211 moved=81 cells=9 button_builds=7
+10-08 11:03:54.829  7138  7163 I DrawDoSokol: frame=616 count=1000 mode=local paused=0 fps=60.1 step_us=6469 moved=78 cells=9 button_builds=7
+10-08 11:03:56.862  7138  7163 I DrawDoSokol: frame=738 count=1000 mode=local paused=0 fps=60.1 step_us=6600 moved=73 cells=9 button_builds=7
+10-08 11:03:58.906  7138  7163 I DrawDoSokol: frame=861 count=1000 mode=local paused=0 fps=60.2 step_us=2767 moved=65 cells=9 button_builds=7
+10-08 11:04:00.949  7138  7163 I DrawDoSokol: frame=983 count=1000 mode=local paused=0 fps=59.5 step_us=6411 moved=63 cells=10 button_builds=7
+10-08 11:04:02.978  7138  7163 I DrawDoSokol: frame=1105 count=1000 mode=local paused=0 fps=59.9 step_us=6253 moved=64 cells=9 button_builds=7
+10-08 11:04:05.010  7138  7163 I DrawDoSokol: frame=1227 count=1000 mode=local paused=0 fps=60.4 step_us=7196 moved=80 cells=9 button_builds=7
+10-08 11:04:07.045  7138  7163 I DrawDoSokol: frame=1349 count=1000 mode=local paused=0 fps=59.9 step_us=6577 moved=70 cells=9 button_builds=7
+10-08 11:04:08.596  7138  7163 I DrawDoSokol: frame=1442 count=1000 mode=local paused=0 fps=60.0 step_us=8292 moved=88 cells=10 button_builds=7
+10-08 11:04:09.110  7138  7163 I DrawDoSokol: frame=1473 count=1000 mode=local paused=0 fps=60.2 step_us=6901 moved=78 cells=8 button_builds=7
+10-08 11:04:10.633  7138  7163 I DrawDoSokol: frame=1564 count=1000 mode=local paused=0 fps=59.6 step_us=9274 moved=90 cells=10 button_builds=7
+10-08 11:04:12.694  7138  7163 I DrawDoSokol: frame=1688 count=1000 mode=local paused=0 fps=60.1 step_us=8318 moved=91 cells=9 button_builds=7
+10-08 11:04:14.747  7138  7163 I DrawDoSokol: frame=1811 count=1000 mode=local paused=0 fps=59.6 step_us=8248 moved=86 cells=9 button_builds=7
+10-08 11:04:16.797  7138  7163 I DrawDoSokol: frame=1934 count=1000 mode=local paused=0 fps=59.6 step_us=8799 moved=99 cells=9 button_builds=7
+10-08 11:04:18.844  7138  7163 I DrawDoSokol: frame=2057 count=1000 mode=local paused=0 fps=59.8 step_us=7926 moved=87 cells=9 button_builds=7
+10-08 11:04:20.876  7138  7163 I DrawDoSokol: frame=2179 count=1000 mode=local paused=0 fps=60.5 step_us=8675 moved=92 cells=9 button_builds=7
+10-08 11:04:22.912  7138  7163 I DrawDoSokol: frame=2301 count=1000 mode=local paused=0 fps=60.0 step_us=11255 moved=88 cells=10 button_builds=7
+10-08 11:04:24.961  7138  7163 I DrawDoSokol: frame=2424 count=1000 mode=local paused=0 fps=59.6 step_us=8131 moved=86 cells=9 button_builds=7
+10-08 11:04:27.008  7138  7163 I DrawDoSokol: frame=2547 count=1000 mode=local paused=0 fps=60.1 step_us=8626 moved=93 cells=9 button_builds=7
+10-08 11:04:29.044  7138  7163 I DrawDoSokol: frame=2669 count=1000 mode=local paused=0 fps=59.6 step_us=9070 moved=120 cells=9 button_builds=7
+10-08 11:04:30.575  7138  7163 I DrawDoSokol: frame=2761 count=1000 mode=local paused=0 fps=60.3 step_us=9099 moved=98 cells=8 button_builds=7
+10-08 11:04:31.090  7138  7163 I DrawDoSokol: frame=2792 count=1000 mode=local paused=0 fps=59.7 step_us=5522 moved=115 cells=9 button_builds=7
+10-08 11:04:32.626  7138  7163 I DrawDoSokol: frame=2884 count=1000 mode=local paused=0 fps=60.3 step_us=9976 moved=108 cells=11 button_builds=7
+10-08 11:04:34.670  7138  7163 I DrawDoSokol: frame=3007 count=1000 mode=local paused=0 fps=60.6 step_us=6706 moved=102 cells=10 button_builds=7
+10-08 11:04:36.705  7138  7163 I DrawDoSokol: frame=3129 count=1000 mode=local paused=0 fps=60.0 step_us=8261 moved=93 cells=9 button_builds=7
+10-08 11:04:38.750  7138  7163 I DrawDoSokol: frame=3252 count=1000 mode=local paused=0 fps=60.1 step_us=4047 moved=95 cells=9 button_builds=7
+10-08 11:04:40.794  7138  7163 I DrawDoSokol: frame=3373 count=1000 mode=local paused=0 fps=59.2 step_us=11444 moved=125 cells=9 button_builds=7
+10-08 11:04:42.843  7138  7163 I DrawDoSokol: frame=3496 count=1000 mode=local paused=0 fps=59.9 step_us=9886 moved=114 cells=9 button_builds=7
+10-08 11:04:44.884  7138  7163 I DrawDoSokol: frame=3618 count=1000 mode=local paused=0 fps=58.6 step_us=10976 moved=127 cells=9 button_builds=7
+10-08 11:04:46.927  7138  7163 I DrawDoSokol: frame=3741 count=1000 mode=local paused=0 fps=60.2 step_us=8912 moved=124 cells=9 button_builds=7
+10-08 11:04:48.972  7138  7163 I DrawDoSokol: frame=3864 count=1000 mode=local paused=0 fps=60.1 step_us=10044 moved=111 cells=9 button_builds=7
+10-08 11:04:50.990  7138  7163 I DrawDoSokol: frame=3985 count=1000 mode=local paused=0 fps=59.6 step_us=9512 moved=104 cells=9 button_builds=7
+10-08 11:04:53.026  7138  7163 I DrawDoSokol: frame=4106 count=1000 mode=local paused=0 fps=59.7 step_us=11765 moved=124 cells=10 button_builds=7
+10-08 11:04:55.070  7138  7163 I DrawDoSokol: frame=4229 count=1000 mode=local paused=0 fps=61.0 step_us=9864 moved=109 cells=8 button_builds=7
+10-08 11:04:56.606  7138  7163 I DrawDoSokol: frame=4321 count=1000 mode=local paused=0 fps=60.4 step_us=13138 moved=145 cells=10 button_builds=7
+10-08 11:04:57.121  7138  7163 I DrawDoSokol: frame=4352 count=1000 mode=local paused=0 fps=60.0 step_us=11432 moved=132 cells=9 button_builds=7
+10-08 11:04:58.636  7138  7163 I DrawDoSokol: frame=4443 count=1000 mode=local paused=0 fps=60.7 step_us=10888 moved=133 cells=9 button_builds=7
+10-08 11:04:58.653  7138  7163 I DrawDoSokol: Action: button=6 edit_us=654 rebuilt_buttons=1 count=1000 paused=1 local=1
+10-08 11:04:59.127  7138  7163 I DrawDoSokol: frame=4473 count=1000 mode=local paused=1 fps=59.8 step_us=10888 moved=133 cells=9 button_builds=8
+10-08 11:04:59.967  7138  7163 I DrawDoSokol: Action: button=3 edit_us=55697 rebuilt_buttons=4 count=3000 paused=1 local=1
+10-08 11:05:00.660  7138  7163 I DrawDoSokol: frame=4563 count=3000 mode=local paused=1 fps=60.0 step_us=0 moved=0 cells=0 button_builds=12
+10-08 11:05:01.175  7138  7163 I DrawDoSokol: frame=4594 count=3000 mode=local paused=1 fps=60.1 step_us=0 moved=0 cells=0 button_builds=12
+10-08 11:05:01.299  7138  7163 I DrawDoSokol: Action: button=0 edit_us=56732 rebuilt_buttons=4 count=100 paused=1 local=1
+10-08 11:05:02.575  7138  7163 I DrawDoSokol: Action: button=5 edit_us=1042 rebuilt_buttons=2 count=100 paused=1 local=0
+10-08 11:05:02.678  7138  7163 I DrawDoSokol: frame=4682 count=100 mode=all paused=1 fps=60.0 step_us=0 moved=0 cells=0 button_builds=18
+10-08 11:05:03.178  7138  7163 I DrawDoSokol: frame=4712 count=100 mode=all paused=1 fps=60.0 step_us=0 moved=0 cells=0 button_builds=18
+10-08 11:05:03.877  7138  7163 I DrawDoSokol: Action: button=6 edit_us=504 rebuilt_buttons=1 count=100 paused=0 local=0
+10-08 11:05:04.719  7138  7163 I DrawDoSokol: frame=4804 count=100 mode=all paused=0 fps=59.9 step_us=8906 moved=100 cells=64 button_builds=19
+10-08 11:05:05.182  7138  7163 I DrawDoSokol: Action: button=1 edit_us=6123 rebuilt_buttons=4 count=300 paused=0 local=0
+10-08 11:05:06.493  7138  7163 I DrawDoSokol: Action: button=4 edit_us=469 rebuilt_buttons=2 count=300 paused=0 local=1
+10-08 11:05:06.761  7138  7163 I DrawDoSokol: frame=4922 count=300 mode=local paused=0 fps=59.8 step_us=3832 moved=33 cells=9 button_builds=25
+10-08 11:05:07.269  7138  7163 I DrawDoSokol: frame=4952 count=300 mode=local paused=0 fps=59.5 step_us=8077 moved=32 cells=9 button_builds=25
+10-08 11:05:07.791  7138  7163 I DrawDoSokol: Action: button=2 edit_us=19056 rebuilt_buttons=4 count=1000 paused=0 local=1
+10-08 11:05:08.830  7138  7163 I DrawDoSokol: frame=5046 count=1000 mode=local paused=0 fps=60.0 step_us=7567 moved=82 cells=10 button_builds=29
+10-08 11:05:10.864  7138  7163 I DrawDoSokol: frame=5168 count=1000 mode=local paused=0 fps=59.9 step_us=8347 moved=92 cells=9 button_builds=29
+10-08 11:05:11.080  7138  7163 I DrawDoSokol: Suspend: database and controls validated
+10-08 11:05:13.755  7138  7163 I DrawDoSokol: frame=5305 count=1000 mode=local paused=0 fps=60.0 step_us=1852 moved=70 cells=9 button_builds=29

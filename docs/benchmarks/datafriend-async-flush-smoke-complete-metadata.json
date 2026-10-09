@@ -1,0 +1,83 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "arguments": {
+    "flutter": "flutter",
+    "skip_build": true,
+    "smoke": true,
+    "rounds": 3,
+    "samples": 30,
+    "warmup": 5,
+    "output_prefix": "datafriend-async-flush-smoke-complete"
+  },
+  "runs": [
+    {
+      "name": "store-asynchronous-7-0",
+      "config": {
+        "engine": "datafriend",
+        "count": 7,
+        "durability": "asynchronous",
+        "mode": "store",
+        "samples": 3,
+        "warmup": 2,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-5ss8c426/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-smoke-complete-runs/store-asynchronous-7-0.json"
+      },
+      "started_unix": 1790550674.962195,
+      "elapsed_seconds": 1.3850951194763184,
+      "load_average": [
+        3.0966796875,
+        3.61279296875,
+        3.89208984375
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:11:15.674 datafriend_todo_lab[21951:153315920] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-asynchronous-1000-0",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "asynchronous",
+        "mode": "frames",
+        "samples": 3,
+        "warmup": 2,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-6odk01xr/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-smoke-complete-runs/frames-asynchronous-1000-0.json"
+      },
+      "started_unix": 1790550676.3495848,
+      "elapsed_seconds": 2.036182165145874,
+      "load_average": [
+        3.0888671875,
+        3.6025390625,
+        3.88671875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:11:16.441 datafriend_todo_lab[21994:153316090] Running with merged UI and platform thread. Experimental.\n"
+    }
+  ],
+  "scope": "Datafriend only, Flutter macOS Release. Async = MDB_NOSYNC plus a 100 ms coalescing flush worker; synchronous = per-commit sync; buffered = no automatic flush. All cases explicitly flush and verify reopen outside edit timers. Paced edits sleep 16 ms before the action; UI cases pause 250 ms after end-of-frame. Frame-start and end callbacks separate scheduling wait from framework frame work; update build/raster durations are matched by engine frame number. No network.",
+  "source_sha256": {
+    "src/todo_demo/lib/change.dart": "9b95d020000098d670f32da81e0f49caed233bc0928ad12d6acdcd2c32cc8bc4",
+    "src/todo_demo/lib/stores.dart": "08c50d9330ec8760c9b80629ba586d520e2e5dd5830cf839ce976918f745afb6",
+    "src/todo_demo/lib/main.dart": "b3b78aaa94cf63c1398ae86b4e90b3a06dcb055faaae55c73917c0729d11a4e0",
+    "src/todo_demo/lib/benchmark.dart": "2257bd2e7211de00069d533b83c2e8cedd07c2b94d8bcd0fdf9a17993c0a659f",
+    "src/todo_demo/lib/todo_screen.dart": "ebf9871dae74aaed55c6fac32616926349bceb175ca7ccea39b3e3a8e016ad16",
+    "src/todo_demo/pubspec.lock": "7662472b2d67fb951f74356a7f3e29a612246ab550b91ee5d3c1cdfbe21f47e3",
+    "src/todo_demo/tool/run_flush_benchmarks.py": "08dfb2f67e0d48bd2c966c71f8895e21dab91d89c16b44e799c3238c9d468dca",
+    "src/app/lib/data/datafriend.dart": "d6e0d7a8483a0cea53ba64f93123a6c945ab7b27013664e0f1877a45da8e317b",
+    "src/app/lib/data/app_views.dart": "d8e8c1aafc64e36839021db2ef42cce16272068bee207b46359f8e911e6b1625",
+    "src/datafriend/native/engine.cpp": "67de959d7a1a4563f7d14922c33b766502221e763b5ad8ba6b08a3cda3c6098c",
+    "src/datafriend/native/async_flush.h": "b5bd48d8050536d6832685ddf90fd7e178260748f7c0cc5912abda6d1d4017ba",
+    "src/datafriend/native/c_api.cpp": "db6fd7aa6310ae6e997114b214c9c99c597299ea72f25abe15da61b13bf99a32",
+    "src/datafriend/include/datafriend/engine.h": "854172aa834960f9f94b52ae36c4f8a14df2d5c1594fefa144d04fdca4a3eee5"
+  },
+  "binary_sha256": {
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/MacOS/datafriend_todo_lab": "447210e220532c8bfd123d89c141c3381b0b28810e193abaf69cb66a6dc0bbd5",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/libdatafriend.dylib": "e331378ce0b0dc3a071ea8efc483caaf4d7d4240ea166db38418d2a75bb7bf6c",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/App.framework/Versions/A/App": "e17c02365dbe244a0cd1a75c410c1e2d86c5a02132377f1bdfce40359d6daf89"
+  }
+}

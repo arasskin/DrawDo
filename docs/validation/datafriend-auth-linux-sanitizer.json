@@ -1,0 +1,33 @@
+{
+  "status": "pass",
+  "facts": 1998,
+  "notifications": 4,
+  "pushExchanges": 2,
+  "wireBytes": 70172,
+  "checks": [
+    "plain TCP with Ed25519 owner writes",
+    "no challenge on reads or equal pushes",
+    "signed empty namespace creation",
+    "multiple signed pages with one challenge",
+    "fragmented/coalesced frames",
+    "oversized-frame rejection",
+    "absent namespace preservation",
+    "Unicode",
+    "same-key updates",
+    "deletion",
+    "notifications",
+    "offline edits",
+    "cache restart",
+    "automatic scheduling",
+    "close during I/O"
+  ],
+  "time": "2026-09-28T15:20:30.485625+00:00",
+  "server": "Linux io_uring TCP / Ed25519 writes",
+  "server_sha256": "b1beff5b8d1a68b8b38198cff0b67da8ded687a54b5c24dfe72d2f6585d602da",
+  "container": {
+    "cpus": 1,
+    "memory_mib": 256
+  },
+  "authentication": "Ed25519 namespace ownership; challenge requested at first write; nonce and sequence per connection",
+  "paged_payload_bytes": 9600000
+}

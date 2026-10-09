@@ -1,0 +1,60 @@
+{
+  "started": 1791494854.129568,
+  "args": {
+    "serial": "ZY227364TP",
+    "adb": "/Users/alex/Library/Android/sdk/platform-tools/adb",
+    "counts": [
+      1000
+    ],
+    "cases": [
+      "filter"
+    ],
+    "rounds": 1,
+    "frames": 120,
+    "warmup": 60,
+    "prefix": "datafriend-layout-smoke"
+  },
+  "device": "moto g(7)\n",
+  "apk_sha256": "500c159ff0d82d0c15c58d37984372e36543978f4b852c6b3a4cd537dd917568",
+  "sources_sha256": {
+    "demo-app/src/datafriend_ui.h": "c8cbd25d4861b33a01fb2dce3ad290228fabf68bcac929b7da5f145f29b6ea1a",
+    "demo-app/src/main.cpp": "639665c90cb1bf98f26b639173178c8d812847686cb45e5950198ac1102d40bc",
+    "demo-app/src/particle_model.h": "c0a3e9438c90248ca4b6f6f462fc369f8a4076a282d3c34b19b2f21c63bb2cc4",
+    "demo-app/src/particle_simulation.h": "7adee00c2b2caf24548273ca7af44243c0b972ffc54ff8c7daa1efeb0642da46",
+    "demo-app/src/platform/android/text.cpp": "e6c0c7fe3a44692e21b275ad09bb508bbddcbe90f0c6dfe8ca58fbc71c942e4e",
+    "demo-app/src/platform/android/text_input.cpp": "60e11ea3b217314fb7a4beefb5dd8095c177380f309f830425010312162a936f",
+    "demo-app/src/platform/text_input.h": "b56448658a034f07aa68f28dad2fda5f5f950229a4ea471e85e79a15d497b441",
+    "demo-app/src/profiling/metrics.h": "9226ffa99b2cceeffd59e36cdb4fb0e7390e4947123486afc155bd5be92ec14c",
+    "demo-app/src/profiling/task_benchmark.h": "13732a606ce97745cab0ee6bd16bfbfa072507a81ffc5b69cfbebb2b5efa26b8",
+    "demo-app/src/render/shaders.glsl": "4255788bde64b89429dbdd45504c7ea2c1adafe2408b37e6b25ad9b8039c8c4b",
+    "demo-app/src/render/shaders.h": "9bc3919b6f5afccab5e45aed433b4fdf3fe90d9efb3ff40212df15cdaec302fd",
+    "demo-app/src/render/shaders.json": "44979ac746c5adc5b8632669d5114ff45138e18892239446dc4f84565a36683a",
+    "demo-app/src/render/sokol_backend.cpp": "90ce25b75605e359e39d47741db5d2b94ea9c32720a5b2bff57d17f3185d81fd",
+    "demo-app/src/render/text.h": "59ba83cf8552a2901a1d992e616399129360aef135f3d5581ad806d3973eb56c",
+    "demo-app/src/render/text_cache.h": "cc3b1e7318179cd58fef9ee6e7f678bdb635016ce0dc34daec54cf83cd544e27",
+    "demo-app/src/task_model.h": "40b659177916a59556e17b1d38a47f96117041264941574d938c30d8e31e1e37",
+    "demo-app/src/task_screen.h": "90c7a531ca409057aeb8788cabde7d85c29db27240c2b0303a03428c96db1413",
+    "datafriend/src/engine.cpp": "f6b3077599c5ef97757b750ee2a6883c76f85865f820bc21a4fd7e40c4568330",
+    "demo-app/tools/profile_tasks.py": "c5598f8cdae34fc2077420cc1061c41d08be4d66da3f47397d80f87d7ded941e"
+  },
+  "scope": "real Sokol/GLES frames, optimized native engine, async disk flush, no network; automatic actions on the app thread, not Android input delivery or IME timing; EGL display-present timestamps",
+  "runs": [
+    {
+      "name": "1000-filter-1",
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2835040\n  status: 5\n  health: 2\n  present: true\n  level: 100\n  scale: 100\n  voltage: 4302\n  temperature: 290\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=37.800003, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=37.800003, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=37.800003, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=37.800003, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=36.800003, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=36.100002, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=36.100002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=35.800003, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=37.100002, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=29.000002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=33.137, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "4.07 4.08 4.04 2/2570 22408\n",
+        "frequencies": "1363200\n633600\n"
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2835040\n  status: 5\n  health: 2\n  present: true\n  level: 100\n  scale: 100\n  voltage: 4302\n  temperature: 290\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=38.100002, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=38.100002, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=38.100002, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=38.100002, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=37.100002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=36.100002, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=36.100002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=35.800003, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=37.4, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=29.000002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=33.431, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "4.07 4.08 4.04 1/2583 22497\n",
+        "frequencies": "1363200\n1094400\n"
+      },
+      "checks": "passed"
+    }
+  ],
+  "finished": 1791494859.3082309
+}

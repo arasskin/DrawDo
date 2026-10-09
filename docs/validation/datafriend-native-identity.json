@@ -1,0 +1,43 @@
+{
+  "time": "2026-09-28T15:54:04.107217+00:00",
+  "crypto": "Monocypher 4.0.3, RFC 8032 Ed25519",
+  "native_tests": "6/6 passed",
+  "flutter_app_tests": "34/34 passed",
+  "flutter_demo_tests": "7/7 passed",
+  "android": {
+    "device": "Moto G7 / Android 10",
+    "checks": [
+      "secure create/reopen",
+      "AES-GCM ciphertext tampering rejected",
+      "missing ciphertext rejected without namespace rotation",
+      "restored ciphertext recovers original identity",
+      "separate-process restart preserves namespace"
+    ],
+    "process_restart_public_namespace": "26a6c9f2d30a0c5e2d6d83a7327538388280af2eb59dbb82abafa7403c39ab86"
+  },
+  "ios": {
+    "device": "iPhone 17 Pro simulator / iOS 26",
+    "checks": [
+      "packaged CocoaPods native build",
+      "Keychain create/reopen",
+      "opaque native identity lifecycle"
+    ]
+  },
+  "interop_report": "datafriend-native-identity-network.json",
+  "limitations": [
+    "Persistent key storage supported on Apple and Android only",
+    "Software Ed25519 signing uses Datafriend memory; not non-exportable hardware signing",
+    "No recovery/export/migration interface",
+    "Physical iOS device not tested"
+  ],
+  "source_sha256": {
+    "src/datafriend/native/identity.cpp": "c95713a3cbf1cf04568986b4d430002eb20014730865a6ca666c937ab79cdd3c",
+    "src/datafriend/native/identity_apple.cpp": "d8d6b2542e34fc02722da2ab56fb77988d0122bd099fe590a68e80c948c78e06",
+    "src/datafriend/native/identity_android.cpp": "f8a567b9033c1cde40ce4d753e1b97313669e85a8496f91eeb4336b20eaf5e93",
+    "src/datafriend/android/src/main/java/dev/drawdo/datafriend/IdentityStore.java": "7c05ad99ea7c49ba25e1c009584f010fd4dd833137720a93f0c3f98908e6e1ec"
+  },
+  "sanitizers": {
+    "linux": "ASan/UBSan native identity test passed with leak detection enabled",
+    "macos": "ASan runtime initialization deadlocked before main; stack sample traced recursive allocation while initializing shadow memory. Replaced by Linux validation."
+  }
+}

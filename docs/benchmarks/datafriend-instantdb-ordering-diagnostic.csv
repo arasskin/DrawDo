@@ -1,0 +1,12 @@
+engine,entities,durable,round,mode,workload,metric,samples,p50,p95,max,mean
+datafriend,100,False,1,store,toggle_visible,call_us,30,68.5,253,306,93.96666666666667
+datafriend,100,False,1,store,toggle_visible,commit_us,30,68.5,253,306,94
+datafriend,100,False,1,store,toggle_visible,publish_us,30,67.5,252,305,93.46666666666667
+datafriend,100,False,1,store,toggle_visible,read_us,30,10.0,21,1767,68.63333333333334
+datafriend,100,False,1,store,toggle_full,call_us,30,78.5,2274,4553,338.03333333333336
+datafriend,100,False,1,store,toggle_full,commit_us,30,79.0,2274,4553,338.26666666666665
+datafriend,100,False,1,store,toggle_full,publish_us,30,78.0,2271,4546,337.1333333333333
+datafriend,100,False,1,store,toggle_full,read_us,30,23.0,45,55,25.566666666666666
+datafriend,100,False,1,store,cached_full,read_us,1000,7.0,11,218,8.412
+datafriend,100,False,1,store,lifecycle,setup_us,1,18337,18337,18337,18337
+datafriend,100,False,1,store,lifecycle,reopen_read_us,1,1840,1840,1840,1840

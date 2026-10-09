@@ -1,0 +1,913 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "arguments": {
+    "flutter": "flutter",
+    "skip_build": true,
+    "rounds": 3,
+    "samples": 20,
+    "warmup": 5,
+    "output_prefix": "datafriend-pure-flutter",
+    "baseline_app": null,
+    "baseline_engine_source": null,
+    "uis": [
+      "flutter",
+      "rows"
+    ],
+    "workloads": [
+      "toggle",
+      "title",
+      "order"
+    ]
+  },
+  "runs": [
+    {
+      "name": "flutter-toggle-100-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-rdaaomwx/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-toggle-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.637605667114258,
+      "started_unix": 1790559195.6876092,
+      "load_average": [
+        4.18603515625,
+        4.24169921875,
+        4.11083984375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:33:16.574 datafriend_todo_lab[33383:153837503] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-title-100-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "title",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-btdkc3rm/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-title-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.103989124298096,
+      "started_unix": 1790559204.327544,
+      "load_average": [
+        3.85595703125,
+        4.16748046875,
+        4.08544921875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:33:24.449 datafriend_todo_lab[33579:153837967] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-order-100-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "order",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-w5nmqsab/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-order-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.110166788101196,
+      "started_unix": 1790559212.433849,
+      "load_average": [
+        4.5078125,
+        4.29736328125,
+        4.13134765625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:33:32.566 datafriend_todo_lab[33774:153839018] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-100-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-2fycxhp0/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-toggle-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.9420552253723145,
+      "started_unix": 1790559220.548487,
+      "load_average": [
+        3.9677734375,
+        4.18798828125,
+        4.09423828125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:33:40.684 datafriend_todo_lab[33972:153840078] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-100-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-ysspsgkw/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-title-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.123805284500122,
+      "started_unix": 1790559228.493949,
+      "load_average": [
+        4.13037109375,
+        4.2177734375,
+        4.10498046875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:33:48.624 datafriend_todo_lab[34158:153841118] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-100-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-4d4cjb8r/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-order-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.134575843811035,
+      "started_unix": 1790559236.619501,
+      "load_average": [
+        5.09326171875,
+        4.42333984375,
+        4.17919921875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:33:56.740 datafriend_todo_lab[34358:153842188] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-toggle-1000-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-r8es157l/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-toggle-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.857731819152832,
+      "started_unix": 1790559244.7573152,
+      "load_average": [
+        4.54345703125,
+        4.32666015625,
+        4.1474609375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:34:04.878 datafriend_todo_lab[34554:153843251] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-title-1000-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "title",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-j1ep_t6n/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-title-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.137202978134155,
+      "started_unix": 1790559252.6238751,
+      "load_average": [
+        4.25927734375,
+        4.27099609375,
+        4.12890625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:34:12.764 datafriend_todo_lab[34739:153844995] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-order-1000-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "order",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-vhh0vigd/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-order-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.11751413345337,
+      "started_unix": 1790559260.763099,
+      "load_average": [
+        3.9853515625,
+        4.2119140625,
+        4.109375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:34:20.890 datafriend_todo_lab[34936:153846050] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-1000-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-oklmqg4j/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-toggle-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.860215902328491,
+      "started_unix": 1790559268.885528,
+      "load_average": [
+        3.826171875,
+        4.1748046875,
+        4.0966796875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:34:29.012 datafriend_todo_lab[35121:153847097] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-1000-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-110irojs/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-title-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.09558391571045,
+      "started_unix": 1790559276.747478,
+      "load_average": [
+        4.29443359375,
+        4.2666015625,
+        4.1298828125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:34:36.848 datafriend_todo_lab[35316:153848145] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-1000-1",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-_me15y9y/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-order-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.137670755386353,
+      "started_unix": 1790559284.8448782,
+      "load_average": [
+        4.16845703125,
+        4.24072265625,
+        4.1220703125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:34:44.956 datafriend_todo_lab[35510:153849200] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-1000-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-th2pnvkw/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-toggle-1000-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.831023931503296,
+      "started_unix": 1790559292.9846551,
+      "load_average": [
+        3.91455078125,
+        4.1865234375,
+        4.103515625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:34:53.092 datafriend_todo_lab[35697:153850276] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-1000-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-lsjjiu55/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-title-1000-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.148224115371704,
+      "started_unix": 1790559300.818275,
+      "load_average": [
+        3.7802734375,
+        4.14697265625,
+        4.08984375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:00.942 datafriend_todo_lab[35886:153851334] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-1000-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-c6h62_qo/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-order-1000-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.148280143737793,
+      "started_unix": 1790559308.9690628,
+      "load_average": [
+        3.7177734375,
+        4.1279296875,
+        4.0830078125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:09.098 datafriend_todo_lab[36089:153852410] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-toggle-1000-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-wzigd_5f/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-toggle-1000-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.773371934890747,
+      "started_unix": 1790559317.120229,
+      "load_average": [
+        4.7119140625,
+        4.3349609375,
+        4.15771484375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:17.231 datafriend_todo_lab[36271:153853468] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-title-1000-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "title",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-goa3cf_l/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-title-1000-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.103195905685425,
+      "started_unix": 1790559324.894947,
+      "load_average": [
+        4.36181640625,
+        4.2734375,
+        4.13818359375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:24.998 datafriend_todo_lab[36468:153854532] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-order-1000-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "order",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-bdfr9abr/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-order-1000-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.11562705039978,
+      "started_unix": 1790559332.999715,
+      "load_average": [
+        4.49267578125,
+        4.3017578125,
+        4.14892578125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:33.116 datafriend_todo_lab[36716:153855809] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-100-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-xp5ub9j3/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-toggle-100-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.863619089126587,
+      "started_unix": 1790559341.1182091,
+      "load_average": [
+        4.1826171875,
+        4.24169921875,
+        4.12939453125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:41.248 datafriend_todo_lab[36915:153856912] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-100-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-cot__bix/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-title-100-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.130256175994873,
+      "started_unix": 1790559348.983635,
+      "load_average": [
+        4.0078125,
+        4.2041015625,
+        4.11669921875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:49.113 datafriend_todo_lab[37087:153858025] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-100-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-oy0vye5k/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-order-100-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.134306192398071,
+      "started_unix": 1790559357.122784,
+      "load_average": [
+        3.83935546875,
+        4.16357421875,
+        4.10302734375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:35:57.249 datafriend_todo_lab[37283:153859114] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-toggle-100-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-olzbz2s_/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-toggle-100-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.7823591232299805,
+      "started_unix": 1790559365.2603788,
+      "load_average": [
+        3.64892578125,
+        4.10888671875,
+        4.083984375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:36:05.393 datafriend_todo_lab[37481:153860202] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-title-100-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "title",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-07zo2epf/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-title-100-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.107628107070923,
+      "started_unix": 1790559373.044587,
+      "load_average": [
+        3.4365234375,
+        4.05712890625,
+        4.0654296875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:36:13.154 datafriend_todo_lab[37667:153861247] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-order-100-2",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "order",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-kfecp_4c/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-order-100-2.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.141105890274048,
+      "started_unix": 1790559381.154628,
+      "load_average": [
+        3.3017578125,
+        4.005859375,
+        4.046875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:36:21.279 datafriend_todo_lab[37863:153862340] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-toggle-100-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-2_dx8tdu/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-toggle-100-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.809984922409058,
+      "started_unix": 1790559389.299158,
+      "load_average": [
+        3.517578125,
+        4.03857421875,
+        4.05810546875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:36:29.432 datafriend_todo_lab[38047:153863419] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-title-100-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "title",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-704afb5k/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-title-100-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.114668130874634,
+      "started_unix": 1790559397.111189,
+      "load_average": [
+        4.033203125,
+        4.134765625,
+        4.091796875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:36:37.240 datafriend_todo_lab[38232:153864485] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-order-100-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "order",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-7657_16k/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-order-100-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.116453170776367,
+      "started_unix": 1790559405.227548,
+      "load_average": [
+        3.81298828125,
+        4.0810546875,
+        4.07275390625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:36:45.361 datafriend_todo_lab[38417:153865547] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-100-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-ynbg6rhm/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-toggle-100-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.771694183349609,
+      "started_unix": 1790559413.345713,
+      "load_average": [
+        3.58740234375,
+        4.02978515625,
+        4.0546875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:36:53.446 datafriend_todo_lab[38615:153866621] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-100-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-ltxcvygb/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-title-100-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.143427848815918,
+      "started_unix": 1790559421.1236842,
+      "load_average": [
+        3.33642578125,
+        3.9619140625,
+        4.0302734375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:01.256 datafriend_todo_lab[38802:153867776] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-100-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 100,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-yp7d2v0k/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-order-100-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.15499496459961,
+      "started_unix": 1790559429.2701519,
+      "load_average": [
+        3.86962890625,
+        4.06201171875,
+        4.06494140625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:09.400 datafriend_todo_lab[38998:153868833] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-toggle-1000-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-sgbz_bq4/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-toggle-1000-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.833104848861694,
+      "started_unix": 1790559437.427211,
+      "load_average": [
+        4.1103515625,
+        4.1083984375,
+        4.08154296875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:17.572 datafriend_todo_lab[39183:153869912] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-title-1000-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "title",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-u58q462w/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-title-1000-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.128480911254883,
+      "started_unix": 1790559445.264721,
+      "load_average": [
+        4.560546875,
+        4.20361328125,
+        4.115234375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:25.408 datafriend_todo_lab[39371:153871021] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "flutter-order-1000-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "flutter",
+        "workload": "order",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-tv8p4tkj/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/flutter-order-1000-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.129871845245361,
+      "started_unix": 1790559453.39753,
+      "load_average": [
+        4.275390625,
+        4.150390625,
+        4.0966796875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:33.529 datafriend_todo_lab[39556:153872116] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-1000-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-ya5nb7mh/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-toggle-1000-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 7.809870004653931,
+      "started_unix": 1790559461.531734,
+      "load_average": [
+        3.9921875,
+        4.0947265625,
+        4.0771484375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:41.664 datafriend_todo_lab[39753:153873198] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-1000-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-z7xmyv7l/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-title-1000-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.123108148574829,
+      "started_unix": 1790559469.3434,
+      "load_average": [
+        3.83251953125,
+        4.0595703125,
+        4.06494140625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:49.442 datafriend_todo_lab[39935:153874247] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-1000-3",
+      "engine": "current",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 1000,
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-ricqeq4b/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-pure-flutter-runs/rows-order-1000-3.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 8.169906854629517,
+      "started_unix": 1790559477.468867,
+      "load_average": [
+        4.607421875,
+        4.220703125,
+        4.1220703125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:37:57.597 datafriend_todo_lab[40133:153875341] Running with merged UI and platform thread. Experimental.\n"
+    }
+  ],
+  "scope": "macOS Release. Datafriend uses async flush; flutter is in-memory screen-owned setState, no database. Checkbox callbacks for toggle; direct triple edits or State methods for title/order. Flutter recomputes filtering, sorting and completion count during build. Bulk uses the previous full-list query; rows uses order-only list plus mounted row queries. Counter query shared by both. 30 measured edits after 5 warmups by default, 250 ms pause after each frame. Actual edited frame build/raster matched by engine frame number. Bulk and rows have identical visual layout. App builder callbacks counted; per-action row rebuild scope checked. No network; seed, lookup, checks and close/reopen outside timers.",
+  "source_sha256": {
+    "src/todo_demo/lib/change.dart": "9b95d020000098d670f32da81e0f49caed233bc0928ad12d6acdcd2c32cc8bc4",
+    "src/todo_demo/lib/build_probe.dart": "66f3db929aba9e453d157fd27c2f170a9b714c95e8c4a217adb2446856371a35",
+    "src/todo_demo/lib/stores.dart": "08c50d9330ec8760c9b80629ba586d520e2e5dd5830cf839ce976918f745afb6",
+    "src/todo_demo/lib/database.dart": "886d3a60e367d9c2b14a3ab8a380fea3352e2b0b7a8973cffd79e5130bd1b283",
+    "src/todo_demo/lib/main.dart": "7c2cd20ce942f0ae705aedec7498fe38460c4ae1952f19707cab5f02cc4c848e",
+    "src/todo_demo/lib/widget_benchmark.dart": "3253d9f6278bd99032aa9b8153a273384577a8a5e8e142d0aaa58fefe70a1532",
+    "src/todo_demo/lib/pure_flutter_screen.dart": "f257c3f0eab18b9fec33d271c2e1184edc592efd5f2ed983566ff8a07675a9de",
+    "src/todo_demo/lib/comparison_screen.dart": "331228e858b86f16b5148a2ef585eb948405017cfa6627d176ae263934ddeee4",
+    "src/todo_demo/lib/benchmark.dart": "75bae89da263c3d453832409da59d564b2d62c6801cfb86b1faecb0b567deae9",
+    "src/todo_demo/lib/todo_screen.dart": "d885524e24f964f8b13b53f865d86bb54ffbd20ff2427ae61c974d059e8717d8",
+    "src/todo_demo/lib/bulk_query_screen.dart": "4108a65bfd7592c7f44dc3ee448bd5e2bbcd51af60d783c675ce1f05b28fa8b9",
+    "src/todo_demo/tool/run_widget_benchmarks.py": "eeec8b294cf8aacd42e4a8c49a5d00ab699f7ee81e0ab2b774948a115817ef91",
+    "src/app/lib/data/datafriend_builder.dart": "77c50a2031c0cf52ef2ca9970b11a927fe853b7d7a6beab344022903e165c196",
+    "src/app/lib/data/datafriend.dart": "db35a07f27d3b310c5ee6ac646e752ffdcbef37694bb89d462d4ad0773a33d83",
+    "src/app/lib/data/app_views.dart": "686ddb001967d11eeb0419784deae46d7b43370fc0e0ec5cad2a9b31090efc7e",
+    "src/datafriend/native/engine.cpp": "77c51b446b1bdb66cd67e20f0f483779fb4979a83dc07208dd69d22295c4687e",
+    "src/datafriend/native/async_flush.h": "b5bd48d8050536d6832685ddf90fd7e178260748f7c0cc5912abda6d1d4017ba"
+  },
+  "binary_sha256": {
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/MacOS/datafriend_todo_lab": "80fa68911501a38fe01cdbccb3fb0e48804e8a297647a82bd5cf1bb2fbee485f",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/libdatafriend.dylib": "2a3d9741b785d0264ba37ed79f2aa47acd0252951beac0d0d048b500dee16e2c",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/App.framework/Versions/A/App": "47afe654e0057c115b273d9d79cfdd557a6c196a02d2d65b8122eed91035939d"
+  }
+}

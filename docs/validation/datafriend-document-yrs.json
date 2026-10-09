@@ -1,0 +1,29 @@
+{
+  "implementation": "Yrs 0.24.0 / V2 snapshots / library-default client IDs",
+  "tests": {
+    "datafriend": "5 passed",
+    "demo": "5 passed",
+    "public_document_tcp": "passed; 1000-char seed, concurrent offline replacements, stale editor",
+    "schema_upgrade": "previous exact schema opens existing task stores; incompatible formats rejected"
+  },
+  "server": {
+    "host": "147.182.181.182",
+    "port": 7777,
+    "binary_sha256": "471985b151b4080ef63cee2faaa92c19d255110d6c516068d08c61cfbb313d11",
+    "release": "d891d8b86795aafed8162f71644356c67e040b4e-20261008-2",
+    "build": "local working tree; not a GitHub Actions run",
+    "health": "passed"
+  },
+  "binaries": {
+    "demo-app/build/android/drawdo-sokol.apk": "3255f160192ff8cd1267cf8ace6335b63638227c05632efb53d3fad6e5c6d709",
+    "demo-app/build/ios/Release-iphoneos/drawdo_sokol.app/drawdo_sokol": "6b28cf1ed927969244b432e3c00664f3e8644f7d5bf2bc52e3e3d97f02c13800"
+  },
+  "workflow": {
+    "github_state": "active",
+    "last_verified_successful_push": "https://github.com/arasskin/DrawDo/actions/runs/36254875520",
+    "local_changes": "tested binary artifact, legacy executable wrapper, pre-switch architecture check; not committed/pushed"
+  },
+  "phone_run": "docs/benchmarks/datafriend-document-yrs/d1abe2a2199c41d98b049d4c6870681a-summary.json",
+  "phone_result": "PASS: 134/134 edits acknowledged, equal text/edit counts, one UI fact, no errors, settled, full presentation coverage; Android one >25ms gap",
+  "interactive_room": "yrs-document-demo"
+}

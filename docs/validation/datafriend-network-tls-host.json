@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "facts": 1998,
+  "notifications": 4,
+  "pushExchanges": 2,
+  "wireBytes": 69879,
+  "checks": [
+    "TLS trust",
+    "fragmented/coalesced frames",
+    "oversized-frame rejection",
+    "absent namespace preservation",
+    "namespace auth",
+    "read/write authorization",
+    "Unicode",
+    "same-key updates",
+    "deletion",
+    "notifications",
+    "offline edits",
+    "cache restart",
+    "automatic scheduling",
+    "close during I/O"
+  ],
+  "time": "2026-09-28T14:36:38.024153+00:00",
+  "server": "portable host",
+  "server_sha256": "5bf76825d6f68f018f34b79c0b2ec1909d6896ebb8d9ff4544ddf0eb60ca5033"
+}

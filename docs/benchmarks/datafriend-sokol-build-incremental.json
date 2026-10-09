@@ -1,0 +1,30 @@
+{
+  "phases_seconds": {
+    "native": 2.0763038750000002,
+    "java_dex": 0.000736083000000054,
+    "resources": 0.0004352919999996985,
+    "package_sign_verify": 0.6148328329999999,
+    "install": 4.261859,
+    "launch": 0.4284085829999995
+  },
+  "apk": "/Users/alex/DrawDo/src/app/build/sokol-android/drawdo-sokol.apk",
+  "apk_bytes": 2982588,
+  "apk_sha256": "a2097bb54e8854eb7d06803cd43ce8866a7c7169304797eef055a4c258b2ea32",
+  "toolchain": "/Users/alex/Library/Android/sdk/ndk/28.2.13676358",
+  "sources_sha256": {
+    "src/app/native/CMakeLists.txt": "887c627b83003a2bc3161491cf05ebc1fe4067dee433224720e483e46fde7308",
+    "src/app/native/README.md": "390b3dff136c1671a11a9970b7fb3c7126ef37cebc3940a23b4d48c058a8819e",
+    "src/app/native/android/AndroidManifest.xml": "9bfae6f011d1e5a190296de24251f8b9ae749016f75fa047738218d5a83dc129",
+    "src/app/native/android/java/dev/drawdo/sokol/MainActivity.java": "845b805a81dd3b3391217a0362a622dd19beca5d4f342888ede183c37a6e96a2",
+    "src/app/native/android/res/drawable/icon.xml": "7ce3a60833276473da169c40296efde2045f0618b2243fc05c9b9dd13aa93659",
+    "src/app/native/build_android.py": "5a269ecc56eddb064aac211fea52d606c2fc218ad109a957f3d5537099495c44",
+    "src/app/native/main.cpp": "89fabd5f5e34cc68c4e89b8b0db4b8f26ce5fa9ec8e307fb247842b936001ab6",
+    "src/app/native/particles.h": "6aa8a8b23ab1c4f9663312bc9ae4f43c7ffec91b28cbb0ee657f88b7167679e2",
+    "src/app/native/shaders.glsl": "4255788bde64b89429dbdd45504c7ea2c1adafe2408b37e6b25ad9b8039c8c4b",
+    "src/app/native/shaders.h": "9bc3919b6f5afccab5e45aed433b4fdf3fe90d9efb3ff40212df15cdaec302fd",
+    "src/app/native/shaders.json": "44979ac746c5adc5b8632669d5114ff45138e18892239446dc4f84565a36683a",
+    "src/app/native/sokol.cpp": "90ce25b75605e359e39d47741db5d2b94ea9c32720a5b2bff57d17f3185d81fd",
+    "src/app/native/text.h": "0d03702717aa64ece8b012b44332cdf44a8c961b20601ff19ba985d49a47aa74",
+    "src/app/native/text_android.cpp": "3603397300076b3f82a8e5695a39113c8e232364c9e7c829b4cee433a17e8659"
+  }
+}

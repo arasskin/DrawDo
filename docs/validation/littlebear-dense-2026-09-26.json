@@ -1,0 +1,81 @@
+{
+  "date": "2026-09-26",
+  "scope": "LittleBear unordered_dense namespace directory; no application namespace-count limit; no deployment",
+  "source_sha256": {
+    "littlebear/Makefile": "b6640976fafb04e82aa426d8bea9a61ca8cb2bd423c1f9aa1aae824966edd200",
+    "littlebear/src/slab_arena.h": "8a7f2260f14e07f0f8914c098ea789f4ad585d12b9ea76cc37d7b0c8fe8cc527",
+    "littlebear/src/xxhash.h": "614b328c429d2899c950d4e1c8da8dd338b2a6504afd0877215e25bd3f44559e",
+    "littlebear/src/core.cpp": "3e135e64accfc79d52d3c328e50ab782161d9fda302ad7ba0a66785ee2a96dea",
+    "littlebear/src/config.h": "5098cab618fc6978817731888c50b68ba02ab546d6007f66ae06f797a516bacf",
+    "littlebear/src/in_place.h": "2654ea6d2bb5f702606895e7d7216c3600eb2c0574aabde5bf8416b899df1817",
+    "littlebear/src/growing_slab_arena.h": "6ad7bee486f775305d34bf76dbcd40648f30df377c419d9cb24dd99b74cf466d",
+    "littlebear/src/stack_of_network_message_buffers.h": "4a5b9b2fdb321e7eb73f0cb2750fae2fc60d93b370c475ed14fa0c6e2290ba54",
+    "littlebear/src/parsing.h": "5dc3d6497e055459bdd026494fccb67cd77b8697b2a5e8c2f7651bbb548242c7",
+    "littlebear/src/storage.h": "0be93d6a80b678094626c66727d32af7a5ddaffa5f96bb1e3cd09401a8e5ea6c",
+    "littlebear/src/size_class_file_heap.h": "c2f9d42b9a139353c41ab860ac066a850c635f2fb4b8726e46767e12fc677b50",
+    "littlebear/src/storage_uring.h": "520a5b309e175cb29f02997216a58b9b78b45ce63ba1fdc7b1e657ea9e18c60a",
+    "littlebear/src/main_data_containers/virtual_mapping.h": "52c5db70d23c589477f7e83c2a1743d59e8dd0f93aa64795e8048c1b01bd001f",
+    "littlebear/src/main_data_containers/glue.h": "b3adf106d95b8934f690943f2921308b90be5b766c4c8ba250c792de56400201",
+    "littlebear/src/main_data_containers/endless_virtual_memory_field.h": "82df699c1c53278a967e9e4782ceb085346b7b9acbed3f9f7d3228525da8e90b",
+    "littlebear/src/main_data_containers/hash_table.h": "3f5a6074f527ade323cc8998c6059693478c6a837e993a03192d240c3f211331",
+    "littlebear/src/main_data_containers/geometric_rank_partitioned_virtual_arena.h": "032cefa88ce77039bcb6c41d7fc9cb86bac942363b8245fa9059b26005411ead",
+    "littlebear/src/main_data_containers/augmented_tree.h": "20092939d007d812490105e0d1bf809692f1e1b512c82b7a0f9f7e56b8d344bc",
+    "littlebear/src/main_data_containers/wide_index.h": "f6bf7375275566582e8dd9871c568522458da01fc0507967ba1e5719850aa8c6",
+    "littlebear/src/main_data_containers/endless_virtual_slab_allocator.h": "a6d8c86bab3a274379fb8fd2d178527ced627550a338007cd3d40db55ce7704e",
+    "littlebear/benchmarks/compare_hash_tables.cpp": "bde2a776c3591f67fa98dbaf13a384314d5151c458c3037f53762527be1f53ed",
+    "littlebear/benchmarks/hash_table.cpp": "f7ccb0de6f68b0a4a3e78763d1f26d958c0396fd7963135712384c5e3f27516a",
+    "littlebear/benchmarks/allocator.cpp": "1a8d3dd4aebbf643c31367cfe6c3c45c424f7c6d5910ec024ca3b0701e5e9354",
+    "littlebear/benchmarks/reference/hash_table.h": "0cd15388472beb9c969acc9300368fa2cadcaa2188da9f1d1a2e9e685bcadb57",
+    "littlebear/tests/hash_table_test.cpp": "0bfde8bfa716e67496f8db4e8f94975faff93574b24e85d8edeb1b5c114effc0",
+    "littlebear/tests/arenas_test.cpp": "583e1856ddc509920b49509c0fd72cc8b11c03aa556b0232034294c56a37220a",
+    "littlebear/tests/storage_test.cpp": "9518ef3d66d066117511d7edc0ee9c489cca8a0f501de993d7db9e6ac7486310",
+    "littlebear/tests/tree_test.cpp": "03ac6aedb97be63a75f31ae45f41dc3c98a7343575814ff277ef42a873b768c2",
+    "littlebear/tests/wide_tree_test.cpp": "16954fa1868d9acbae45924fd38ab1d2116c0747aeda725e04a011582d973972",
+    "littlebear/tests/check.h": "975189dd0da2e5e36345c4e475cce5c682ef59c1481568124bc13c86aac99cca",
+    "littlebear/tests/size_class_test.cpp": "81f7319328211f67b7b17ea3ab09d92f0c6ae8cb7d7ef937624ef49a090b98e4",
+    "src/datafriend/include/datafriend/wide_tree.h": "bed87a781e51f4d4d64799d23d76e457d86ccd0d8c47870359820772213a0321",
+    "src/datafriend/include/datafriend/node_allocator.h": "68a2766c4be6acce0965535832b0ad545d982bd696a7ee81c250c4e1c76aee7f",
+    "third_party/unordered_dense/include/ankerl/stl.h": "a73b0ee57096fdd19694fdc9b462e7a3a9b5dfc4df8fe94fecd4bf974cfcf80e",
+    "third_party/unordered_dense/include/ankerl/unordered_dense.h": "cbcecc9789ae904b9e678457ddfceda94c01dcd3a8848853add4cfc910ea97fc"
+  },
+  "dependency": {
+    "name": "ankerl::unordered_dense",
+    "version": "5.1.0",
+    "commit": "b7cf409efee3a4419191bb3db29054b2ff6dc02d",
+    "modifications": "None; headers match original benchmark hashes"
+  },
+  "local": {
+    "platform": "macOS arm64, Apple Clang 17",
+    "checks": [
+      "Full LittleBear normal suite",
+      "Production table microbenchmark correctness",
+      "12-process comparison: three seeds, 16384 entries, legacy/direct dense/integrated engines"
+    ]
+  },
+  "linux": {
+    "platform": "Ubuntu 24.04 arm64 Docker, GCC 13",
+    "cpu_limit": 1,
+    "memory_limit_mib": 512,
+    "checks": [
+      "Optimized server build",
+      "Full LittleBear normal suite",
+      "Full LittleBear ASan/UBSan suite",
+      "Production table microbenchmark correctness"
+    ],
+    "io_uring": "Real batched writes, read and SQ exhaustion passed in normal and sanitizer suites; LITTLEBEAR_REQUIRE_URING=1 for sanitizer run; container seccomp filter disabled"
+  },
+  "regressions": [
+    "262145 namespaces inserted and looked up, beyond former nominal slot limit",
+    "50000 directory model operations; full key boundaries and identical hashes",
+    "Allocation failure injection: 2 creation, 17 insertion, 2 reserve allocations; existing contents preserved and retry succeeds",
+    "Storage namespace allocation failure unwinds creation and preserves pending I/O",
+    "Dense deletion relocates header while its write is pending; completion re-looks up by key",
+    "Live ordinary and all-ones namespace trees reclaimed",
+    "Store 3224 bytes; namespace header 24 bytes; request 104 bytes"
+  ],
+  "limits": [
+    "Component timings exclude record I/O, tree work and end-to-end latency",
+    "Library index representation and available memory remain finite",
+    "TCP record dispatch and protocol integration remain separate work"
+  ]
+}

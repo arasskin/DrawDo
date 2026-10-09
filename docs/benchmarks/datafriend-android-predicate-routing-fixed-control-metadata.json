@@ -1,0 +1,214 @@
+{
+  "serial": "ZY227364TP",
+  "started": 1791415990.928024,
+  "runs": [
+    {
+      "round": 0,
+      "variant": "before",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=52.100002, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=52.100002, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=52.100002, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=52.100002, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=55.4, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=54.4, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=45.300003, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.500002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=39.583, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.18 9.83 5.05 9/2775 20325\n",
+        "time": 1791415996.128503
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=53.800003, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=53.800003, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=53.800003, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=53.800003, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=59.000004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=58.300003, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=58.600002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=59.300003, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=46.300003, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.500002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=39.791, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.18 9.83 5.05 4/2775 20338\n",
+        "time": 1791415996.773917
+      }
+    },
+    {
+      "round": 0,
+      "variant": "after",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=54.4, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=54.4, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=54.4, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=54.4, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=59.600002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=58.300003, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=59.000004, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=59.300003, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=46.600002, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.500002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=39.895, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.18 9.83 5.05 7/2775 20348\n",
+        "time": 1791415996.9573529
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=55.4, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=55.4, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=55.4, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=55.4, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=59.600002, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=59.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=60.600002, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=47.600002, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.348003, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 6/2776 20362\n",
+        "time": 1791415997.9175858
+      }
+    },
+    {
+      "round": 1,
+      "variant": "after",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=55.7, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=55.7, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=55.7, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=55.7, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=61.300003, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=60.300003, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=47.9, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.406002, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 7/2776 20372\n",
+        "time": 1791415998.08584
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=56.4, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=56.4, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=56.4, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=56.4, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=62.9, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=62.200005, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=62.600002, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=48.2, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.697002, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 18/2776 20385\n",
+        "time": 1791415998.6519701
+      }
+    },
+    {
+      "round": 1,
+      "variant": "before",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=56.700005, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=56.700005, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=56.700005, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=56.700005, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=62.600002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=61.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=62.9, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=49.2, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.813004, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 10/2776 20395\n",
+        "time": 1791415998.832747
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=57.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=57.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=57.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=57.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=63.9, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=62.200005, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=62.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=63.500004, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=48.9, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.104, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 10/2771 20408\n",
+        "time": 1791415999.398914
+      }
+    },
+    {
+      "round": 2,
+      "variant": "before",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=57.300003, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=57.300003, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=57.300003, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=57.300003, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=63.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=61.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=63.200005, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=63.500004, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=48.9, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.162003, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 10/2771 20418\n",
+        "time": 1791415999.562261
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=55.100002, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=59.9, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=55.7, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=56.000004, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=56.000004, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=49.500004, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.453003, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 3/2771 20431\n",
+        "time": 1791416000.1638138
+      }
+    },
+    {
+      "round": 2,
+      "variant": "after",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=53.4, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=53.4, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=53.4, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=53.4, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=57.700005, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=53.800003, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=56.700005, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=54.100002, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=49.2, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.511, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 3/2771 20441\n",
+        "time": 1791416000.3385391
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=52.100002, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=52.100002, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=52.100002, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=52.100002, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=52.4, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=51.100002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=51.100002, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=48.2, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.686, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 8/2763 20454\n",
+        "time": 1791416000.9205692
+      }
+    },
+    {
+      "round": 3,
+      "variant": "after",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=55.100002, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=55.100002, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=59.600002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=58.000004, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=58.600002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=59.300003, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=48.2, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.744003, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "7.65 9.88 5.10 10/2763 20464\n",
+        "time": 1791416001.120789
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=57.300003, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=57.300003, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=57.300003, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=57.300003, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=60.300003, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=60.300003, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=60.300003, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=49.500004, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.918003, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "8.16 9.95 5.14 9/2762 20477\n",
+        "time": 1791416002.174007
+      }
+    },
+    {
+      "round": 3,
+      "variant": "before",
+      "case": [
+        1000,
+        1,
+        1,
+        "stable",
+        "fixed"
+      ],
+      "before": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=57.700005, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=57.700005, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=57.700005, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=57.700005, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=60.600002, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=61.600002, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=61.9, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=49.500004, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.400002, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=41.976, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "8.16 9.95 5.14 9/2762 20487\n",
+        "time": 1791416002.39644
+      },
+      "after": {
+        "battery": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  MOD powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 361920\n  status: 2\n  health: 2\n  present: true\n  level: 12\n  scale: 100\n  voltage: 3990\n  temperature: 304\n  technology: Li-ion\n  mod level: -1\n  mod status: 1\n  mod flag: 0\n  mod type: 0\n  mod power source: 0\n",
+        "thermal": "IsStatusOverride: false\nThermalEventListeners:\n\tcallbacks: 1\n\tkilled: false\n\tbroadcasts count: -1\nThermalStatusListeners:\n\tcallbacks: 3\n\tkilled: false\n\tbroadcasts count: -1\nThermal Status: 0\nCached temperatures:\n\tTemperature{mValue=26.800001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=40.7, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=43.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=51.500004, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=48.9, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=47.9, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=49.2, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=34.705, mType=3, mName=skin, mStatus=0}\nHAL Ready: true\nHAL connection:\n\tThermalHAL 1.0 connected: yes\nCurrent temperatures from HAL:\n\tTemperature{mValue=58.000004, mType=0, mName=CPU0, mStatus=0}\n\tTemperature{mValue=58.000004, mType=0, mName=CPU1, mStatus=0}\n\tTemperature{mValue=58.000004, mType=0, mName=CPU2, mStatus=0}\n\tTemperature{mValue=58.000004, mType=0, mName=CPU3, mStatus=0}\n\tTemperature{mValue=62.600002, mType=0, mName=CPU4, mStatus=0}\n\tTemperature{mValue=61.300003, mType=0, mName=CPU5, mStatus=0}\n\tTemperature{mValue=62.200005, mType=0, mName=CPU6, mStatus=0}\n\tTemperature{mValue=61.9, mType=0, mName=CPU7, mStatus=0}\n\tTemperature{mValue=50.2, mType=1, mName=GPU, mStatus=0}\n\tTemperature{mValue=30.300001, mType=2, mName=battery, mStatus=0}\n\tTemperature{mValue=42.325, mType=3, mName=skin, mStatus=0}\nCurrent cooling devices from HAL:\n",
+        "load": "8.16 9.95 5.14 11/2763 20501\n",
+        "time": 1791416003.635023
+      }
+    }
+  ],
+  "timing": "native modify call; asynchronous durability; no FFI/UI/network",
+  "binaries": {
+    "libdatafriend.so": "923cf04350ca53bab1cf83c7eb4a8915c6ba0d79279518e960e9d2220dd8e174",
+    "simulation_benchmark": "65e3c400fea248bb89c26bfbad80e87448305067f45c53c540cdbf364d9f4eba",
+    "network_test": "80cb3d9bc3d96aef61b7d6dd37357e3928e2a38f645450f90a2d5bf0a6c72432"
+  },
+  "variants": {
+    "before": {
+      "libdatafriend.so": "8dff0c7401d7ab5b66d1c4a6f3fc1236c41f7ffd01dc3ab162f5f8f442051a74",
+      "simulation_benchmark": "65e3c400fea248bb89c26bfbad80e87448305067f45c53c540cdbf364d9f4eba",
+      "network_test": "80cb3d9bc3d96aef61b7d6dd37357e3928e2a38f645450f90a2d5bf0a6c72432"
+    },
+    "after": {
+      "libdatafriend.so": "923cf04350ca53bab1cf83c7eb4a8915c6ba0d79279518e960e9d2220dd8e174",
+      "simulation_benchmark": "65e3c400fea248bb89c26bfbad80e87448305067f45c53c540cdbf364d9f4eba",
+      "network_test": "80cb3d9bc3d96aef61b7d6dd37357e3928e2a38f645450f90a2d5bf0a6c72432"
+    }
+  },
+  "device": "moto g(7)\n",
+  "network_test": {
+    "before": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+    "after": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n"
+  },
+  "finished": 1791416003.766953
+}

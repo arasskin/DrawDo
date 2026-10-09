@@ -1,0 +1,286 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "runs": [
+    {
+      "engine": "baseline",
+      "round": 1,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "12",
+      "evaluated": "12",
+      "samples": "3000",
+      "p50_us": "17.041",
+      "p95_us": "27.75",
+      "max_us": "73"
+    },
+    {
+      "engine": "current",
+      "round": 1,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "12",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "15.625",
+      "p95_us": "18.417",
+      "max_us": "98.083"
+    },
+    {
+      "engine": "baseline",
+      "round": 1,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "100",
+      "evaluated": "100",
+      "samples": "3000",
+      "p50_us": "20.833",
+      "p95_us": "24.958",
+      "max_us": "145.541"
+    },
+    {
+      "engine": "current",
+      "round": 1,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "100",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "16",
+      "p95_us": "18.542",
+      "max_us": "81.75"
+    },
+    {
+      "engine": "baseline",
+      "round": 1,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "1000",
+      "evaluated": "1000",
+      "samples": "3000",
+      "p50_us": "72.625",
+      "p95_us": "80.042",
+      "max_us": "514.417"
+    },
+    {
+      "engine": "current",
+      "round": 1,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "1000",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "19.917",
+      "p95_us": "22.625",
+      "max_us": "3299.88"
+    },
+    {
+      "engine": "current",
+      "round": 2,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "1000",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "20",
+      "p95_us": "22.542",
+      "max_us": "123"
+    },
+    {
+      "engine": "baseline",
+      "round": 2,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "1000",
+      "evaluated": "1000",
+      "samples": "3000",
+      "p50_us": "73.125",
+      "p95_us": "79.291",
+      "max_us": "389.167"
+    },
+    {
+      "engine": "current",
+      "round": 2,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "100",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "16.333",
+      "p95_us": "18.666",
+      "max_us": "43.375"
+    },
+    {
+      "engine": "baseline",
+      "round": 2,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "100",
+      "evaluated": "100",
+      "samples": "3000",
+      "p50_us": "20.792",
+      "p95_us": "24.583",
+      "max_us": "51.125"
+    },
+    {
+      "engine": "current",
+      "round": 2,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "12",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "15.709",
+      "p95_us": "17.917",
+      "max_us": "35.958"
+    },
+    {
+      "engine": "baseline",
+      "round": 2,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "12",
+      "evaluated": "12",
+      "samples": "3000",
+      "p50_us": "16.666",
+      "p95_us": "18.833",
+      "max_us": "42.542"
+    },
+    {
+      "engine": "baseline",
+      "round": 3,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "12",
+      "evaluated": "12",
+      "samples": "3000",
+      "p50_us": "16.584",
+      "p95_us": "18.792",
+      "max_us": "63.625"
+    },
+    {
+      "engine": "current",
+      "round": 3,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "12",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "15.791",
+      "p95_us": "18.166",
+      "max_us": "50.708"
+    },
+    {
+      "engine": "baseline",
+      "round": 3,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "100",
+      "evaluated": "100",
+      "samples": "3000",
+      "p50_us": "21.917",
+      "p95_us": "24.625",
+      "max_us": "49.458"
+    },
+    {
+      "engine": "current",
+      "round": 3,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "100",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "16.417",
+      "p95_us": "19.334",
+      "max_us": "163.375"
+    },
+    {
+      "engine": "baseline",
+      "round": 3,
+      "load_average": [
+        4.73876953125,
+        4.251953125,
+        4.1025390625
+      ],
+      "subscribers": "1000",
+      "evaluated": "1000",
+      "samples": "3000",
+      "p50_us": "74.875",
+      "p95_us": "80.25",
+      "max_us": "447.042"
+    },
+    {
+      "engine": "current",
+      "round": 3,
+      "load_average": [
+        4.43896484375,
+        4.19775390625,
+        4.083984375
+      ],
+      "subscribers": "1000",
+      "evaluated": "1",
+      "samples": "3000",
+      "p50_us": "19.917",
+      "p95_us": "22.209",
+      "max_us": "41.875"
+    }
+  ],
+  "scope": "1000 entities; 12/100/1000 fixed row subscriptions; 500 warmups and 3000 title edits per process; async disk flush; blocking native edit including owner dispatch, DB, indexes and query publication; no UI or FFI; notification and routed-group counts asserted; alternating libraries in one benchmark executable.",
+  "source_sha256": {
+    "src/datafriend/benchmarks/fixed_routing.cpp": "5ba8d8ef2808c7fa41145f4fddf618af2585013da1c7f9460b19194bd2d6e5ab",
+    "src/datafriend/benchmarks/run_fixed_routing.py": "3678102fd40ecf26b5202f422ad9f8bb979b51ad94821656179ece1f044fe523",
+    "src/datafriend/native/engine.cpp": "77c51b446b1bdb66cd67e20f0f483779fb4979a83dc07208dd69d22295c4687e"
+  },
+  "binary_sha256": {
+    "baseline": "8a315fa62e4822b70792bf0c2a0e49f93f092db84b5cf4119d3e814a4c8e1786",
+    "current": "2a3d9741b785d0264ba37ed79f2aa47acd0252951beac0d0d048b500dee16e2c",
+    "benchmark": "5eb3f922b7d5f797cf704c0f8c3f3328ac68a71b8e3a20e37e9f4cf5ebc9b1a9"
+  }
+}

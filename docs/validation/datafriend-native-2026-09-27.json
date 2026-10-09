@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-27",
+  "passed": [
+    "make -C src/datafriend test: mutable tree, slab, experimental reconciliation, persistent tree",
+    "CMake Release / ctest: native engine + persistent tree",
+    "Ubuntu 24.04 arm64 GCC 13 ASan+UBSan+leak detection: engine + persistent tree",
+    "Dart analyze: no issues",
+    "Flutter test: 13 passed including real FFI/store integration",
+    "Flutter Android arm64 debug APK build, libdatafriend.so verified in APK",
+    "Flutter iOS simulator debug build, Datafriend framework symbols and runner linkage verified"
+  ],
+  "not_validated": [
+    "physical-device runtime/frame timing",
+    "Flutter layout/rasterization latency",
+    "live server transport/authentication"
+  ],
+  "performance": "See docs/datafriend-engine-benchmark.md; durable maximum exceeded one frame.",
+  "source_sha256": {
+    "src/datafriend/native/aelmdb.c": "ce5cc52944b38b111e80b42bd813370a5ded407a42c41ba94f5d603aa101c153",
+    "src/datafriend/native/c_api.cpp": "81871d186808a9c16b94b914a941b8a9a3743ae0e0f8bad036d155fc21d5feb7",
+    "src/datafriend/native/aelmdb_midl.c": "0a798b797bf89602349236a3884f41085f383fbdea395cf069383ae5f95f1f94",
+    "src/datafriend/native/engine.cpp": "1cdeca3a85479b6f32f8c9af563ca52f0aad4a1f00babaad37456d203f22965e",
+    "src/datafriend/include/datafriend/persistent_wide_tree.h": "25fcf12d07839f5228f06fdfa881b9d6fbeb5f2ad9d57bba20dd1a19e11b96a6",
+    "src/datafriend/include/datafriend/engine.h": "ee9e895cf574288fadb09188c9dc4dc408ee40b911f6bfb9384263cb1328d6d0",
+    "src/datafriend/include/datafriend/c_api.h": "e18916cfd728e09fa26688ef3ac8f373669651fb8e9d56e2bb82850f28e7593e",
+    "src/datafriend/include/datafriend/codec.h": "b81b2595141346e9f50da67e62c4a6a7e7aa6d02874e8bcfe24d1329926a70fc",
+    "littlebear/src/reconciliation.h": "3633c1b4126ce8b435f69d508ab4e2274653026a1664224d7035f48413689157",
+    "src/app/lib/data/datafriend_document_store.dart": "a239c0a16de42cbf0582076bcd25246e52e472b0ab02458383ce433e2aa5cc2a",
+    "src/app/lib/data/datafriend.dart": "77de6821933a625fd041f3fb00cba95c3b1a9fa687bd2792b985deef91139843",
+    "src/app/lib/app_controller.dart": "ddeaab2d6a5f402a4b0e02947dbd3cc5475f72be5acad094a64df26b30ec330b"
+  }
+}

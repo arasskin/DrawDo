@@ -1,0 +1,275 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "arguments": {
+    "dart": "/Users/alex/developer/flutter/bin/cache/dart-sdk/bin/dart",
+    "samples": 1000,
+    "rounds": 3
+  },
+  "warmup": 100,
+  "durability": "MDB_NOSYNC",
+  "scope": "Dart AOT app-view callback body with a publication listener; optional complete projection readback; excludes Flutter scheduling/rendering and network",
+  "source_sha256": {
+    "src/app/tool/benchmark_direct_views.dart": "24b59135ffae70a26e8485077f032832685d05526ab4abf650561a5103ddf7f8",
+    "src/app/tool/benchmark_dart_phases.dart": "c1bd5a7f72a031cb9fe09d4c75098788a7507c7be465028c22e57aea39445b33",
+    "src/app/tool/support/legacy_document_store.dart": "d7044b691ffc6c5d2c1a261af9b77b57e361cf30b362840ede57489e09fe0a13",
+    "src/app/lib/data/app_views.dart": "c03f65a7b0d70f8b557a7f473e2204a87df6d1dff8b9dec789925ec31edf87d4",
+    "src/app/lib/data/datafriend.dart": "fe32dc7c36441d0885f28b8b08995586438c0b385a444ebc4d991a87091e6b55",
+    "src/app/lib/app_controller.dart": "dccb06cb754ceb0acd7fdf9481f2a0a9519ed53b969252456181404746f40c6d",
+    "src/datafriend/native/c_api.cpp": "41dcefcb941ea5c549acf25b0225afbbee3bf3c2c67ce296e0c8c7a0b7958c8a",
+    "src/datafriend/benchmarks/run_direct_views.py": "12f7ecdbdf498fd2243b9d98022593d40cfa69ba0abfb836b614206c8b50eb09"
+  },
+  "binary_sha256": {
+    "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views": "f48e7ac97a941886a0d684a0bb6daf257a86374fd95e6eb3dedd6dbb17319ff0",
+    "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib": "4183aebd13b29d1f193eff9a14d5d57242516e4d94b858102b42c0f9fe41f373"
+  },
+  "runs": [
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    }
+  ],
+  "post_measurement_notes": [
+    "Only lint braces and protocol-test coverage were added after measurement. Measured control paths are unchanged; the original hashes identify the captured source and binaries."
+  ],
+  "post_measurement_source_sha256": {
+    "src/app/lib/data/datafriend.dart": "a30174659f0cf5fc9d90e969813f16bcb99354651d984405b300408df9e66b15",
+    "src/app/tool/benchmark_direct_views.dart": "161e986267139010a42ad84e3071a2312c5ecce28f025f6f02c0bae6c2d185e3"
+  }
+}

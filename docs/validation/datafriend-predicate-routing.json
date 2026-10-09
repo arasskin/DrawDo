@@ -1,0 +1,29 @@
+{
+  "time": "2026-10-07T23:35:26.121866+00:00",
+  "change": "required-predicate routing and relevant changed entities per query",
+  "native_suites": 6,
+  "flutter_app_tests": 34,
+  "ubsan_engine": "pass",
+  "linux_asan": "not run: Docker daemon unavailable",
+  "android_matrix": {
+    "processes": 112,
+    "samples": 1680,
+    "all_results_notifications": "pass",
+    "native_network_checks": "both before/after passed",
+    "original_case_before_ms": 92.018,
+    "original_case_after_ms": 2.591,
+    "original_case_after_p95_ms": 4.502
+  },
+  "android_fixed_control": {
+    "processes": 8,
+    "samples": 800,
+    "before_ms": 0.629115,
+    "after_ms": 0.687838
+  },
+  "report": "../datafriend-predicate-routing.md",
+  "source_sha256": {
+    "src/datafriend/native/engine.cpp": "c7df9b4670e535d2c9605f5ce8507621d911c796247030752716c7abb4efb1ef",
+    "src/datafriend/tests/engine_test.cpp": "78847a3eee59a9c908ba6887de0f67cb31dac1df096160309df695d29beb33f7",
+    "src/datafriend/benchmarks/run_android_simulation.py": "3b79172be1dfe6ce59443e047942155e68d315b20eeb693a6ba6ca89f6fd98ad"
+  }
+}

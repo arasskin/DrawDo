@@ -1,0 +1,2606 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "arguments": {
+    "dart": "/Users/alex/developer/flutter/bin/cache/dart-sdk/bin/dart",
+    "node": "node",
+    "samples": 3000,
+    "warmup": 2000,
+    "rounds": 3,
+    "output_prefix": "datafriend-redux-planner",
+    "baseline_library": "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib"
+  },
+  "node_versions": {
+    "node": "22.20.0",
+    "acorn": "8.15.0",
+    "ada": "2.9.2",
+    "amaro": "1.1.2",
+    "ares": "1.34.5",
+    "brotli": "1.1.0",
+    "cjs_module_lexer": "2.1.0",
+    "cldr": "47.0",
+    "icu": "77.1",
+    "llhttp": "9.3.0",
+    "modules": "127",
+    "napi": "10",
+    "nbytes": "0.1.1",
+    "ncrypto": "0.0.1",
+    "nghttp2": "1.64.0",
+    "openssl": "3.5.2",
+    "simdjson": "3.13.0",
+    "simdutf": "6.4.2",
+    "sqlite": "3.50.4",
+    "tz": "2025b",
+    "undici": "6.21.2",
+    "unicode": "16.0",
+    "uv": "1.51.0",
+    "uvwasi": "0.0.23",
+    "v8": "12.4.254.21-node.33",
+    "zlib": "1.3.1-470d3a2",
+    "zstd": "1.5.7"
+  },
+  "dart_version": "Dart SDK version: 3.11.1 (stable) (Tue Feb 24 00:03:07 2026 -0800) on \"macos_arm64\"",
+  "packages": {
+    "name": "datafriend-redux-benchmark",
+    "dependencies": {
+      "@reduxjs/toolkit": {
+        "version": "2.12.0",
+        "resolved": "https://registry.npmjs.org/@reduxjs/toolkit/-/toolkit-2.12.0.tgz",
+        "overridden": false,
+        "dependencies": {
+          "@standard-schema/spec": {
+            "version": "1.1.0",
+            "resolved": "https://registry.npmjs.org/@standard-schema/spec/-/spec-1.1.0.tgz",
+            "overridden": false
+          },
+          "@standard-schema/utils": {
+            "version": "0.3.0",
+            "resolved": "https://registry.npmjs.org/@standard-schema/utils/-/utils-0.3.0.tgz",
+            "overridden": false
+          },
+          "immer": {
+            "version": "11.1.18"
+          },
+          "react-redux": {},
+          "react": {},
+          "redux-thunk": {
+            "version": "3.1.0",
+            "resolved": "https://registry.npmjs.org/redux-thunk/-/redux-thunk-3.1.0.tgz",
+            "overridden": false,
+            "dependencies": {
+              "redux": {
+                "version": "5.0.1"
+              }
+            }
+          },
+          "redux": {
+            "version": "5.0.1"
+          },
+          "reselect": {
+            "version": "5.3.0",
+            "resolved": "https://registry.npmjs.org/reselect/-/reselect-5.3.0.tgz",
+            "overridden": false
+          }
+        }
+      },
+      "immer": {
+        "version": "11.1.18",
+        "resolved": "https://registry.npmjs.org/immer/-/immer-11.1.18.tgz",
+        "overridden": false
+      },
+      "redux": {
+        "version": "5.0.1",
+        "resolved": "https://registry.npmjs.org/redux/-/redux-5.0.1.tgz",
+        "overridden": false
+      }
+    }
+  },
+  "git_head": "d891d8b86795aafed8162f71644356c67e040b4e",
+  "scope": "Synchronous task toggle, three query/selector subscriptions and publication listener; optional all task fields or 15 visible rows plus completed count. No Flutter/React rendering, network or synchronous disk flush. Datafriend still executes database transactions/index maintenance/query evaluation; Redux only maintains JS state.",
+  "configuration": {
+    "datafriend": "Dart AOT + C++ Release, MDB_NOSYNC",
+    "rtk": "NODE_ENV=production, default middleware, Immer auto-freeze on, DevTools off",
+    "rtk_no_freeze": "Same as rtk, setAutoFreeze(false)",
+    "redux_manual": "Redux createStore, hand-written immutable reducer; same selectors"
+  },
+  "source_sha256": {
+    "src/app/tool/benchmark_redux.dart": "8f2e55d3ca0fb88af3d09c5132f7f832817074cc797fbf7434b6bab61609e905",
+    "src/app/tool/benchmark_dart_phases.dart": "aa913ed350b6224ad249c341cd728539540aae097a6a0c10aef640b900add21f",
+    "src/app/lib/data/app_views.dart": "bbfcb183d919ca66eb291b8aa72edceb85609b771cec5456ad9afb0f5cd74624",
+    "src/app/lib/data/datafriend.dart": "2165185513a243a0e696fcb2d8247d4876e15b01f14e9e7b1074204b7b781ae3",
+    "src/app/lib/data/datafriend_profile.dart": "348d243437fa4e643441a09c62a03258db6d3dc045c7ebab962f563fed266e14",
+    "src/app/lib/model/document.dart": "7468f341b7d458704ae869fefea7f7a9d35c5e988204c4e3bc5ebc0c4864609a",
+    "src/app/pubspec.lock": "a294775bcd7c9cd1258f0efdf14c2120abb4d35a359de7b277c0e460aa4f4013",
+    "src/datafriend/CMakeLists.txt": "f80e9d3ecc8d2c834cd7aa48276ca5c9e0a51bdc9522c85398ea9d9870d8e2e3",
+    "src/datafriend/native/c_api.cpp": "e8e871bb2e7f759cdc29ec4ac9739f233bb1528842dd0ded0cc66d2558a7257f",
+    "src/datafriend/native/engine.cpp": "70801fe5b3bc7902cb31ac2fa0b1687403ba2b868ae5c33f0e3733774640fb7b",
+    "src/datafriend/native/aelmdb.c": "ce5cc52944b38b111e80b42bd813370a5ded407a42c41ba94f5d603aa101c153",
+    "src/datafriend/native/aelmdb_midl.c": "0a798b797bf89602349236a3884f41085f383fbdea395cf069383ae5f95f1f94",
+    "src/datafriend/include/datafriend/engine.h": "f5d9512894653228d55ee7c875c5ed1392efecf607411f2aa4a3eaf163669376",
+    "src/datafriend/include/datafriend/c_api.h": "5c39a4b3fd72ebe1609e3175a38ec8e09d9e97087e1e0b6059c8f54a7e42623a",
+    "src/datafriend/benchmarks/redux/benchmark.mjs": "7eb36ac793cc34766aae5d3e5562e53ce6996e49d0e059ba5ccf119811bf3664",
+    "src/datafriend/benchmarks/redux/package.json": "2be4dcb47fa8c85f594baec24aec5998d6d66db70887ef0dc57c4dd4fcb16e0c",
+    "src/datafriend/benchmarks/redux/package-lock.json": "2267ff4470f350c02c74282303c55b69d7aecc7ab2a1edf8d28a186104001443",
+    "src/datafriend/benchmarks/run_redux.py": "ef8228b86a25e756d11d2f9af52d03133d10ffb07e432875d109f0233ba83746"
+  },
+  "binary_sha256": {
+    "/Users/alex/DrawDo/src/datafriend/build/dart-redux": "649c6466a76d58f519020c6ccf27b0afce1f5f80ecf304f02fa91147a1e1f2e3",
+    "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib": "256af9742ff024cdb16dffa93d05cdffad95dc961f7a9d450dd776ac519c92d7",
+    "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib": "d99535e9883760cb5a69c9e2ac96e0675cc227a3e1672b02fad7d49a18c1b387"
+  },
+  "cmake_cache": "# This is the CMakeCache file.\n# For build in directory: /Users/alex/DrawDo/src/datafriend/build/redux-native\n# It was generated by CMake: /opt/homebrew/bin/cmake\n# You can edit this file to change values found and used by cmake.\n# If you do not want to change any of the values, simply exit the editor.\n# If you do want to change a value, simply edit, save, and exit the editor.\n# The syntax for the file is as follows:\n# KEY:TYPE=VALUE\n# KEY is the name of a variable in the cache.\n# TYPE is a hint to GUIs for the type of VALUE, DO NOT EDIT TYPE!.\n# VALUE is the current value for the KEY.\n\n########################\n# EXTERNAL cache entries\n########################\n\n//Path to a program.\nCMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND\n\n//Path to a program.\nCMAKE_AR:FILEPATH=/usr/bin/ar\n\n//Choose the type of build, options are: None Debug Release RelWithDebInfo\n// MinSizeRel ...\nCMAKE_BUILD_TYPE:STRING=Release\n\n//Enable/Disable color output during build.\nCMAKE_COLOR_MAKEFILE:BOOL=ON\n\n//CXX compiler\nCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++\n\n//Flags used by the CXX compiler during all build types.\nCMAKE_CXX_FLAGS:STRING=\n\n//Flags used by the CXX compiler during DEBUG builds.\nCMAKE_CXX_FLAGS_DEBUG:STRING=-g\n\n//Flags used by the CXX compiler during MINSIZEREL builds.\nCMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\n\n//Flags used by the CXX compiler during RELEASE builds.\nCMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\n\n//Flags used by the CXX compiler during RELWITHDEBINFO builds.\nCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\n\n//C compiler\nCMAKE_C_COMPILER:FILEPATH=/usr/bin/cc\n\n//Flags used by the C compiler during all build types.\nCMAKE_C_FLAGS:STRING=\n\n//Flags used by the C compiler during DEBUG builds.\nCMAKE_C_FLAGS_DEBUG:STRING=-g\n\n//Flags used by the C compiler during MINSIZEREL builds.\nCMAKE_C_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\n\n//Flags used by the C compiler during RELEASE builds.\nCMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\n\n//Flags used by the C compiler during RELWITHDEBINFO builds.\nCMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\n\n//Path to a program.\nCMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND\n\n//Flags used by the linker during all build types.\nCMAKE_EXE_LINKER_FLAGS:STRING=\n\n//Flags used by the linker during DEBUG builds.\nCMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the linker during MINSIZEREL builds.\nCMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the linker during RELEASE builds.\nCMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the linker during RELWITHDEBINFO builds.\nCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//Enable/Disable output of compile commands during generation.\nCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=\n\n//Value Computed by CMake.\nCMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/Users/alex/DrawDo/src/datafriend/build/redux-native/CMakeFiles/pkgRedirects\n\n//Path to a program.\nCMAKE_INSTALL_NAME_TOOL:FILEPATH=/usr/bin/install_name_tool\n\n//Install path prefix, prepended onto install directories.\nCMAKE_INSTALL_PREFIX:PATH=/usr/local\n\n//Path to a program.\nCMAKE_LINKER:FILEPATH=/usr/bin/ld\n\n//Path to a program.\nCMAKE_MAKE_PROGRAM:FILEPATH=/opt/homebrew/bin/gmake\n\n//Flags used by the linker during the creation of modules during\n// all build types.\nCMAKE_MODULE_LINKER_FLAGS:STRING=\n\n//Flags used by the linker during the creation of modules during\n// DEBUG builds.\nCMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the linker during the creation of modules during\n// MINSIZEREL builds.\nCMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the linker during the creation of modules during\n// RELEASE builds.\nCMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the linker during the creation of modules during\n// RELWITHDEBINFO builds.\nCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//Path to a program.\nCMAKE_NM:FILEPATH=/usr/bin/nm\n\n//Path to a program.\nCMAKE_OBJCOPY:FILEPATH=CMAKE_OBJCOPY-NOTFOUND\n\n//Path to a program.\nCMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump\n\n//Build architectures for OSX\nCMAKE_OSX_ARCHITECTURES:STRING=\n\n//Minimum OS X version to target for deployment (at runtime); newer\n// APIs weak linked. Set to empty string for default value.\nCMAKE_OSX_DEPLOYMENT_TARGET:STRING=\n\n//The product will be built against the headers and libraries located\n// inside the indicated SDK.\nCMAKE_OSX_SYSROOT:PATH=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk\n\n//Value Computed by CMake\nCMAKE_PROJECT_COMPAT_VERSION:STATIC=\n\n//Value Computed by CMake\nCMAKE_PROJECT_DESCRIPTION:STATIC=\n\n//Value Computed by CMake\nCMAKE_PROJECT_HOMEPAGE_URL:STATIC=\n\n//Value Computed by CMake\nCMAKE_PROJECT_NAME:STATIC=datafriend\n\n//Path to a program.\nCMAKE_RANLIB:FILEPATH=/usr/bin/ranlib\n\n//Path to a program.\nCMAKE_READELF:FILEPATH=CMAKE_READELF-NOTFOUND\n\n//Flags used by the linker during the creation of shared libraries\n// during all build types.\nCMAKE_SHARED_LINKER_FLAGS:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during DEBUG builds.\nCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during MINSIZEREL builds.\nCMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during RELEASE builds.\nCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the linker during the creation of shared libraries\n// during RELWITHDEBINFO builds.\nCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//If set, runtime paths are not added when installing shared libraries,\n// but are added when building.\nCMAKE_SKIP_INSTALL_RPATH:BOOL=NO\n\n//If set, runtime paths are not added when using shared libraries.\nCMAKE_SKIP_RPATH:BOOL=NO\n\n//Flags used by the archiver during the creation of static libraries\n// during all build types.\nCMAKE_STATIC_LINKER_FLAGS:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during DEBUG builds.\nCMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during MINSIZEREL builds.\nCMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during RELEASE builds.\nCMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=\n\n//Flags used by the archiver during the creation of static libraries\n// during RELWITHDEBINFO builds.\nCMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=\n\n//Path to a program.\nCMAKE_STRIP:FILEPATH=/usr/bin/strip\n\n//Path to a program.\nCMAKE_TAPI:FILEPATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/tapi\n\n//If this value is on, makefiles will be generated without the\n// .SILENT directive, and all commands will be echoed to the console\n// during the make.  This is useful for debugging only. With Visual\n// Studio IDE projects all commands are done without /nologo.\nCMAKE_VERBOSE_MAKEFILE:BOOL=FALSE\n\n//Diagnostic only: buffer query facts before maintaining views\nDATAFRIEND_BUFFER_QUERIES:BOOL=OFF\n\n//Diagnostic only: separate view maintenance into measured passes\nDATAFRIEND_DETAIL_VIEWS:BOOL=OFF\n\n//Instrument native edits for phase timing\nDATAFRIEND_PROFILE:BOOL=OFF\n\n//Build the optional host SQLite comparison\nDATAFRIEND_SQLITE_BENCHMARK:BOOL=OFF\n\n//Build native tests and benchmark\nDATAFRIEND_TESTS:BOOL=OFF\n\n//Value Computed by CMake\ndatafriend_BINARY_DIR:STATIC=/Users/alex/DrawDo/src/datafriend/build/redux-native\n\n//Value Computed by CMake\ndatafriend_IS_TOP_LEVEL:STATIC=ON\n\n//Value Computed by CMake\ndatafriend_SOURCE_DIR:STATIC=/Users/alex/DrawDo/src/datafriend\n\n\n########################\n# INTERNAL cache entries\n########################\n\n//ADVANCED property for variable: CMAKE_ADDR2LINE\nCMAKE_ADDR2LINE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_AR\nCMAKE_AR-ADVANCED:INTERNAL=1\n//This is the directory where this CMakeCache.txt was created\nCMAKE_CACHEFILE_DIR:INTERNAL=/Users/alex/DrawDo/src/datafriend/build/redux-native\n//Major version of cmake used to create the current loaded cache\nCMAKE_CACHE_MAJOR_VERSION:INTERNAL=4\n//Minor version of cmake used to create the current loaded cache\nCMAKE_CACHE_MINOR_VERSION:INTERNAL=1\n//Patch version of cmake used to create the current loaded cache\nCMAKE_CACHE_PATCH_VERSION:INTERNAL=2\n//ADVANCED property for variable: CMAKE_COLOR_MAKEFILE\nCMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1\n//Path to CMake executable.\nCMAKE_COMMAND:INTERNAL=/opt/homebrew/bin/cmake\n//Path to cpack program executable.\nCMAKE_CPACK_COMMAND:INTERNAL=/opt/homebrew/bin/cpack\n//Path to ctest program executable.\nCMAKE_CTEST_COMMAND:INTERNAL=/opt/homebrew/bin/ctest\n//ADVANCED property for variable: CMAKE_CXX_COMPILER\nCMAKE_CXX_COMPILER-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS\nCMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_DEBUG\nCMAKE_CXX_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_MINSIZEREL\nCMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_RELEASE\nCMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_CXX_FLAGS_RELWITHDEBINFO\nCMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_COMPILER\nCMAKE_C_COMPILER-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS\nCMAKE_C_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_DEBUG\nCMAKE_C_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_MINSIZEREL\nCMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_RELEASE\nCMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO\nCMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_DLLTOOL\nCMAKE_DLLTOOL-ADVANCED:INTERNAL=1\n//Path to cache edit program executable.\nCMAKE_EDIT_COMMAND:INTERNAL=/opt/homebrew/bin/ccmake\n//Executable file format\nCMAKE_EXECUTABLE_FORMAT:INTERNAL=MACHO\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS\nCMAKE_EXE_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_DEBUG\nCMAKE_EXE_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_MINSIZEREL\nCMAKE_EXE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELEASE\nCMAKE_EXE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_EXPORT_COMPILE_COMMANDS\nCMAKE_EXPORT_COMPILE_COMMANDS-ADVANCED:INTERNAL=1\n//Name of external makefile project generator.\nCMAKE_EXTRA_GENERATOR:INTERNAL=\n//Name of generator.\nCMAKE_GENERATOR:INTERNAL=Unix Makefiles\n//Generator instance identifier.\nCMAKE_GENERATOR_INSTANCE:INTERNAL=\n//Name of generator platform.\nCMAKE_GENERATOR_PLATFORM:INTERNAL=\n//Name of generator toolset.\nCMAKE_GENERATOR_TOOLSET:INTERNAL=\n//Test CMAKE_HAVE_LIBC_PTHREAD\nCMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1\n//Source directory with the top level CMakeLists.txt file for this\n// project\nCMAKE_HOME_DIRECTORY:INTERNAL=/Users/alex/DrawDo/src/datafriend\n//ADVANCED property for variable: CMAKE_INSTALL_NAME_TOOL\nCMAKE_INSTALL_NAME_TOOL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_LINKER\nCMAKE_LINKER-ADVANCED:INTERNAL=1\n//Name of CMakeLists files to read\nCMAKE_LIST_FILE_NAME:INTERNAL=CMakeLists.txt\n//ADVANCED property for variable: CMAKE_MAKE_PROGRAM\nCMAKE_MAKE_PROGRAM-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS\nCMAKE_MODULE_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_DEBUG\nCMAKE_MODULE_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL\nCMAKE_MODULE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELEASE\nCMAKE_MODULE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_NM\nCMAKE_NM-ADVANCED:INTERNAL=1\n//number of local generators\nCMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1\n//ADVANCED property for variable: CMAKE_OBJCOPY\nCMAKE_OBJCOPY-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_OBJDUMP\nCMAKE_OBJDUMP-ADVANCED:INTERNAL=1\n//Platform information initialized\nCMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_RANLIB\nCMAKE_RANLIB-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_READELF\nCMAKE_READELF-ADVANCED:INTERNAL=1\n//Path to CMake installation.\nCMAKE_ROOT:INTERNAL=/opt/homebrew/share/cmake\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS\nCMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG\nCMAKE_SHARED_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL\nCMAKE_SHARED_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_RELEASE\nCMAKE_SHARED_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SKIP_INSTALL_RPATH\nCMAKE_SKIP_INSTALL_RPATH-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_SKIP_RPATH\nCMAKE_SKIP_RPATH-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS\nCMAKE_STATIC_LINKER_FLAGS-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_DEBUG\nCMAKE_STATIC_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL\nCMAKE_STATIC_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELEASE\nCMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO\nCMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_STRIP\nCMAKE_STRIP-ADVANCED:INTERNAL=1\n//ADVANCED property for variable: CMAKE_TAPI\nCMAKE_TAPI-ADVANCED:INTERNAL=1\n//uname command\nCMAKE_UNAME:INTERNAL=/usr/bin/uname\n//ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE\nCMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1\n//Details about finding Threads\nFIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]\n\n",
+  "runs": [
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534352.832024,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.36591196060180664,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.198014,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.017709016799926758,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.215786,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.018096923828125,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.233954,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.0174410343170166,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.251455,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.016643047332763672,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.268163,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.01700305938720703,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.2852428,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.3013622760772705,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.586895,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.02657604217529297,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.613569,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.024075031280517578,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.637722,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.019103050231933594,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.656895,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.016592979431152344,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.673554,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.02077007293701172,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.6944551,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.1368567943572998,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.831431,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03534412384033203,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.866862,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03384995460510254,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.900806,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.033373117446899414,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.934259,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.032604217529296875,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534353.966951,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03343510627746582,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.000461,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.0323178768157959,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.0328572,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03290581703186035,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.065852,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03276205062866211,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.0986938,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.0323030948638916,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.1310751,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.0325770378112793,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.163733,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03340911865234375,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.197222,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.031945228576660156,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.2292538,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03133535385131836,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.2606778,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03155517578125,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.2923222,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03127694129943848,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "7",
+        "3",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.323679,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03139615058898926,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "23",
+        "4",
+        "2"
+      ],
+      "validation": true,
+      "started_unix": 1790534354.3551471,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.031103849411010742,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534354.3863318,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.09479236602783203,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534354.481214,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.09245896339416504,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534354.573784,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.10277509689331055,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534354.676675,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.05427885055541992,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534354.731067,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03648805618286133,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534354.767624,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.3032341003417969,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534355.070933,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.3027360439300537,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534355.373775,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.12030506134033203,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534355.494189,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.06371688842773438,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534355.55801,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.05073690414428711,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534355.608822,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.14052700996398926,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534355.749418,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.14102983474731445,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534355.890553,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.20685291290283203,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534356.097505,
+      "load_average": [
+        5.22265625,
+        4.4384765625,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.14735198020935059,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534356.24497,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 0.13265085220336914,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534356.377704,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 0.11178326606750488,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534356.489567,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 0.10836100578308105,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534356.598078,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 0.5575649738311768,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534357.155743,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 0.0570371150970459,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534357.212899,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 0.039147138595581055,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534357.252112,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 2.0618250370025635,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534359.314021,
+      "load_average": [
+        4.96435546875,
+        4.39794921875,
+        4.28564453125
+      ],
+      "elapsed_seconds": 2.0347537994384766,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534361.348973,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.6418750286102295,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534361.9909492,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.12646198272705078,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534362.1175108,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.10851216316223145,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534362.2260969,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.23816704750061035,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534362.464343,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.2362349033355713,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534362.700685,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.7273099422454834,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534363.4281092,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.16945362091064453,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534363.597685,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.15294289588928223,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534363.7507122,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.09784078598022461,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534363.848734,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.15241026878356934,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534364.001251,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.16867494583129883,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534364.17006,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.7065832614898682,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534364.876727,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.2314128875732422,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534365.1082509,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.2355501651763916,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534365.343912,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.10805702209472656,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534365.452075,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.12702107429504395,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534365.579204,
+      "load_average": [
+        4.88671875,
+        4.39111328125,
+        4.28369140625
+      ],
+      "elapsed_seconds": 0.637099027633667,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534366.2163908,
+      "load_average": [
+        5.0556640625,
+        4.43408203125,
+        4.29931640625
+      ],
+      "elapsed_seconds": 2.100635290145874,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534368.317107,
+      "load_average": [
+        5.0556640625,
+        4.43408203125,
+        4.29931640625
+      ],
+      "elapsed_seconds": 2.151648998260498,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534370.468878,
+      "load_average": [
+        5.0556640625,
+        4.43408203125,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.03962087631225586,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534370.508598,
+      "load_average": [
+        5.0556640625,
+        4.43408203125,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.05411195755004883,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534370.5628319,
+      "load_average": [
+        5.0556640625,
+        4.43408203125,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.5673830509185791,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534371.130293,
+      "load_average": [
+        5.0556640625,
+        4.43408203125,
+        4.29931640625
+      ],
+      "elapsed_seconds": 0.11262321472167969,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534371.2430038,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.11194324493408203,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534371.3550599,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.13226008415222168,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534371.487436,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.14789891242980957,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534371.635437,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.21004009246826172,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534371.8455622,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.14211368560791016,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534371.9877582,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.14240193367004395,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534372.130292,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.05258011817932129,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534372.182986,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.06557202339172363,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534372.248679,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.11909914016723633,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534372.3678532,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.3052830696105957,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534372.673236,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.3168931007385254,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534372.990249,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.0367579460144043,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.0271292,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.052571773529052734,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.079812,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.11821603775024414,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.19813,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.09380292892456055,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.292046,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.10352802276611328,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.395692,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.052748918533325195,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.4485388,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.03618621826171875,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.4848042,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.3056309223175049,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534373.790528,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.30712175369262695,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.0977821,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.11908388137817383,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.216964,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.06403398513793945,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.281099,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.050726890563964844,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.3319092,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.14396977424621582,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.4759622,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.14096593856811523,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.617046,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.21026182174682617,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.827434,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.1478879451751709,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534374.975435,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.13564395904541016,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534375.111177,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.11615514755249023,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534375.227424,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.11277914047241211,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534375.340338,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.5529708862304688,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534375.893431,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.058197021484375,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "edit",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534375.951746,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 0.038693904876708984,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534375.99052,
+      "load_average": [
+        11.6171875,
+        5.8046875,
+        4.78369140625
+      ],
+      "elapsed_seconds": 2.045682907104492,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534378.0363111,
+      "load_average": [
+        10.8466796875,
+        5.7412109375,
+        4.76708984375
+      ],
+      "elapsed_seconds": 2.0094587802886963,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534380.0459032,
+      "load_average": [
+        10.8466796875,
+        5.7412109375,
+        4.76708984375
+      ],
+      "elapsed_seconds": 0.642291784286499,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534380.688303,
+      "load_average": [
+        10.8466796875,
+        5.7412109375,
+        4.76708984375
+      ],
+      "elapsed_seconds": 0.13820600509643555,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "read",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534380.826622,
+      "load_average": [
+        10.8466796875,
+        5.7412109375,
+        4.76708984375
+      ],
+      "elapsed_seconds": 0.11228203773498535,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534380.938992,
+      "load_average": [
+        10.8466796875,
+        5.7412109375,
+        4.76708984375
+      ],
+      "elapsed_seconds": 0.23558902740478516,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534381.174659,
+      "load_average": [
+        10.13818359375,
+        5.6787109375,
+        4.75048828125
+      ],
+      "elapsed_seconds": 0.23434185981750488,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534381.409118,
+      "load_average": [
+        10.13818359375,
+        5.6787109375,
+        4.75048828125
+      ],
+      "elapsed_seconds": 0.7131409645080566,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "rtk_no_freeze",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534382.122371,
+      "load_average": [
+        10.13818359375,
+        5.6787109375,
+        4.75048828125
+      ],
+      "elapsed_seconds": 0.1676938533782959,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "/Users/alex/DrawDo/src/datafriend/benchmarks/redux/benchmark.mjs",
+        "redux_manual",
+        "visible",
+        "1000",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534382.290178,
+      "load_average": [
+        10.13818359375,
+        5.6787109375,
+        4.75048828125
+      ],
+      "elapsed_seconds": 0.15039682388305664,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/query-before-planner.dylib",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534382.440653,
+      "load_average": [
+        10.13818359375,
+        5.6787109375,
+        4.75048828125
+      ],
+      "elapsed_seconds": 0.09652996063232422,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-redux",
+        "/Users/alex/DrawDo/src/datafriend/build/redux-native/libdatafriend.dylib",
+        "edit",
+        "100",
+        "3000",
+        "2000"
+      ],
+      "validation": false,
+      "started_unix": 1790534382.5372741,
+      "load_average": [
+        10.13818359375,
+        5.6787109375,
+        4.75048828125
+      ],
+      "elapsed_seconds": 0.09596586227416992,
+      "returncode": 0,
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+entities=10000 subscribers=10 additional_queries=0 query_evaluations=10 candidates=3000 emitted=2000 previous_entries=2000 query_tree_writes=10
+entities=10000 subscribers=10 additional_queries=10 query_evaluations=20 candidates=6000 emitted=4000 previous_entries=4000 query_tree_writes=10

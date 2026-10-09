@@ -1,0 +1,55 @@
+cmake_minimum_required(VERSION 3.18)
+project(datafriend LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(Threads REQUIRED)
+
+# Keep vendor compilation separate from the store and its language bindings.
+add_library(datafriend_storage OBJECT
+  ../third_party/aelmdb/src/mdb.c ../third_party/aelmdb/src/midl.c)
+target_compile_definitions(datafriend_storage PRIVATE MDB_HASH_SIZE=8)
+set_target_properties(datafriend_storage PROPERTIES POSITION_INDEPENDENT_CODE ON)
+add_library(datafriend_crypto OBJECT
+  ../third_party/monocypher/monocypher.c ../third_party/monocypher/monocypher-ed25519.c)
+set_target_properties(datafriend_crypto PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+option(DATAFRIEND_SHARED "Build a shared library" ON)
+if(DATAFRIEND_SHARED)
+  set(DATAFRIEND_LIBRARY_TYPE SHARED)
+else()
+  set(DATAFRIEND_LIBRARY_TYPE STATIC)
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS")
+  target_compile_definitions(datafriend_storage PRIVATE MDB_USE_POSIX_SEM=1)
+endif()
+
+add_library(datafriend ${DATAFRIEND_LIBRARY_TYPE} src/engine.cpp src/c_api.cpp src/owner_identity.cpp src/network.cpp)
+add_library(datafriend::datafriend ALIAS datafriend)
+target_include_directories(datafriend
+  PUBLIC include ../third_party/unordered_dense/include
+  PRIVATE src ../third_party/aelmdb/src ../third_party/monocypher
+          ../third_party/xxhash ../littlebear/src)
+target_compile_definitions(datafriend PRIVATE MDB_HASH_SIZE=8)
+target_link_libraries(datafriend PRIVATE datafriend_storage datafriend_crypto Threads::Threads)
+target_compile_options(datafriend PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-Wall;-Wextra>)
+if(APPLE)
+  target_sources(datafriend PRIVATE platform/apple/keychain.cpp)
+  target_link_libraries(datafriend PRIVATE "-framework Security" "-framework CoreFoundation")
+elseif(ANDROID)
+  target_sources(datafriend PRIVATE platform/android/keystore.cpp)
+endif()
+
+option(DATAFRIEND_TESTS "Build Datafriend correctness tests" ON)
+if(DATAFRIEND_TESTS AND NOT ANDROID AND NOT IOS)
+  enable_testing()
+  target_compile_definitions(datafriend PUBLIC DATAFRIEND_TESTING=1)
+  add_executable(transport_test tests/transport_test.cpp)
+  target_link_libraries(transport_test PRIVATE datafriend::datafriend)
+  foreach(name engine_test async_flush_test network_test identity_test slab_test)
+    add_executable(${name} tests/${name}.cpp)
+    target_link_libraries(${name} PRIVATE datafriend::datafriend)
+    target_include_directories(${name} PRIVATE src ../third_party/aelmdb/src ../littlebear/src ../third_party/monocypher)
+    target_compile_definitions(${name} PRIVATE MDB_HASH_SIZE=8)
+    add_test(NAME ${name} COMMAND ${name})
+  endforeach()
+endif()

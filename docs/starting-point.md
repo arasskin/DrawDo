@@ -2,15 +2,27 @@
 
 ## Decisions
 
-DrawDo targets both iOS and Android. The intended client stack is Kotlin
-Multiplatform and Compose Multiplatform. Littlebear will remain a C++ backend;
-its custom storage design is part of the project, not something to discard for
-an earlier launch date.
+DrawDo targets both iOS and Android. As of 2026-10-08, the client direction is
+**C++ with Sokol**, superseding the earlier pure Dart/Flutter choice. The Flutter
+client is unsupported historical reference. Native platform/rendering code has been
+recovered from the original junstodos iOS app. A standalone Sokol particle app
+now runs on Android alongside a persistent task list with native text editing.
+The native demo now also builds on iOS; native TCP orchestration remains follow-on work.
+See [the recovered source and platform assessment](sokol-client.md).
+Littlebear remains a C++ backend with its custom storage design.
 
-Use the upstream negentropy protocol engine rather than porting iCare's custom
-protocol. Kotlin/Native can consume a C interface on iOS; Android will need a
-JNI adapter behind the same shared Kotlin interface. The Linux server can call
-the C++ engine directly.
+Datafriend now implements local persistence, queries and editable views in C++
+behind a synchronous native interface. Networking remains integration work; see
+[the current implementation contract](datafriend-native.md). Its main entity-map data structure
+is called a **littlebear**; **LittleBear** names the network server.
+
+Use a custom negentropy variant with 64-bit xxHash contributions combined by
+XOR. App views reconcile triples with Datafriend; Datafriend reconciles whole
+entity records with the server. The app is authoritative when submitting an
+edited view, including retractions. Datafriend applies those changes, recomputes
+affected queries, and becomes authoritative for view refreshes. The full agreed
+flow and open protocol details are in [datafriend-design.md](datafriend-design.md).
+Start with fresh local data; migration from iCare is not required.
 
 The namespace owner is always authoritative. Owner-to-server reconciliation
 must make the server's cached namespace match the owner's state, including
@@ -53,8 +65,16 @@ the machine's budget. Structures need not all make the same space/speed tradeoff
 The single-threaded io_uring event loop is a throughput-oriented design. Preserve
 its opportunities for batching, asynchronous I/O, buffer reuse, and low syscall
 overhead. Assess hot-path changes with component measurements as they are built.
-Include negentropy's IDs, accumulators, counts, and any additional indexes in the
-memory accounting before settling their representation.
+The storage index now uses the mutable hash-ranked wide tree with a shared
+size-class slab allocator. Leaves hold keys, packed file references and 64-bit
+fingerprints; nodes cache subtree counts and XOR summaries. Namespace headers
+remain 24 bytes. The namespace directory now uses vendored `unordered_dense`,
+reuses fingerprint hashes and has no application namespace-count limit. The
+prior binary tree, arena and two-choice table remain as benchmark/test baselines. See the
+[tree comparison](datafriend-tree-benchmark.md),
+[allocator comparison](datafriend-allocator-benchmark.md), and current
+[storage contract](littlebear-storage.md). Include whole slab capacity, protocol
+buffers and additional indexes in memory accounting.
 
 Measure resident memory separately from reserved virtual address space, and
 account for page cache, connection buffers, and operating-system headroom.
@@ -64,56 +84,45 @@ and deployment/log retention still need a complete server resource budget.
 
 ## Littlebear's current state
 
-The network loop parses and echoes `add` and `retract` requests, but does not yet
-invoke record operations. The internal storage API now connects namespace trees
-and value-file I/O, including an io_uring adapter, safe asynchronous lifetimes,
-rollback, and cache reset at startup. Reconciliation requests, authentication,
-TCP storage dispatch, and subscriptions remain unfinished. Component tests cover
-allocators, arenas, fingerprints, the tree/table, and storage I/O. The GitHub
-workflow builds the server and runs normal and sanitizer checks before deployment.
+The default build is now the LBS5 TCP server: one io_uring loop handles connections,
+signed owner writes, reconciliation, paged transfers and persistent subscriptions.
+The echo prototype has been removed. `server.cpp` coordinates protocol parsing,
+authentication and sync; storage and reconciliation remain independent of sockets.
+See the [module map](../littlebear/README.md) and [network contract](datafriend-network.md).
 
-Component failures found in the source baseline:
+The storage API provides safe asynchronous lifetimes, rollback, and cache reset at
+startup. Native and Linux integration tests cover stale exchanges, owner changes
+during subscriber reads, replay protection, reconnect and cache reconstruction.
+Resource budgets and operational performance measurement remain on the
+[checklist](littlebear-checklist.md). Deployment scripts target the real server;
+existing installations need the updated unit and libsodium from bootstrap.
 
-- Fixed: a 64-byte allocation request produced a 32-byte slot; 128 produced 64.
-- Fixed: tree-arena and fingerprint-array guard-page addresses were not
-  page-aligned, causing `mprotect` to fail in local component checks.
-- Fixed: the namespace table's stale `zip_zip` references, lookup/replacement,
-  bounded growth, deletion, and allocation-failure behavior. Its tests distinguish
-  absent namespaces from present empty trees.
+## Reconciliation integration
 
-Tree insertion/deletion fingerprint updates, deletion traversal, allocation
-rollback, and maximum-key range handling have also been repaired. Nodes remain
-16 bytes; tree operations use iterative paths and explicit allocation/cleanup.
-See [component development](littlebear-components.md) for contracts and checks.
+The independent [reconciliation header](reconciliation.md) uses 8-byte record IDs
+and separate 8-byte fingerprints with cached XOR summaries. IDs are chosen
+record keys and remain stable across content edits; timestamps and
+upstream's 32-byte identity format are not required. The checked-in upstream
+engine and C bindings have been removed. Original B-tree measurements remain
+reproducible through an optional pinned reference fetched into the build cache.
 
-Inspection also found missing TCP framing, partial-send handling, and graceful
-connection-pool exhaustion. The README includes design goals and historical
-concurrency descriptions; it should not be read as a list of working features.
-
-The server now builds and runs on the Linux droplet with liburing through the
-[deployment workflow](deployment.md). Its health check verifies the prototype's
-request loop. See the [storage API contract](littlebear-storage.md) for implemented
-internal operations and the remaining TCP/protocol integration.
-
-## Negentropy integration
-
-Upstream negentropy reconciles 32-byte record IDs ordered by timestamp and ID.
-It identifies differences; record transfer, authentication, and deletion policy
-belong to the application protocol.
-
-Littlebear's current 64-bit XOR fingerprints are incompatible with upstream's
-fingerprint scheme. Retaining the custom tree requires a storage adapter with
-compatible accumulators, subtree counts, ordered iteration, and record-ID
-lookup. This work should be tested against upstream behavior.
-
-The imported upstream C interface was built on macOS in a temporary checkout,
-and a small two-set reconciliation check returned the expected have/need IDs.
-This does not verify mobile packaging or littlebear integration.
+The engine is allocation-free and has an adapter for the existing shared wide
+index: record keys supply IDs and stored hashes supply fingerprints. Explicit
+lists compare both fields to detect same-key content changes. Canonical record bytes, transport framing, authentication, and owner-directed
+transfer are implemented in the [network interface](datafriend-network.md).
 
 ## First milestones
 
 See [the Littlebear operational checklist](littlebear-checklist.md) for the
 detailed backend work and acceptance checks.
+
+Client development proceeds alongside the backend repairs. The first
+[`src/app/` slice](../src/app/README.md) implements personal tasks, drawing,
+bounded dragging with deceleration, and local save/reload. Storage has a small
+interface with an in-memory test substitute. Friends, the full force-based
+physics, and synchronization remain to be ported. Connect real reconciliation
+when the backend protocol is ready; local client development does not depend on
+completing the backend milestones below.
 
 1. Add regression checks and repair the known littlebear component failures.
 2. Validate tree insert/update/delete and range operations against a simple
@@ -123,10 +132,10 @@ detailed backend work and acceptance checks.
 4. Implement durable owner-side persistence and server-cache reconstruction,
    preserving non-owner local copies when the server namespace is absent and
    reconciling them to empty when the server namespace exists but is empty.
-5. Establish upstream-compatible reconciliation and record transfer in the
-   backend and mobile native bindings.
-6. Build a Kotlin client slice on both platforms: drawing and dragging, local
-   save/reload, and reconciliation with the backend.
+5. Establish the agreed custom reconciliation and record transfer between app
+   views, Datafriend, and the backend.
+6. Integrate the Dart/Flutter client slice on both platforms: drawing and
+   dragging, local save/reload, and reconciliation with the backend.
 
 The existing iCare physics, drawing behavior, task model, and notification
 behavior are available under `reference/icare/`. They are behavior references,

@@ -1,0 +1,26 @@
+{
+  "local": {
+    "physics_us": 0.50151875,
+    "triple_prepare_us": 0.18911666666666668,
+    "edit_us": 2.9763083333333333,
+    "readback_us": 0.2875104166666667,
+    "step_us": 3.954454166666667,
+    "profile_requestEncode_us": 0.26104349374999997,
+    "profile_nativeEdit_us": 2.3651647354166667,
+    "profile_transport_us": 0.02583518541666667,
+    "profile_replyCopy_us": 0.005944197916666667,
+    "edit_wrapper_other_us": 0.3183207208333334
+  },
+  "all": {
+    "physics_us": 6.10270625,
+    "triple_prepare_us": 2.3772687500000003,
+    "edit_us": 35.35138958333333,
+    "readback_us": 3.6611583333333333,
+    "step_us": 47.492522916666665,
+    "profile_requestEncode_us": 6.233992129166667,
+    "profile_nativeEdit_us": 25.0798753125,
+    "profile_transport_us": 0.07486190416666666,
+    "profile_replyCopy_us": 0.0066280374999999996,
+    "edit_wrapper_other_us": 3.9560321999999957
+  }
+}

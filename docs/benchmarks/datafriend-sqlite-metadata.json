@@ -1,0 +1,289 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "arguments": {
+    "rounds": 3,
+    "entities": 10000,
+    "samples": 1000
+  },
+  "warmup_edits": 100,
+  "source_sha256": {
+    "src/datafriend/benchmarks/sqlite.cpp": "3a20423550f297935b5e07c4016ac65332c95847b97da5352d5cdec003790b10",
+    "src/datafriend/benchmarks/run_sqlite.py": "cddf37bb08964bac6aa44c07c8ebff4008c4e4e709f1f7bdd623b77cf99cf627",
+    "src/datafriend/CMakeLists.txt": "e9c0eee0fc3ca03339964292926ff327bbc574620ab4a8d2b8b121c142546835",
+    "src/datafriend/native/engine.cpp": "3c0cebe29d3dcca760afdc319625eda48107bdc8dc0b8b665396a3538a54f327",
+    "src/datafriend/include/datafriend/persistent_wide_tree.h": "25fcf12d07839f5228f06fdfa881b9d6fbeb5f2ad9d57bba20dd1a19e11b96a6"
+  },
+  "runs": [
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "237",
+        "3"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_eav",
+        "10",
+        "237",
+        "3"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_tasks",
+        "10",
+        "237",
+        "3"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_eav",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_tasks",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_eav",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_tasks",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_eav",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_tasks",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_eav",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_tasks",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_tasks",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_eav",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_tasks",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "sqlite_eav",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "sqlite_eav",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "sqlite_tasks",
+        "0",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "sqlite_eav",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH g USING COVERING INDEX ave (attribute=? AND value=?)\nplan=SEARCH d USING PRIMARY KEY (entity=? AND attribute=?)\nplan=SEARCH t USING PRIMARY KEY (entity=? AND attribute=?)\nverification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "sqlite_tasks",
+        "10",
+        "10000",
+        "1000"
+      ],
+      "stderr": "sqlite_version=3.51.0 source=2025-06-12 13:14:41 f0ca7bba1c5e232e5d279fad6338121ab55af0c8c68c84cdfb18ba5114dcaapl\njournal_mode=wal\nsynchronous=0\ncache_size=-65536\nwal_autocheckpoint=1000\npage_size=4096\nplan=SEARCH tasks USING INDEX task_group (group_id=?)\nverification=passed\n"
+    }
+  ]
+}

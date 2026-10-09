@@ -17,7 +17,7 @@ dependency; repairing an existing component counts as unfinished work.
 - Consistency is eventual. Fast, repeated reconciliation should keep periods
   of divergence short; readers do not wait for cache-completeness guarantees.
 - Keep the custom tree and allocation design, the single event loop with
-  asynchronous I/O, and upstream negentropy.
+  asynchronous I/O, and the compact 64-bit reconciliation protocol.
 - Target one CPU core, approximately 500 MB RAM, and 10 GB total storage.
   Keep index entries compact; the smaller namespace table may spend more space
   to improve speed. Preserve io_uring batching and buffer reuse opportunities.
@@ -25,10 +25,10 @@ dependency; repairing an existing component counts as unfinished work.
 ## 1. Establish a repeatable build and correctness checks
 
 - [ ] Provide a documented Linux build environment with C++23, liburing, and
-  the dependencies needed by the vendored negentropy engine.
+  the standalone reconciliation checks (no crypto-library dependency).
 - [x] Add component-test build targets, header dependencies, and distinct
   debug/release outputs.
-- [ ] Add server integration-test targets once storage and sync are connected.
+- [x] Add server integration-test targets once storage and sync are connected.
 - [ ] Compile every storage component in checks, including headers that the
   server does not yet include.
 - [x] Run component checks with address and undefined-behavior sanitizers,
@@ -57,8 +57,8 @@ dependency; repairing an existing component counts as unfinished work.
 
 ## 3. Build the namespace and record storage API
 
-- [ ] Specify namespace identity and ownership, record keys, byte encoding,
-  size limits, and how records obtain negentropy timestamps and 32-byte IDs.
+- [x] Specify namespace identity and ownership, record keys, byte encoding,
+  size limits, and canonical full-record hashing into separate 64-bit fingerprints.
 - [x] Add explicit namespace lookup, creation, clearing, and removal operations;
   clearing preserves an empty namespace, while removal makes it absent.
 - [x] Implement value-file reads and writes using the size-class allocator,
@@ -71,60 +71,60 @@ dependency; repairing an existing component counts as unfinished work.
   lost allocation metadata cannot be mistaken for valid cached records.
 
 The internal [storage API](littlebear-storage.md) now provides these operations
-and an io_uring adapter. Connecting them to authenticated TCP requests and
-negentropy remains work in the following sections.
+and an io_uring adapter. The [TCP endpoint with signed owner writes](datafriend-network.md)
+connects them to Datafriend; operational scaling and deployment remain separate.
 
-## 4. Adapt the custom tree to upstream negentropy
+## 4. Connect the compact reconciliation engine
 
-- [ ] Budget the per-record cost of IDs, ordering metadata, accumulators, counts,
-  and record-ID lookup before selecting their layouts; measure the resulting
-  memory use and throughput against the target machine's limits.
-- [ ] Implement compatible accumulators and fingerprints, replacing the
-  current XOR scheme for reconciliation.
-- [ ] Support ordering by timestamp and record ID, including timestamp ties,
-  and maintain the counts needed for efficient access by position.
-- [ ] Implement the storage adapter: size, item access, ordered iteration,
-  lower-bound search, and range fingerprints.
-- [ ] Provide record-ID lookup for fetching the bytes identified by a sync.
-- [ ] Verify the adapter against an upstream reference storage implementation
-  for equal, empty, disjoint, overlapping, and incrementally edited sets.
+- [x] Replace the vendored engine with an independent header using 8-byte IDs,
+  independent 8-byte fingerprints, bounded work/buffers, and no internal allocations.
+- [x] Supply a shared wide-tree adapter for range fingerprints and bounded ID
+  enumeration; validate the engine against an exact set model and the real tree.
+- [x] Reconcile the existing key-ordered index directly using separate record
+  keys and fingerprints; detect content changes without changing the ID.
+- [x] Connect ID lookup to the payload bytes requested by reconciliation.
+- [x] Manage stable snapshots or restart detection across network rounds.
 
 ## 5. Define and implement the wire protocol
 
-- [ ] Specify versioned, length-delimited messages for namespace status,
+- [x] Specify versioned, length-delimited messages for namespace status,
   reconciliation rounds, record transfer, and owner mutations, with explicit
   success/error responses and binary-safe values.
-- [ ] Return distinct results for an absent namespace and an existing empty
+- [x] Return distinct results for an absent namespace and an existing empty
   namespace; a read of an absent namespace must not silently create it.
-- [ ] Authenticate ownership and enforce owner-only writes; define and enforce
-  the read-access policy for non-owners.
-- [ ] Handle fragmented/coalesced TCP messages, partial sends, malformed
+- [x] Authenticate ownership and enforce owner-only writes; define and enforce
+  public reads for non-owners. Ed25519 challenges piggyback on reconciliation
+  or absent-namespace replies; signed batches include nonce/sequence replay protection.
+- [x] Handle fragmented/coalesced TCP messages, partial sends, malformed
   requests, and messages larger than the current receive buffer.
-- [ ] Handle connection-pool and io_uring queue exhaustion without crashing;
+- [x] Handle connection-pool and io_uring queue exhaustion without crashing;
   bound message sizes, queued work, and per-connection resources.
-- [ ] Manage asynchronous request state, disconnect cleanup, and retries so
+- [x] Manage asynchronous request state, disconnect cleanup, and retries so
   failed or repeated requests do not corrupt storage or leak resources.
 
 ## 6. Connect the complete reconciliation flow
 
-- [ ] Drive negentropy rounds and transfer the identified record differences.
-- [ ] Apply owner sync toward the server, including deletion of server records
+- [x] Drive compact reconciliation rounds and transfer the identified record differences.
+- [x] Apply owner sync toward the server, including deletion of server records
   absent from the owner's view; server state never deletes owner-local data.
-- [ ] Supply non-owner reconciliation with server records and deletion results
+- [x] Supply non-owner reconciliation with server records and deletion results
   for existing namespaces, including existing empty namespaces.
-- [ ] Handle concurrent edits and interrupted rounds with safe retry/restart
+- [x] Handle concurrent edits and interrupted rounds with safe retry/restart
   behavior, so repeated sync converges once edits stop. Preserve memory safety
   without imposing a cache-completeness barrier on readers.
-- [ ] Add a small test client that exercises both owner and non-owner roles,
+- [x] Add a small test client that exercises both owner and non-owner roles,
   retains local state, and repeats sync after edits and reconnects.
+- [x] Separate push and subscribe; multiplex namespaces on persistent connections.
+  Server openings start subscriber reconciliation after updates. Changed revisions
+  restart subscriber work without locking an entire exchange against owner writes.
 
 ## 7. Prove recovery, operation, and sync speed
 
-- [ ] Run an end-to-end scenario: owner creates records, reader syncs, owner
+- [x] Run an end-to-end scenario: owner creates records, reader syncs, owner
   replaces/deletes records, and reader converges to the resulting set.
 - [ ] Verify that emptying an existing namespace clears a reader's copy, while
   removing the namespace leaves the reader's last-known copy intact.
-- [ ] Kill and restart the server with its cache lost; verify the owner retains
+- [x] Kill and restart the server with its cache lost; verify the owner retains
   its data, the reader retains its last-known copy while the namespace is
   absent, and both converge after the owner repopulates the cache.
 - [ ] Exercise failed I/O, disconnects during transfers, repeated requests,
@@ -142,8 +142,8 @@ negentropy remains work in the following sections.
 
 ## Later additions
 
-Subscriptions/change notifications can trigger reconciliation sooner. They are
-not required for the first operational backend if clients initiate sync.
+Subscriptions now trigger reconciliation directly from server opening packets;
+the protocol does not require a separate change notification round trip.
 Mobile native bindings and durable owner-side app storage belong to the client
 workstream; the test client allows backend completion to be verified first.
 

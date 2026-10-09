@@ -1,5 +1,5 @@
 [Unit]
-Description=Littlebear namespace cache
+Description=Littlebear TCP namespace cache (Ed25519 owner writes)
 After=network.target
 StartLimitIntervalSec=60
 StartLimitBurst=5
@@ -9,7 +9,7 @@ Type=simple
 User=littlebear
 Group=littlebear
 WorkingDirectory=/var/lib/littlebear
-ExecStart=/opt/littlebear/current/littlebear/core
+ExecStart=/opt/littlebear/current/littlebear/build/server --bind 0.0.0.0 --port 7777 --values /var/lib/littlebear/littlebear.values
 Restart=on-failure
 RestartSec=2
 TimeoutStopSec=15

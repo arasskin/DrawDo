@@ -1,0 +1,15 @@
+{
+  "device": "Moto G7 / API 29",
+  "checks": [
+    "add using Android editor",
+    "rename using Android editor",
+    "cancel editor with Back",
+    "completion and filters",
+    "drag reorder and restore",
+    "scroll",
+    "same first task after process restart",
+    "particle/task navigation"
+  ],
+  "editor_reopen_matches": true,
+  "result": "passed"
+}

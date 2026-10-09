@@ -1,0 +1,5 @@
+entities=1000 subscribers=1 candidates=30 emitted=20 previous_entries=20 query_tree_writes=1
+entities=10000 subscribers=1 candidates=300 emitted=200 previous_entries=200 query_tree_writes=1
+entities=10000 subscribers=10 candidates=3000 emitted=2000 previous_entries=2000 query_tree_writes=10
+entities=10000 subscribers=100 candidates=30000 emitted=20000 previous_entries=20000 query_tree_writes=100
+entities=100000 subscribers=10 candidates=30000 emitted=20000 previous_entries=20000 query_tree_writes=10

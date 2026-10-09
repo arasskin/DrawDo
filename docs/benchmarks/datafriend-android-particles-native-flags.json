@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/Users/alex/DrawDo/src/app/build/.cxx/profile/3w426i38/arm64-v8a",
+    "command": "/Users/alex/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=aarch64-none-linux-android24 --sysroot=/Users/alex/Library/Android/sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -DMDB_HASH_SIZE=8 -Ddatafriend_EXPORTS -I/Users/alex/DrawDo/datafriend/../third_party/monocypher -I/Users/alex/DrawDo/datafriend/include -I/Users/alex/DrawDo/datafriend/../third_party/unordered_dense/include -I/Users/alex/DrawDo/datafriend/../third_party/aelmdb/src -I/Users/alex/DrawDo/datafriend/../littlebear/src -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O3 -DNDEBUG -fPIC -Wall -Wextra -pthread -std=gnu++20 -o CMakeFiles/datafriend.dir/native/engine.cpp.o -c /Users/alex/DrawDo/datafriend/native/engine.cpp",
+    "file": "/Users/alex/DrawDo/datafriend/native/engine.cpp"
+  }
+]

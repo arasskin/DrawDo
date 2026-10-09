@@ -1,12 +1,12 @@
 #include "check.h"
-#include "size_class_file_heap.h"
+#include "heap.h"
 #include <algorithm>
 #include <map>
 #include <random>
 #include <vector>
 
 namespace heap_tests {
-namespace heap = size_class_file_heap;
+namespace heap = file_heap;
 
 void sizes() {
   // Independent, explicit sequence of allowed physical sizes.
@@ -16,7 +16,7 @@ void sizes() {
       slots.push_back(size);
   for (uint32_t bytes = 1; bytes <= UINT16_MAX; ++bytes) {
     auto expected = *std::lower_bound(slots.begin(), slots.end(), bytes);
-    auto actual = size_class_file_heap::next_smallest_slot_size(bytes);
+    auto actual = file_heap::next_smallest_slot_size(bytes);
     if (actual != expected)
       std::fprintf(stderr, "request=%u expected=%u actual=%u\n", bytes, expected, unsigned(actual));
     CHECK(actual == expected);
@@ -37,8 +37,8 @@ void sizes() {
 heap::allocator create(uint64_t limit, int metadata_bytes = 32) {
   heap::allocator a{};
   a.limit = limit;
-  a.slab_allocator = growing_slab_arena::create(sizeof(heap::slab), metadata_bytes);
-  CHECK(!growing_slab_arena::bad(&a.slab_allocator));
+  a.slab_allocator = slab_pool::create(sizeof(heap::slab), metadata_bytes);
+  CHECK(!slab_pool::bad(&a.slab_allocator));
   return a;
 }
 
@@ -55,7 +55,7 @@ void every_size_reuses_class() {
       CHECK(heap::release(&a, allocation.offset, size));
     }
     first_size = physical + 1;
-    growing_slab_arena::destroy(&a.slab_allocator);
+    slab_pool::destroy(&a.slab_allocator);
   }
 }
 
@@ -75,7 +75,7 @@ void capacity_and_reuse() {
   CHECK(!heap::release(&a, 0, 0));
   CHECK(!heap::release(&a, 0, 65536));
   CHECK(!heap::release(&a, 32, 32));
-  growing_slab_arena::destroy(&a.slab_allocator);
+  slab_pool::destroy(&a.slab_allocator);
 
   a = create(65535);
   CHECK(heap::reserve(&a, 65535).has_error);
@@ -87,7 +87,7 @@ void capacity_and_reuse() {
   a.high_watermark = UINT64_MAX - 15;
   a.limit = UINT64_MAX;
   CHECK(heap::reserve(&a, 32).has_error); // addition must not wrap
-  growing_slab_arena::destroy(&a.slab_allocator);
+  slab_pool::destroy(&a.slab_allocator);
 }
 
 void randomized_reuse() {
@@ -132,11 +132,11 @@ void randomized_reuse() {
     CHECK(!allocation.has_error && allocation.offset == *i);
   }
   CHECK(a.high_watermark == watermark);
-  growing_slab_arena::destroy(&a.slab_allocator);
+  slab_pool::destroy(&a.slab_allocator);
 }
 
 void metadata_growth_and_failure() {
-  namespace arena = growing_slab_arena;
+  namespace arena = slab_pool;
   auto a = arena::create(16, 32);
   CHECK(arena::reserve(&a) == 0);
   CHECK(arena::reserve(&a) == 1);

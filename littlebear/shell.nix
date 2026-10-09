@@ -5,6 +5,7 @@ pkgs.mkShell {
     clang-tools
     gdb
     bear
+    libsodium
     liburing
   ];
 }

@@ -12,7 +12,7 @@ public_key=$(cat -- "$1")
 [[ $public_key == ssh-ed25519\ * && $public_key != *$'\n'* ]]
 
 apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential liburing-dev python3 sudo
+DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential liburing-dev libsodium-dev python3 sudo
 
 if ! id littlebear >/dev/null 2>&1; then
   useradd --system --user-group --home-dir /var/lib/littlebear --shell /usr/sbin/nologin littlebear

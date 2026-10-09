@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-26",
+  "scope": "LittleBear slab-wide storage integration; no deployment",
+  "source_sha256": {
+    "littlebear/Makefile": "006b5987b3db851b3babb8ae2685e9e51feba4315d7ac6923930a91f5077abb2",
+    "littlebear/src/core.cpp": "3e135e64accfc79d52d3c328e50ab782161d9fda302ad7ba0a66785ee2a96dea",
+    "littlebear/src/storage.h": "5b1b547e19e96db4a827ed54d8334cd8ad31ee735d7ccaa1b1a9e34d90c58b3c",
+    "littlebear/src/main_data_containers/hash_table.h": "0a37c765d6d5a05d007fab3b8df1c6d5d66d512ef06da773de7baa35e11c7f4c",
+    "littlebear/src/main_data_containers/wide_index.h": "f6bf7375275566582e8dd9871c568522458da01fc0507967ba1e5719850aa8c6",
+    "littlebear/tests/wide_tree_test.cpp": "16954fa1868d9acbae45924fd38ab1d2116c0747aeda725e04a011582d973972",
+    "littlebear/tests/storage_test.cpp": "1e11d3e491433964d28825b341f888f5af111eb805dbc7ecec366f68c10683a0",
+    "littlebear/tests/hash_table_test.cpp": "a836db6a95e28d03a7cf23bff55096392119edc073c9961f5866230462914b4e",
+    "src/datafriend/include/datafriend/wide_tree.h": "bed87a781e51f4d4d64799d23d76e457d86ccd0d8c47870359820772213a0321",
+    "src/datafriend/include/datafriend/node_allocator.h": "68a2766c4be6acce0965535832b0ad545d982bd696a7ee81c250c4e1c76aee7f"
+  },
+  "local": {
+    "platform": "macOS arm64",
+    "checks": [
+      "LittleBear normal suite",
+      "Datafriend normal and UBSan suites"
+    ]
+  },
+  "linux": {
+    "platform": "Ubuntu 24.04 arm64 Docker",
+    "cpu_limit": 1,
+    "memory_limit_mib": 512,
+    "checks": [
+      "Optimized server build",
+      "LittleBear normal suite",
+      "LittleBear ASan/UBSan suite",
+      "Datafriend ASan/UBSan suite",
+      "Final affected wide-tree/storage/shared-tree sanitizer tests",
+      "Existing namespace table benchmark build and correctness checks"
+    ],
+    "io_uring": "Final storage sanitizer run required real io_uring; batched writes/read/SQ exhaustion passed with container seccomp filter disabled"
+  },
+  "regressions": [
+    "Allocation failure preserves records and summaries on split/join",
+    "Failed storage insertion rolls back the file slot",
+    "Failed joining deletion preserves payload and can retry",
+    "Populated ordinary/special namespace roots reclaimed",
+    "Namespace header 24 bytes; bucket 192 bytes; request 104 bytes"
+  ],
+  "limits": [
+    "No deployed-service changes",
+    "TCP record dispatch and wire reconciliation remain separate work",
+    "Historical tree/allocator timings predate recoverable-allocation integration"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "phases_seconds": {
+    "native": 2.473244458,
+    "java_dex": 0.0009075419999997614,
+    "resources": 0.00038925000000000765,
+    "package_sign_verify": 0.5902960420000003,
+    "install": 4.064230917,
+    "launch": 0.3422993339999998
+  },
+  "apk": "/Users/alex/DrawDo/src/app/build/sokol-android/drawdo-sokol.apk",
+  "apk_bytes": 3064508,
+  "apk_sha256": "9ff77f83b5479d1fcccc0ce01b5cd7399ea62925e0d267695cbd18872d195622",
+  "toolchain": "/Users/alex/Library/Android/sdk/ndk/28.2.13676358",
+  "sources_sha256": {
+    "src/app/native/CMakeLists.txt": "887c627b83003a2bc3161491cf05ebc1fe4067dee433224720e483e46fde7308",
+    "src/app/native/README.md": "390b3dff136c1671a11a9970b7fb3c7126ef37cebc3940a23b4d48c058a8819e",
+    "src/app/native/android/AndroidManifest.xml": "9bfae6f011d1e5a190296de24251f8b9ae749016f75fa047738218d5a83dc129",
+    "src/app/native/android/java/dev/drawdo/sokol/MainActivity.java": "845b805a81dd3b3391217a0362a622dd19beca5d4f342888ede183c37a6e96a2",
+    "src/app/native/android/res/drawable/icon.xml": "7ce3a60833276473da169c40296efde2045f0618b2243fc05c9b9dd13aa93659",
+    "src/app/native/build_android.py": "5a269ecc56eddb064aac211fea52d606c2fc218ad109a957f3d5537099495c44",
+    "src/app/native/demo.h": "154eb5884d15c4e054a277d05aef9c24765d456a0ea40142b7a93237cf55488f",
+    "src/app/native/main.cpp": "3210c341be004666f23562d6f5f5bef81094dea3da8ce1fe70b00c0998c18b13",
+    "src/app/native/particles.h": "7adee00c2b2caf24548273ca7af44243c0b972ffc54ff8c7daa1efeb0642da46",
+    "src/app/native/shaders.glsl": "4255788bde64b89429dbdd45504c7ea2c1adafe2408b37e6b25ad9b8039c8c4b",
+    "src/app/native/shaders.h": "9bc3919b6f5afccab5e45aed433b4fdf3fe90d9efb3ff40212df15cdaec302fd",
+    "src/app/native/shaders.json": "44979ac746c5adc5b8632669d5114ff45138e18892239446dc4f84565a36683a",
+    "src/app/native/sokol.cpp": "90ce25b75605e359e39d47741db5d2b94ea9c32720a5b2bff57d17f3185d81fd",
+    "src/app/native/tests/CMakeLists.txt": "5d129d9acffce262e9d15c659d4fb0cf9f9856489c2e8de16248b17a724cda27",
+    "src/app/native/tests/demo_test.cpp": "e688005ed3cdb844395e252592147f3082e8433225677970c989062ec0560325",
+    "src/app/native/text.h": "0d03702717aa64ece8b012b44332cdf44a8c961b20601ff19ba985d49a47aa74",
+    "src/app/native/text_android.cpp": "3603397300076b3f82a8e5695a39113c8e232364c9e7c829b4cee433a17e8659",
+    "src/app/native/view_bindings.h": "43c502a73074fec0d4b28fd4c1d375c07d5f2d197d01001c3a6ff09f1fbfcb9a"
+  }
+}

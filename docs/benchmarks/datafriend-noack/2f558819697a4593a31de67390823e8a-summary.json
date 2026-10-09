@@ -1,0 +1,437 @@
+{
+  "room": "2f558819697a4593a31de67390823e8a",
+  "case": "concurrent",
+  "seed": 1000,
+  "equal_text": true,
+  "equal_operation_counts": true,
+  "devices": {
+    "android": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1278,
+      "ui_facts": 1,
+      "edits": 67,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.898,
+        "p95": 0.996,
+        "max": 1.247
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.241,
+          "p95": 0.261,
+          "max": 0.305
+        },
+        "encode_state": {
+          "p50": 0.133,
+          "p95": 0.147,
+          "max": 0.307
+        },
+        "commit_publish": {
+          "p50": 0.518,
+          "p95": 0.624,
+          "max": 0.679
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "frame_cpu_ms": {
+        "p50": 2.317499,
+        "p95": 17.017605,
+        "max": 27.206093
+      },
+      "frame_work_ms": {
+        "p50": 0.080208,
+        "p95": 1.361198,
+        "max": 1.989063
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 60.013788233861895,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 329134,
+        "received": 303494,
+        "requests": 135,
+        "exchanges": 256,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 127,
+        "reconcile_us": 103,
+        "sign_us": 76434,
+        "apply_us": 59021,
+        "merge_us": 57888,
+        "pump_us": 347526,
+        "request_us": 548798,
+        "request_count": 5
+      },
+      "optimistic_sync": {
+        "uploads": 126,
+        "publications": 128,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 113.239,
+            "p95": 113.239,
+            "max": 113.239
+          },
+          "queue_ms": {
+            "p50": 0.182,
+            "p95": 0.182,
+            "max": 0.182
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 102.859,
+            "p95": 102.859,
+            "max": 102.859
+          },
+          "queue_ms": {
+            "p50": 0.137,
+            "p95": 0.137,
+            "max": 0.137
+          }
+        },
+        "fetch": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 103.201,
+            "p95": 103.201,
+            "max": 103.201
+          },
+          "queue_ms": {
+            "p50": 0.117,
+            "p95": 0.117,
+            "max": 0.117
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 116.188,
+            "p95": 116.188,
+            "max": 116.188
+          },
+          "queue_ms": {
+            "p50": 0.337,
+            "p95": 0.337,
+            "max": 0.337
+          }
+        },
+        "optimistic_apply": {
+          "count": 126,
+          "elapsed_ms": null,
+          "queue_ms": {
+            "p50": 0.255,
+            "p95": 0.386,
+            "max": 6.561
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 100.21350000000001,
+            "p95": 103.028,
+            "max": 103.028
+          },
+          "queue_ms": {
+            "p50": 0.29200000000000004,
+            "p95": 0.303,
+            "max": 0.303
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 113.298,
+            "p95": 113.298,
+            "max": 113.298
+          },
+          "queue_ms": {
+            "p50": 0.184,
+            "p95": 0.184,
+            "max": 0.184
+          }
+        }
+      }
+    },
+    "iphone": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1278,
+      "ui_facts": 1,
+      "edits": 67,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.69,
+        "p95": 0.895,
+        "max": 1.255
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.075,
+          "p95": 0.146,
+          "max": 0.17
+        },
+        "encode_state": {
+          "p50": 0.058,
+          "p95": 0.085,
+          "max": 0.091
+        },
+        "commit_publish": {
+          "p50": 0.561,
+          "p95": 0.742,
+          "max": 1.012
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "frame_cpu_ms": {
+        "p50": 0.8105,
+        "p95": 3.539708,
+        "max": 5.087584
+      },
+      "frame_work_ms": {
+        "p50": 0.019,
+        "p95": 0.925,
+        "max": 2.281
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 59.922297062378064,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 329398,
+        "received": 300982,
+        "requests": 136,
+        "exchanges": 255,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 128,
+        "reconcile_us": 111,
+        "sign_us": 46759,
+        "apply_us": 69666,
+        "merge_us": 29830,
+        "pump_us": 228293,
+        "request_us": 586508,
+        "request_count": 5
+      },
+      "optimistic_sync": {
+        "uploads": 127,
+        "publications": 126,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 133.567,
+            "p95": 133.567,
+            "max": 133.567
+          },
+          "queue_ms": {
+            "p50": 0.077,
+            "p95": 0.077,
+            "max": 0.077
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 100.064,
+            "p95": 100.064,
+            "max": 100.064
+          },
+          "queue_ms": {
+            "p50": 0.254,
+            "p95": 0.254,
+            "max": 0.254
+          }
+        },
+        "fetch": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 100.198,
+            "p95": 100.198,
+            "max": 100.198
+          },
+          "queue_ms": {
+            "p50": 0.273,
+            "p95": 0.273,
+            "max": 0.273
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 118.997,
+            "p95": 118.997,
+            "max": 118.997
+          },
+          "queue_ms": {
+            "p50": 16.737,
+            "p95": 16.737,
+            "max": 16.737
+          }
+        },
+        "optimistic_apply": {
+          "count": 127,
+          "elapsed_ms": null,
+          "queue_ms": {
+            "p50": 0.314,
+            "p95": 0.42,
+            "max": 0.686
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 100.207,
+            "p95": 100.235,
+            "max": 100.235
+          },
+          "queue_ms": {
+            "p50": 0.2625,
+            "p95": 0.293,
+            "max": 0.293
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 133.657,
+            "p95": 133.657,
+            "max": 133.657
+          },
+          "queue_ms": {
+            "p50": 0.098,
+            "p95": 0.098,
+            "max": 0.098
+          }
+        }
+      }
+    }
+  },
+  "one_way": {
+    "clock_calibration": {
+      "android": {
+        "samples": 468,
+        "pre_sample": [
+          92262949245,
+          5568053,
+          5568063,
+          92262955520
+        ],
+        "post_sample": [
+          92301151302,
+          43772270,
+          43772283,
+          92301160380
+        ],
+        "pre_rtt_ms": 6.265,
+        "post_rtt_ms": 9.065,
+        "estimated_drift_ppm": 19.893486868472916,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      },
+      "iphone": {
+        "samples": 443,
+        "pre_sample": [
+          5911910493232,
+          8356944,
+          8356950,
+          5911910502888
+        ],
+        "post_sample": [
+          5911946339761,
+          44202726,
+          44202734,
+          5911946355978
+        ],
+        "pre_rtt_ms": 9.65,
+        "post_rtt_ms": 16.209,
+        "estimated_drift_ppm": -112.31579905605913,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      }
+    },
+    "directions": {
+      "android_to_iphone": {
+        "edits": 67,
+        "distinct_uploads": 67,
+        "send_to_receive_ms": {
+          "p50": 105.22662991333007,
+          "p95": 127.98300535583496,
+          "max": 139.65818406677246
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 130.6773982849121,
+          "p95": 145.16133911132812,
+          "max": 160.9925522003174
+        },
+        "edit_to_display_ms": {
+          "p50": 178.71467376708983,
+          "p95": 193.59706567382813,
+          "max": 209.18513813781738
+        },
+        "edit_to_send_ms": {
+          "p50": 23.67,
+          "p95": 30.856,
+          "max": 31.305
+        },
+        "receive_to_display_ms": {
+          "p50": 48.5770830078125,
+          "p95": 48.7977080078125,
+          "max": 49.0560830078125
+        },
+        "max_clock_uncertainty_ms": 11.957769598780615
+      },
+      "iphone_to_android": {
+        "edits": 67,
+        "distinct_uploads": 67,
+        "send_to_receive_ms": {
+          "p50": 108.19436337280274,
+          "p95": 122.2396575012207,
+          "max": 148.00534115600587
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 125.8944854888916,
+          "p95": 140.55171235656738,
+          "max": 166.7163684692383
+        },
+        "edit_to_display_ms": {
+          "p50": 179.45024772644044,
+          "p95": 193.2683900604248,
+          "max": 219.61075869750977
+        },
+        "edit_to_send_ms": {
+          "p50": 17.435,
+          "p95": 17.733,
+          "max": 18.063
+        },
+        "receive_to_display_ms": {
+          "p50": 53.80879699707031,
+          "p95": 55.0170590057373,
+          "max": 55.22111700439453
+        },
+        "max_clock_uncertainty_ms": 11.807039913868794
+      }
+    }
+  },
+  "server_build": {
+    "release": "d891d8b86795aafed8162f71644356c67e040b4e-20261008-5",
+    "sha256": "e04a21e1c726f3bb512b44d0e46ce8f457cfd251efb428c5be0b0230ec6ab568"
+  }
+}

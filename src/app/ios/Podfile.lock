@@ -1,0 +1,27 @@
+PODS:
+  - Datafriend (0.1.0)
+  - Flutter (1.0.0)
+  - integration_test (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Datafriend (from `../../../datafriend`)
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+EXTERNAL SOURCES:
+  Datafriend:
+    :path: "../../../datafriend"
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+SPEC CHECKSUMS:
+  Datafriend: b5cbadd3ed6e32205349179d0bc8486d2b580272
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
+
+PODFILE CHECKSUM: 6f78d85eb53b47a3ca2910f6b97e8bc55ddd7a98
+
+COCOAPODS: 1.16.2

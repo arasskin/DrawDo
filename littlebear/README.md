@@ -1,37 +1,80 @@
-# littlebear
+# Littlebear
 
-A non-persistent memory-mapped alex set store.
+Littlebear is a disposable namespace cache. Owners push their authoritative state;
+public subscribers receive fact batches and reconcile against the cache when
+their full fingerprints disagree. A missing namespace preserves a
+subscriber's last known state, while an existing empty namespace clears it.
 
----
+One Linux io_uring loop drives TCP and file I/O. Namespaces share persistent
+connections; the server starts subscriber reconciliation after updates. Record
+IDs and fingerprints are separate 8-byte values. The target is one CPU, roughly
+500 MB RAM and 10 GB disk. See the [wire protocol and client API](../docs/datafriend-network.md).
 
-## Motivation
+## Boundaries
 
-littlebear is a cache layer for namespaced key-value pairs. The goals are:
+`server.cpp` is the orchestration point: parse an envelope, select a channel,
+verify an owner write, dispatch sync work, and submit I/O. Auth cannot call sync
+or storage. Sync cannot access sockets, signing keys, or io_uring.
 
-- **Write throughput.** Namespaces are genuinly independent datastructures, writes across namespaces should have minimal contention.
-- **Read throughput** Readers should never block.
-- **Sync.** Any reader can perform a full efficient set reconciliation against any namespace at any time. 
+| File | Responsibility |
+| --- | --- |
+| `src/server.cpp` | Connections, channels, request dispatch, subscription scheduling, io_uring completions |
+| `src/protocol.h` | LBS5 envelope parsing, field validation and limits; input views borrow the frame |
+| `src/auth.h` | Namespace digest, Ed25519 verification, challenge and sequence state |
+| `src/sync.h` | Namespace revisions, reconciliation and record transfer over explicit `lb_sync::state` |
+| `src/task.h` | Coroutine lifetime and pending file requests; submitted buffers survive cancellation |
+| `src/exchange.h` | Bounded packet/difference collection around the reconciliation algorithm |
+| `src/reconcile.h` | Allocation-free reconciliation using source callbacks |
+| `src/index_sync.h` | Adapter from the record index to reconciliation callbacks |
+| `src/storage.h` | Namespace/record lifecycle, value references and asynchronous I/O state |
+| `src/storage_uring.h` | Translate prepared storage requests into kernel submissions |
+| `src/namespaces.h` | Compact namespace directory; owns relocatable index headers |
+| `src/index.h` | Explicit-lifetime facade over the shared wide tree |
+| `src/heap.h`, `src/pool.h` | Size-class value-file allocator and its metadata pool |
+| `src/codec.h` | Shared byte reader/writer, also used by Datafriend's native boundary |
 
-littlebear uses a rank-partitioned augmented external zipzip tree rather than a B-tree:
+The main dependency paths are:
 
-- Concurrent reads are fully lock-free — no latch coupling.
-- Range fingerprints are intrinsic to the tree structure; no separate index needed. the tree acts both as an index and a hashtree.
-- No split or merge operations — the most complex part of B-tree implementations.
-- btree matching cold page misses during lookup and insertion.
-- fixed size nodes and simpler datastructure means we converge to full page utilization, i.e. minimal fragmentation.
-- minimal overhead for namespace creation. One in memory hash table insert.
-
-Littlebear has been designed as a backend for client facing applications. The intentions is that each users physical machine can be assigned one or several namespaces. Instead of streaming updates to the server, we always performe an efficient sync reconciliation algorithm between the client and server. This means that there are no special cases to handle: lag, disconnect and reconnect, client side log tracking. The client simply syncs to the server every time. If another user wants to see their friends data, they simply sync from their friends namespace. In contrast to typical approaches where developers implement complex queries to find the correct information, the complexity of littlebear comes from declaring good namespaces. I think this is much easier and natural to do. If a client has a todo list they want to sync, put all your todo list entities into a clienttodolist namespace and sync it to the server. Because your user ui generally has to partition data anyways to figure out what to show in what screen, relying on these paritions in the actual storage and backend layer should be easier than translating data to queries to data. You can think of littlebear as one big efficient nested map data structure where each top level key support efficient network syncyng.
-
+```text
+server -> protocol, auth, sync, storage_uring
+sync -> exchange, index_sync, storage, task
+exchange -> reconcile, protocol
+index_sync -> reconcile, index
+storage -> namespaces -> index
+storage -> heap -> pool
 ```
-{:namespace1 {:key1 val1 :key2 val2 :key3 val3...}}
- :namespace2 {:key1 val1 :key2 val2 :key3 val3...}}
- :namespace3 {:key1 val1 :key2 val2 :key3 val3...}}
- :namespace4 {:key1 val1 :key2 val2 :key3 val3...}}
- ...
+
+`index.h` is the only production facade over Datafriend's shared wide tree and
+node allocator. The application schema is supplied at the server entry point;
+protocol parsing accepts it as a parameter. Vendor code lives under `third_party`
+(xxHash, unordered_dense); licensing is recorded in [NOTICE.md](NOTICE.md).
+There are no production dependencies on the benchmark/reference directory.
+
+Code uses structs and namespace functions. Destructors are retained where they
+protect owned trees, coroutine buffers, and cancellation cleanup. This cleanup
+preserves the LBS5/LBR3 formats and storage layout.
+
+## Build and verify
+
+On Linux, install a C++23 compiler, liburing and libsodium development packages:
+
+```sh
+make -C littlebear
+littlebear/build/server --values /tmp/littlebear.values --port 7778
+make -C littlebear test
+make -C littlebear sanitize
+make -C littlebear debug
+python3 scripts/test_littlebear_tcp.py littlebear/build/server
 ```
-creating namespaces is highly efficient. each namespace is an actual independent datastructure which means that write concurrency is optimal as long as namespaces are tied to physical single threaded processes which is often the case for many client server application, for example mobile apps. namespaces must be 32byte public keys, keys can be any 8byte sequence, and values can be arbitrary byte arrays. The bigger the value, the less efficient the set reconciliation. Our efficiency comes from figuring out missing keys, not from chunking everything. The api is minimal and behaves how you would expect a nested map to behave except with the added efficient syncyng protocol between namespaces.
 
-## Design
+The default build produces the real `build/server`; `debug` produces
+`build/server-debug` with ASan/UBSan. `BUILD=build/linux` selects a separate output
+directory. Compiler-generated dependency files track the headers each target uses.
+Portable component tests also run on macOS with `CXX=clang++`; real io_uring tests
+run on Linux. The [deployment unit](../deploy/littlebear.service) uses the same
+server, with an explicit port of 7777. [Deployment setup](../docs/deployment.md).
 
-Littlebear is still being actively worked on. Currently the design has moved from using a thread pool to a single threaded event loop system. The thread pool is nice in principle, it lets the os handle what seem to be most of the difficulties of concurrency with little downside. However, after working through the code, it seems like handing over concurrency control to the os is a mistake for this system. Because threads are always making progress, a thread pool design requires a concurrent datastructure. A zip tree can be modified to allow for concurrent readers with an exclusive writer which is exactly what we want, but, doing this comes at a cost of complexity and makes the code much harder to debug correctly in my experience. A single threaded design is easier to reason about, keeps data structures simpler, and in theory could be extended to provide the same guarantees as a scheduler system. In practice, the event loop can stay much simpler. Quick operations like tree lookups can occur entirely sequentially, faster, and with less overhead than with a thread pool if we start to use batching. Expensive operations like io are all asyncronous and also highly efficient because of batching. Overall, this makes the design considerably simpler and probably considerably more performant. 
+Performance experiments, historical trees/arenas, and reference tests live in the
+sibling [littlebear-benchmarks](../littlebear-benchmarks/README.md) Git worktree on
+branch `benchmarks`. This `main` checkout builds only the server and production
+correctness tests. It has no dependencies on either benchmark worktree.

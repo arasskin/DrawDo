@@ -1,0 +1,1 @@
+{"engine":"datafriend","package":"Datafriend","mode":"capture","count":6,"durable":true,"samples":0,"warmup":0,"setup_us":81683,"reopen_read_us":734,"settings":{"durable":true,"sync":false,"storage":"AELMDB"},"checks":"CRUD, checksums and persistence passed","rows":[]}

@@ -1,0 +1,118 @@
+{
+  "room": "81c55bb0fec141edb5ce4cb856579c4f",
+  "case": "typing",
+  "seed": 1000,
+  "equal_text": true,
+  "equal_operation_counts": true,
+  "devices": {
+    "android": {
+      "edits": 67,
+      "acknowledged_edits": 67,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 6.924,
+        "p95": 7.818,
+        "max": 8.187
+      },
+      "edit_components_ms": {
+        "diff": {
+          "p50": 1.369,
+          "p95": 1.71,
+          "max": 1.827
+        },
+        "allocate": {
+          "p50": 0.333,
+          "p95": 0.459,
+          "max": 0.521
+        },
+        "commit": {
+          "p50": 2.092,
+          "p95": 2.471,
+          "max": 2.892
+        },
+        "merge": {
+          "p50": 3.077,
+          "p95": 3.59,
+          "max": 3.677
+        }
+      },
+      "ack_roundtrip_ms": {
+        "p50": 1282.959,
+        "p95": 1527.151,
+        "max": 1599.171
+      },
+      "frame_cpu_ms": {
+        "p50": 2.346041,
+        "p95": 16.015365,
+        "max": 27.114636
+      },
+      "frame_work_ms": {
+        "p50": 0.062396,
+        "p95": 6.799479,
+        "max": 10.032969
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 60.01344359949803,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 199646,
+        "received": 42238,
+        "requests": 138,
+        "exchanges": 53,
+        "restarts": 1,
+        "connections": 1,
+        "signed_batches": 26,
+        "reconcile_us": 34444,
+        "sign_us": 21546,
+        "apply_us": 11914,
+        "merge_us": 58,
+        "pump_us": 194735,
+        "request_us": 15210457,
+        "request_count": 135
+      }
+    },
+    "iphone": {
+      "edits": 0,
+      "acknowledged_edits": 0,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": null,
+      "edit_components_ms": {},
+      "ack_roundtrip_ms": null,
+      "frame_cpu_ms": {
+        "p50": 0.619375,
+        "p95": 1.375417,
+        "max": 5.898542
+      },
+      "frame_work_ms": {
+        "p50": 0.019,
+        "p95": 0.587,
+        "max": 2.576
+      },
+      "presentation_coverage": 0.0,
+      "present_fps": 0,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 48091,
+        "received": 219039,
+        "requests": 180,
+        "exchanges": 53,
+        "restarts": 1,
+        "connections": 1,
+        "signed_batches": 27,
+        "reconcile_us": 22875,
+        "sign_us": 8407,
+        "apply_us": 34770,
+        "merge_us": 25148,
+        "pump_us": 167266,
+        "request_us": 18064306,
+        "request_count": 177
+      }
+    }
+  }
+}

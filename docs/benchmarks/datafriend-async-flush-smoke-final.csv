@@ -1,0 +1,17 @@
+durability,entities,mode,round,workload,metric,samples,p50,p95,maximum,mean
+asynchronous,7,store,0,toggle_visible,call_us,3,277,837,837,419.6666666666667
+asynchronous,7,store,0,toggle_visible,commit_us,3,277,837,837,420
+asynchronous,7,store,0,toggle_visible,publish_us,3,276,832,832,417.6666666666667
+asynchronous,7,store,0,toggle_visible,read_us,3,9,66,66,26.333333333333332
+asynchronous,7,store,0,toggle_full,call_us,3,137,306,306,184.33333333333334
+asynchronous,7,store,0,toggle_full,commit_us,3,137,306,306,184.33333333333334
+asynchronous,7,store,0,toggle_full,publish_us,3,136,305,305,183.33333333333334
+asynchronous,7,store,0,toggle_full,read_us,3,6,17,17,9
+asynchronous,7,store,0,paced_visible,call_us,3,287,324,324,244
+asynchronous,7,store,0,paced_visible,commit_us,3,287,324,324,244
+asynchronous,7,store,0,paced_visible,publish_us,3,280,315,315,237.33333333333334
+asynchronous,7,store,0,paced_visible,read_us,3,11,12,12,8.666666666666666
+asynchronous,7,store,0,cached_full,read_us,1000,2.0,3,1826,3.595
+asynchronous,7,store,0,lifecycle,setup_us,1,19085,19085,19085,19085
+asynchronous,7,store,0,lifecycle,reopen_read_us,1,2002,2002,2002,2002
+asynchronous,7,store,0,lifecycle,flush_barrier_us,1,4143,4143,4143,4143

@@ -1,0 +1,17 @@
+durability,entities,mode,round,workload,metric,samples,p50,p95,maximum,mean
+asynchronous,7,store,0,toggle_visible,call_us,3,109,148,148,114.33333333333333
+asynchronous,7,store,0,toggle_visible,commit_us,3,109,148,148,114.66666666666667
+asynchronous,7,store,0,toggle_visible,publish_us,3,108,146,146,113.33333333333333
+asynchronous,7,store,0,toggle_visible,read_us,3,3,15,15,7
+asynchronous,7,store,0,toggle_full,call_us,3,71,77,77,72.66666666666667
+asynchronous,7,store,0,toggle_full,commit_us,3,71,77,77,72.66666666666667
+asynchronous,7,store,0,toggle_full,publish_us,3,71,77,77,72.33333333333333
+asynchronous,7,store,0,toggle_full,read_us,3,3,11,11,5.666666666666667
+asynchronous,7,store,0,paced_visible,call_us,3,156,298,298,201.66666666666666
+asynchronous,7,store,0,paced_visible,commit_us,3,156,299,299,202
+asynchronous,7,store,0,paced_visible,publish_us,3,152,291,291,196.66666666666666
+asynchronous,7,store,0,paced_visible,read_us,3,4,11,11,6
+asynchronous,7,store,0,cached_full,read_us,1000,0.0,1,456,0.529
+asynchronous,7,store,0,lifecycle,setup_us,1,17752,17752,17752,17752
+asynchronous,7,store,0,lifecycle,reopen_read_us,1,808,808,808,808
+asynchronous,7,store,0,lifecycle,flush_barrier_us,1,3262,3262,3262,3262

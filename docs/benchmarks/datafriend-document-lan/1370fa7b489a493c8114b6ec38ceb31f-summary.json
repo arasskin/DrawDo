@@ -1,0 +1,103 @@
+{
+  "room": "1370fa7b489a493c8114b6ec38ceb31f",
+  "case": "concurrent",
+  "seed": 1000,
+  "equal_text": true,
+  "equal_operation_counts": true,
+  "devices": {
+    "android": {
+      "edits": 67,
+      "acknowledged_edits": 67,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 11.219,
+        "p95": 13.37,
+        "max": 16.421
+      },
+      "ack_roundtrip_ms": {
+        "p50": 512.799,
+        "p95": 1259.575,
+        "max": 1700.992
+      },
+      "frame_cpu_ms": {
+        "p50": 2.3820305,
+        "p95": 21.7349,
+        "max": 43.29391
+      },
+      "frame_work_ms": {
+        "p50": 0.064219,
+        "p95": 10.544637,
+        "max": 31.011409
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 58.93248708210825,
+      "present_gaps_over_25ms": 27,
+      "network": {
+        "sent": 283745,
+        "received": 73834,
+        "requests": 442,
+        "exchanges": 158,
+        "restarts": 1,
+        "connections": 1,
+        "signed_batches": 79,
+        "reconcile_us": 95863,
+        "sign_us": 49002,
+        "apply_us": 42398,
+        "merge_us": 364594,
+        "pump_us": 920118,
+        "request_us": 12492477,
+        "request_count": 438
+      }
+    },
+    "iphone": {
+      "edits": 67,
+      "acknowledged_edits": 67,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 2.869,
+        "p95": 3.286,
+        "max": 3.562
+      },
+      "ack_roundtrip_ms": {
+        "p50": 481.921,
+        "p95": 1236.584,
+        "max": 1683.309
+      },
+      "frame_cpu_ms": {
+        "p50": 0.797208,
+        "p95": 6.576083,
+        "max": 11.318333
+      },
+      "frame_work_ms": {
+        "p50": 0.028,
+        "p95": 3.556,
+        "max": 8.604
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 59.918229016078804,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 147639,
+        "received": 265249,
+        "requests": 528,
+        "exchanges": 141,
+        "restarts": 18,
+        "connections": 1,
+        "signed_batches": 80,
+        "reconcile_us": 76386,
+        "sign_us": 23779,
+        "apply_us": 73961,
+        "merge_us": 81717,
+        "pump_us": 471704,
+        "request_us": 17024213,
+        "request_count": 524
+      }
+    }
+  }
+}

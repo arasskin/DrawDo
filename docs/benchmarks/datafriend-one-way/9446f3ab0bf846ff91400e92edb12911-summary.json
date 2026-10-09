@@ -1,0 +1,461 @@
+{
+  "room": "9446f3ab0bf846ff91400e92edb12911",
+  "case": "concurrent",
+  "seed": 1000,
+  "equal_text": true,
+  "equal_operation_counts": true,
+  "devices": {
+    "android": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1281,
+      "ui_facts": 1,
+      "edits": 67,
+      "acknowledged_edits": 67,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.89,
+        "p95": 1.151,
+        "max": 1.365
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.241,
+          "p95": 0.47,
+          "max": 0.682
+        },
+        "encode_state": {
+          "p50": 0.127,
+          "p95": 0.16,
+          "max": 0.279
+        },
+        "commit_publish": {
+          "p50": 0.505,
+          "p95": 0.635,
+          "max": 0.715
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "ack_roundtrip_ms": {
+        "p50": 327.957,
+        "p95": 416.517,
+        "max": 432.601
+      },
+      "frame_cpu_ms": {
+        "p50": 2.3838285,
+        "p95": 14.743281,
+        "max": 29.101195
+      },
+      "frame_work_ms": {
+        "p50": 0.077709,
+        "p95": 1.56974,
+        "max": 2.954688
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 60.01353755153416,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 242763,
+        "received": 232610,
+        "requests": 101,
+        "exchanges": 192,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 93,
+        "reconcile_us": 111,
+        "sign_us": 63548,
+        "apply_us": 50408,
+        "merge_us": 61252,
+        "pump_us": 316134,
+        "request_us": 10597973,
+        "request_count": 97
+      },
+      "optimistic_sync": {
+        "uploads": 92,
+        "publications": 98,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 99.233,
+            "p95": 99.233,
+            "max": 99.233
+          },
+          "queue_ms": {
+            "p50": 0.117,
+            "p95": 0.117,
+            "max": 0.117
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 102.891,
+            "p95": 102.891,
+            "max": 102.891
+          },
+          "queue_ms": {
+            "p50": 0.087,
+            "p95": 0.087,
+            "max": 0.087
+          }
+        },
+        "fetch": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 103.247,
+            "p95": 103.247,
+            "max": 103.247
+          },
+          "queue_ms": {
+            "p50": 0.069,
+            "p95": 0.069,
+            "max": 0.069
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 116.137,
+            "p95": 116.137,
+            "max": 116.137
+          },
+          "queue_ms": {
+            "p50": 0.285,
+            "p95": 0.285,
+            "max": 0.285
+          }
+        },
+        "optimistic_apply": {
+          "count": 92,
+          "elapsed_ms": {
+            "p50": 108.77850000000001,
+            "p95": 130.398,
+            "max": 135.756
+          },
+          "queue_ms": {
+            "p50": 0.2755,
+            "p95": 15.531,
+            "max": 19.9
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 100.242,
+            "p95": 101.107,
+            "max": 101.107
+          },
+          "queue_ms": {
+            "p50": 0.3045,
+            "p95": 0.46,
+            "max": 0.46
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 99.297,
+            "p95": 99.297,
+            "max": 99.297
+          },
+          "queue_ms": {
+            "p50": 0.118,
+            "p95": 0.118,
+            "max": 0.118
+          }
+        }
+      }
+    },
+    "iphone": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1281,
+      "ui_facts": 1,
+      "edits": 67,
+      "acknowledged_edits": 67,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.529,
+        "p95": 0.938,
+        "max": 1.566
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.075,
+          "p95": 0.144,
+          "max": 0.202
+        },
+        "encode_state": {
+          "p50": 0.044,
+          "p95": 0.084,
+          "max": 0.121
+        },
+        "commit_publish": {
+          "p50": 0.389,
+          "p95": 0.771,
+          "max": 1.441
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "ack_roundtrip_ms": {
+        "p50": 316.783,
+        "p95": 418.146,
+        "max": 451.195
+      },
+      "frame_cpu_ms": {
+        "p50": 0.8036455,
+        "p95": 3.672875,
+        "max": 5.205167
+      },
+      "frame_work_ms": {
+        "p50": 0.02,
+        "p95": 0.997,
+        "max": 3.047
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 59.86755603038102,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 251565,
+        "received": 224759,
+        "requests": 106,
+        "exchanges": 191,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 98,
+        "reconcile_us": 144,
+        "sign_us": 37529,
+        "apply_us": 53736,
+        "merge_us": 31738,
+        "pump_us": 197708,
+        "request_us": 10691469,
+        "request_count": 102
+      },
+      "optimistic_sync": {
+        "uploads": 97,
+        "publications": 92,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 102.343,
+            "p95": 102.343,
+            "max": 102.343
+          },
+          "queue_ms": {
+            "p50": 0.044,
+            "p95": 0.044,
+            "max": 0.044
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 100.021,
+            "p95": 100.021,
+            "max": 100.021
+          },
+          "queue_ms": {
+            "p50": 0.144,
+            "p95": 0.144,
+            "max": 0.144
+          }
+        },
+        "fetch": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 100.113,
+            "p95": 100.113,
+            "max": 100.113
+          },
+          "queue_ms": {
+            "p50": 0.093,
+            "p95": 0.093,
+            "max": 0.093
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 99.918,
+            "p95": 99.918,
+            "max": 99.918
+          },
+          "queue_ms": {
+            "p50": 1.083,
+            "p95": 1.083,
+            "max": 1.083
+          }
+        },
+        "optimistic_apply": {
+          "count": 97,
+          "elapsed_ms": {
+            "p50": 99.766,
+            "p95": 116.645,
+            "max": 133.137
+          },
+          "queue_ms": {
+            "p50": 0.318,
+            "p95": 0.988,
+            "max": 16.183
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 100.095,
+            "p95": 100.553,
+            "max": 100.553
+          },
+          "queue_ms": {
+            "p50": 0.267,
+            "p95": 0.32,
+            "max": 0.32
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 102.423,
+            "p95": 102.423,
+            "max": 102.423
+          },
+          "queue_ms": {
+            "p50": 0.058,
+            "p95": 0.058,
+            "max": 0.058
+          }
+        }
+      }
+    }
+  },
+  "one_way": {
+    "clock_calibration": {
+      "android": {
+        "samples": 441,
+        "pre_sample": [
+          90535667017,
+          6526365,
+          6526378,
+          90535673298
+        ],
+        "post_sample": [
+          90569185220,
+          40045850,
+          40045853,
+          90569195601
+        ],
+        "pre_rtt_ms": 6.268,
+        "post_rtt_ms": 10.378,
+        "estimated_drift_ppm": -23.060685132656964,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      },
+      "iphone": {
+        "samples": 445,
+        "pre_sample": [
+          5910188224915,
+          14364445,
+          14364450,
+          5910188241047
+        ],
+        "post_sample": [
+          5910214306807,
+          40446013,
+          40446016,
+          5910214323025
+        ],
+        "pre_rtt_ms": 16.127,
+        "post_rtt_ms": 16.215,
+        "estimated_drift_ppm": -14.109382605239988,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      }
+    },
+    "directions": {
+      "android_to_iphone": {
+        "edits": 67,
+        "distinct_uploads": 67,
+        "send_to_receive_ms": {
+          "p50": 109.32950880432129,
+          "p95": 120.25286473083496,
+          "max": 134.88057081604003
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 164.18890159606934,
+          "p95": 228.30983877563477,
+          "max": 241.59165283203126
+        },
+        "edit_to_display_ms": {
+          "p50": 212.32426390075685,
+          "p95": 275.39759170532227,
+          "max": 289.99188623046877
+        },
+        "edit_to_send_ms": {
+          "p50": 49.877,
+          "p95": 114.638,
+          "max": 131.797
+        },
+        "receive_to_display_ms": {
+          "p50": 48.576291015625,
+          "p95": 48.9479580078125,
+          "max": 49.38920703125
+        },
+        "max_clock_uncertainty_ms": 13.21669546181928
+      },
+      "iphone_to_android": {
+        "edits": 67,
+        "distinct_uploads": 67,
+        "send_to_receive_ms": {
+          "p50": 106.2323048248291,
+          "p95": 120.22529536437989,
+          "max": 132.99100546264648
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 148.1117222137451,
+          "p95": 219.16971882629394,
+          "max": 229.90051730346678
+        },
+        "edit_to_display_ms": {
+          "p50": 214.4095763244629,
+          "p95": 658.0395860748291,
+          "max": 1108.3082335357667
+        },
+        "edit_to_send_ms": {
+          "p50": 34.093,
+          "p95": 116.628,
+          "max": 117.629
+        },
+        "receive_to_display_ms": {
+          "p50": 53.469977996826174,
+          "p95": 536.9752250061035,
+          "max": 986.5372250061035
+        },
+        "max_clock_uncertainty_ms": 13.164294875084735
+      }
+    }
+  },
+  "measurement_validity": {
+    "send_to_receive": true,
+    "edit_to_ui_ready": true,
+    "display_latency": false,
+    "reason": "Early peer edits preceded receiver frame recording because phone wall clocks differed. Retained for diagnosis; repeat uses five-second frame lead-in."
+  }
+}

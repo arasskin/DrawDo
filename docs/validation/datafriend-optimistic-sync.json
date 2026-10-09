@@ -1,0 +1,29 @@
+{
+  "status": "pass",
+  "implementation": "signed optimistic fact batches with full XOR fingerprint and negentropy fallback",
+  "server": {
+    "host": "147.182.181.182",
+    "port": 7777,
+    "release": "d891d8b86795aafed8162f71644356c67e040b4e-20261008-3",
+    "build": "local working tree, x86-64; not a GitHub Actions run"
+  },
+  "binaries": {
+    "/tmp/drawdo-optimistic-linux/server": "ba3d4843811b567fbd990c115c35e220fef30dfd612b842979cc18fd7bee3816",
+    "demo-app/build/android/drawdo-sokol.apk": "82830ed3fcdea727b92bc80689d176b52e449ad43d59120c7c71d7a6f0511c65",
+    "demo-app/build/ios/Release-iphoneos/drawdo_sokol.app/drawdo_sokol": "d003733af07180de438a81ee0462812d05b22a9ca7e11c949afe8f09b52f4361"
+  },
+  "tests": {
+    "core": "5 passed",
+    "demo": "5 passed",
+    "tcp_auth": "passed, including optimistic signatures, replay/tamper rejection and forwarding",
+    "native_transport": "passed local and public; one upload/direct publication asserted",
+    "sanitizers": "server TCP/auth and native transport/CRDT integration passed ASan/UBSan on Linux ARM64"
+  },
+  "phone_runs": {
+    "diagnostic": "ee32fe2aa06244c7a13e156285954563",
+    "normal": "3463faefc5b543e3a832552313dd74f4",
+    "offline": "56fc63f0f3024680b2ba00ae95dfd4b2"
+  },
+  "phone_result": "all three runs: 134/134 edits acknowledged, equal final text and edit counts, settled, no errors, full presentation coverage; zero normal-run fallbacks; offline recovery exercised two fallbacks",
+  "interactive_room": "yrs-document-demo"
+}

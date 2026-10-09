@@ -1,0 +1,129 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "arguments": {
+    "flutter": "flutter",
+    "skip_build": true,
+    "samples": 30,
+    "warmup": 5,
+    "rounds": 3,
+    "smoke": true,
+    "output_prefix": "datafriend-instantdb-smoke"
+  },
+  "runs": [
+    {
+      "name": "store-datafriend-7-buffered-0",
+      "config": {
+        "engine": "datafriend",
+        "count": 7,
+        "durable": false,
+        "mode": "store",
+        "samples": 3,
+        "warmup": 2,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-yk3t5elg/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-smoke-runs/store-datafriend-7-buffered-0.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790547915.403987,
+      "load_average": [
+        5.81982421875,
+        5.35986328125,
+        4.96142578125
+      ],
+      "elapsed_seconds": 1.3266029357910156,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:25:16.134 datafriend_todo_lab[53551:153149478] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "capture-datafriend-6-durable-0",
+      "config": {
+        "engine": "datafriend",
+        "count": 6,
+        "durable": true,
+        "mode": "capture",
+        "samples": 0,
+        "warmup": 0,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-hwrx6wyy/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-smoke-runs/capture-datafriend-6-durable-0.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790547916.732557,
+      "load_average": [
+        5.81982421875,
+        5.35986328125,
+        4.96142578125
+      ],
+      "elapsed_seconds": 0.8319239616394043,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:25:16.834 datafriend_todo_lab[53583:153149676] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-7-buffered-0",
+      "config": {
+        "engine": "instantdb",
+        "count": 7,
+        "durable": false,
+        "mode": "store",
+        "samples": 3,
+        "warmup": 2,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-cc33gndx/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-smoke-runs/store-instantdb-7-buffered-0.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790547917.5654988,
+      "load_average": [
+        5.81982421875,
+        5.35986328125,
+        4.96142578125
+      ],
+      "elapsed_seconds": 3.4079291820526123,
+      "returncode": 0,
+      "stdout": "flutter: [18:25:17.713] [Instance-7713] [Root        ] [INFO   ] InstantDB logging configured for Instance-7713\nflutter: [18:25:17.713] [Instance-7713] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:25:20.963] [Instance-963] [Root        ] [INFO   ] InstantDB logging configured for Instance-963\nflutter: [18:25:20.963] [Instance-963] [Root        ] [INFO   ] InstantDB logging configured for Instance-963\nflutter: [18:25:20.963] [Instance-963] [Root        ] [INFO   ] InstantDB logging configured for Instance-963\nflutter: [18:25:20.963] [Instance-963] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:25:20.963] [Instance-963] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:25:20.963] [Instance-963] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:25:17.668 datafriend_todo_lab[53610:153150177] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "capture-instantdb-6-durable-0",
+      "config": {
+        "engine": "instantdb",
+        "count": 6,
+        "durable": true,
+        "mode": "capture",
+        "samples": 0,
+        "warmup": 0,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-phmqf5a1/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-smoke-runs/capture-instantdb-6-durable-0.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790547920.983197,
+      "load_average": [
+        5.75390625,
+        5.353515625,
+        4.96142578125
+      ],
+      "elapsed_seconds": 1.386749029159546,
+      "returncode": 0,
+      "stdout": "flutter: [18:25:21.158] [Instance-1158] [Root        ] [INFO   ] InstantDB logging configured for Instance-1158\nflutter: [18:25:21.158] [Instance-1158] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:25:22.350] [Instance-2350] [Root        ] [INFO   ] InstantDB logging configured for Instance-2350\nflutter: [18:25:22.350] [Instance-2350] [Root        ] [INFO   ] InstantDB logging configured for Instance-2350\nflutter: [18:25:22.350] [Instance-2350] [Root        ] [INFO   ] InstantDB logging configured for Instance-2350\nflutter: [18:25:22.350] [Instance-2350] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:25:22.350] [Instance-2350] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:25:22.350] [Instance-2350] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:25:21.117 datafriend_todo_lab[53684:153150753] Running with merged UI and platform thread. Experimental.\n"
+    }
+  ],
+  "scope": "Same Flutter macOS Release app and UI; actual sqflite platform plugin. Community flutter_instantdb 2.3.0; sync disabled for both. Buffered: Datafriend MDB_NOSYNC and SQLite synchronous=OFF. Durable: backend defaults. No network comparison. Store timers separate function return, write completion, query publication and read. Frame timings use the real shared UI, with 250 ms pauses after completed operations.",
+  "source_sha256": {
+    "src/todo_demo/lib/change.dart": "1bbac2788e4a644b4b2c1c2859080853a94eb15ccbb0a9e6ed43e236b62e8010",
+    "src/todo_demo/lib/stores.dart": "a5e0b8643cb934a0c48a40ceab910b02c98ac0313d595277c5a01ee1d0f6e710",
+    "src/todo_demo/lib/main.dart": "9b85d551636081876b6f91e0668d1eeb77b8b118076c33bf9c01a00d9cb1efc2",
+    "src/todo_demo/lib/benchmark.dart": "586bd8ceabb7eeb00cf1139e1ee66580e7b42965389fbdbf383c2fff507e42ba",
+    "src/todo_demo/lib/todo_screen.dart": "ab04bf29221e822044a28616be838ceaa1f5325e9dd2d9236fe5fa49dd936d79",
+    "src/todo_demo/pubspec.lock": "7662472b2d67fb951f74356a7f3e29a612246ab550b91ee5d3c1cdfbe21f47e3",
+    "src/todo_demo/tool/run_benchmarks.py": "a1c8f37b8804bae4ee9de701f16f7b7023951e88fb769344ade0b4883e8e539f",
+    "src/app/lib/data/app_views.dart": "d8e8c1aafc64e36839021db2ef42cce16272068bee207b46359f8e911e6b1625",
+    "src/app/lib/data/datafriend.dart": "583e3759df14ee4f3b27fd12d60abb29593cd382a37d6a09ac5b664ee9eca04a",
+    "src/datafriend/native/engine.cpp": "f848001ba0eab66e3a68f0693ea2dd9f2a91743a6d687ae14d402b2e6b8689c9",
+    "src/datafriend/native/c_api.cpp": "2bae3530119736453d2b158999fbff9d279c4d3532a4c153c07a873d519bad28"
+  },
+  "binary_sha256": {
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/MacOS/datafriend_todo_lab": "6028fb885492557040a67a4e12e9a08de73f1c1e9406c674c2d146ec071a02b0",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/libdatafriend.dylib": "51dfce9eae163472055b73b4b12f5ff099a5adfee8520822e5605e74fa58e312",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/App.framework/Versions/A/App": "2cab4540cd14fc3eb7c02d114bc97488acd11bf757e753bcbee54c460888e2ab"
+  }
+}

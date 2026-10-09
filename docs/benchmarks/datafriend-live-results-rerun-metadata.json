@@ -1,0 +1,283 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "arguments": {
+    "dart": "/Users/alex/developer/flutter/bin/cache/dart-sdk/bin/dart",
+    "samples": 1000,
+    "rounds": 3,
+    "output_prefix": "datafriend-live-results-rerun"
+  },
+  "warmup": 100,
+  "durability": "MDB_NOSYNC",
+  "scope": "Dart AOT app-view callback body with a publication listener; optional complete projection readback; excludes Flutter scheduling/rendering and network",
+  "source_sha256": {
+    "src/app/tool/benchmark_direct_views.dart": "161e986267139010a42ad84e3071a2312c5ecce28f025f6f02c0bae6c2d185e3",
+    "src/app/tool/benchmark_dart_phases.dart": "aa913ed350b6224ad249c341cd728539540aae097a6a0c10aef640b900add21f",
+    "src/app/tool/support/legacy_document_store.dart": "20e52628cf8bec24657e6b4dff55b4214190c142c97f979a1c1dd99d1e733ae6",
+    "src/app/lib/data/app_views.dart": "e9e7b060d12f45ce83006b265d6d0275b2bfad71d770ea1c23444071b99f4814",
+    "src/app/lib/data/datafriend.dart": "c3464bae718f67aa730e0c9268ae83a431c3491562e6e376ec9944232aa7c3f2",
+    "src/app/lib/app_controller.dart": "dccb06cb754ceb0acd7fdf9481f2a0a9519ed53b969252456181404746f40c6d",
+    "src/datafriend/native/c_api.cpp": "9a991b3506b3efee54cbe19662e5ac4ae0617b9713d11d56063251630aac4075",
+    "src/datafriend/native/engine.cpp": "4383d517d93998e7f9d7ba9fe8a63bb2df02c47f84295ae058c635edac22646b",
+    "src/datafriend/include/datafriend/engine.h": "c18f7739f2e230666c5d1404baac10f07b0d300a966eb1d99b24ee8f416383fa",
+    "src/datafriend/benchmarks/run_direct_views.py": "fc581496ae868e4de6b48fc4614a132d48e2f4f01368dd1eee4e8ff2ffd80ed9"
+  },
+  "binary_sha256": {
+    "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views": "503ff12b7967af6f5c850edf1a2ca471fb223208df8a0b16f135b221da03a1c9",
+    "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib": "178f46921c5fa2454918da804496c4a4fd61c2aa332c31691278c956594f5cc7"
+  },
+  "runs": [
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "7",
+        "3"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_read",
+        "1000",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "legacy",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-direct-views",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "direct_edit",
+        "100",
+        "1000"
+      ],
+      "stderr": ""
+    }
+  ],
+  "load_observation": {
+    "top_timestamp": "2026/09/27 12:16:23",
+    "cpu_user_percent": 27.46,
+    "cpu_system_percent": 8.28,
+    "cpu_idle_percent": 64.24,
+    "load_averages": [
+      14.92,
+      225.69,
+      333.94
+    ],
+    "note": "One sample during this run, not continuous monitoring. Earlier persistent-view figures were not rerun; comparisons to them remain historical."
+  }
+}

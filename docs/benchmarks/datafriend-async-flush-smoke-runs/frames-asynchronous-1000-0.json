@@ -1,0 +1,1 @@
+{"error":"Bad state: Updated frame timing was not captured","stack":"#0      require (package:datafriend_todo_lab/benchmark.dart:12)\n#1      runBenchmark (package:datafriend_todo_lab/benchmark.dart:118)\n<asynchronous suspension>\n#2      main (package:datafriend_todo_lab/main.dart:19)\n<asynchronous suspension>\n"}

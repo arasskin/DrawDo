@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "facts": 1998,
+  "notifications": 4,
+  "pushExchanges": 2,
+  "wireBytes": 69879,
+  "checks": [
+    "TLS trust",
+    "fragmented/coalesced frames",
+    "oversized-frame rejection",
+    "absent namespace preservation",
+    "namespace auth",
+    "read/write authorization",
+    "Unicode",
+    "same-key updates",
+    "deletion",
+    "notifications",
+    "offline edits",
+    "cache restart",
+    "automatic scheduling",
+    "close during I/O"
+  ],
+  "time": "2026-09-28T14:38:34.668728+00:00",
+  "server": "Linux io_uring",
+  "server_sha256": "346daedb0eaa6e6d89a4684ac006221a4140e2d7b4a98eaf884aefbefdc170eb"
+}

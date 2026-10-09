@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-07",
+  "worktree": "/Users/alex/DrawDo/datafriend-benchmarks",
+  "base_commit": "4551aa827d829663542e1cf8bde6349a913ac833",
+  "production_modified": false,
+  "batch_routing_default_enabled": false,
+  "native_tests": {
+    "batch_direct": "6/6 passed",
+    "batch_predicate": "6/6 passed",
+    "unbatched_direct_engine": "passed",
+    "unbatched_predicate_engine": "passed",
+    "ubsan_batch_direct_engine": "passed, halt_on_error=1",
+    "ubsan_batch_predicate_engine": "passed, halt_on_error=1"
+  },
+  "runs": [
+    {
+      "name": "datafriend-android-batched-routing",
+      "samples": 6000,
+      "processes": 80,
+      "cpu_affinity": 0,
+      "fanout_and_profile_fields_verified": true,
+      "network_tests": {
+        "predicate": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+        "predicate_batch": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+        "direct": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+        "direct_batch": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n"
+      }
+    },
+    {
+      "name": "datafriend-android-batched-routing-profile",
+      "samples": 2400,
+      "processes": 48,
+      "cpu_affinity": 0,
+      "fanout_and_profile_fields_verified": true,
+      "network_tests": {
+        "predicate": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+        "predicate_batch": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+        "direct": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+        "direct_batch": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n"
+      }
+    }
+  ],
+  "source_sha256": {
+    "datafriend-benchmarks/native/engine.cpp": "b4fff5609f3a19dd1ed1a413edf0b386d1693ddcdb74afbbc271688acc5f4ded",
+    "datafriend-benchmarks/include/datafriend/profiling.h": "5d1a4557961e9ee6d1e27e306a1ad103242e17c52696b9663c24e8549ca0ef9f",
+    "datafriend-benchmarks/tests/engine_test.cpp": "93eca12cc0f9eb4db87ef69d466072ac2216adcad4598a096d338250b993f212",
+    "datafriend-benchmarks/benchmarks/simulation.cpp": "8b6a728280ee1dc8dd99b33f7ca51a160989b22b563246d9f2f6f1a67111dbc9",
+    "datafriend-benchmarks/benchmarks/run_android_simulation.py": "2aff07ca43806c53c9f2a55aa248e492f69355824105cfebf0834819bc452be7",
+    "datafriend-benchmarks/benchmarks/summarize_routing.py": "1270644a27fcdd5857d21907516e40b12182b2618d617516812b13b709453c33",
+    "datafriend-benchmarks/CMakeLists.txt": "0da5b0a22d34ac6a24fc60fb8f1c97308080ef2ff1bec8e53fd96681c0c60944"
+  }
+}

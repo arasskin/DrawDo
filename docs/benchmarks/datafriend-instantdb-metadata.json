@@ -1,0 +1,705 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "arguments": {
+    "flutter": "flutter",
+    "skip_build": true,
+    "samples": 30,
+    "warmup": 5,
+    "rounds": 3,
+    "smoke": false,
+    "output_prefix": "datafriend-instantdb"
+  },
+  "runs": [
+    {
+      "name": "store-datafriend-100-buffered-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-oltu0izd/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-100-buffered-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548620.8601868,
+      "load_average": [
+        8.78173828125,
+        5.9853515625,
+        5.1494140625
+      ],
+      "elapsed_seconds": 1.2453432083129883,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:37:01.513 datafriend_todo_lab[71465:153194555] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-100-buffered-1",
+      "config": {
+        "engine": "instantdb",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-9fvxnt2h/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-100-buffered-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548622.108842,
+      "load_average": [
+        8.78173828125,
+        5.9853515625,
+        5.1494140625
+      ],
+      "elapsed_seconds": 17.438016176223755,
+      "returncode": 0,
+      "stdout": "flutter: [18:37:02.265] [Instance-2265] [Root        ] [INFO   ] InstantDB logging configured for Instance-2265\nflutter: [18:37:02.266] [Instance-2265] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:37:19.524] [Instance-9524] [Root        ] [INFO   ] InstantDB logging configured for Instance-9524\nflutter: [18:37:19.524] [Instance-9524] [Root        ] [INFO   ] InstantDB logging configured for Instance-9524\nflutter: [18:37:19.524] [Instance-9524] [Root        ] [INFO   ] InstantDB logging configured for Instance-9524\nflutter: [18:37:19.524] [Instance-9524] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:37:19.524] [Instance-9524] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:37:19.524] [Instance-9524] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:37:02.214 datafriend_todo_lab[71490:153194668] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-100-durable-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-kbhjozxd/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-100-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548639.550112,
+      "load_average": [
+        7.28515625,
+        5.82373046875,
+        5.1103515625
+      ],
+      "elapsed_seconds": 1.3797218799591064,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:37:19.671 datafriend_todo_lab[71909:153195824] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-100-durable-1",
+      "config": {
+        "engine": "instantdb",
+        "count": 100,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-halsj3w1/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-100-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548640.938805,
+      "load_average": [
+        7.28515625,
+        5.82373046875,
+        5.1103515625
+      ],
+      "elapsed_seconds": 17.488624095916748,
+      "returncode": 0,
+      "stdout": "flutter: [18:37:21.103] [Instance-1103] [Root        ] [INFO   ] InstantDB logging configured for Instance-1103\nflutter: [18:37:21.103] [Instance-1103] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:37:38.399] [Instance-8399] [Root        ] [INFO   ] InstantDB logging configured for Instance-8399\nflutter: [18:37:38.399] [Instance-8399] [Root        ] [INFO   ] InstantDB logging configured for Instance-8399\nflutter: [18:37:38.399] [Instance-8399] [Root        ] [INFO   ] InstantDB logging configured for Instance-8399\nflutter: [18:37:38.399] [Instance-8399] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:37:38.399] [Instance-8399] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:37:38.399] [Instance-8399] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:37:21.060 datafriend_todo_lab[71950:153196356] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-1000-buffered-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-bnw5oyjz/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-1000-buffered-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548658.431079,
+      "load_average": [
+        6.2734375,
+        5.66845703125,
+        5.06689453125
+      ],
+      "elapsed_seconds": 0.7500929832458496,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:37:38.541 datafriend_todo_lab[72357:153197421] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-1000-buffered-1",
+      "config": {
+        "engine": "instantdb",
+        "count": 1000,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-e4rnjh87/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-1000-buffered-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548659.183648,
+      "load_average": [
+        6.2734375,
+        5.66845703125,
+        5.06689453125
+      ],
+      "elapsed_seconds": 50.861883878707886,
+      "returncode": 0,
+      "stdout": "flutter: [18:37:39.319] [Instance-9319] [Root        ] [INFO   ] InstantDB logging configured for Instance-9319\nflutter: [18:37:39.319] [Instance-9319] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:38:28.568] [Instance-8568] [Root        ] [INFO   ] InstantDB logging configured for Instance-8568\nflutter: [18:38:28.568] [Instance-8568] [Root        ] [INFO   ] InstantDB logging configured for Instance-8568\nflutter: [18:38:28.568] [Instance-8568] [Root        ] [INFO   ] InstantDB logging configured for Instance-8568\nflutter: [18:38:28.568] [Instance-8568] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:38:28.568] [Instance-8568] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:38:28.568] [Instance-8568] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:37:39.280 datafriend_todo_lab[72370:153197916] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-1000-durable-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-8x23bgwy/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-1000-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548710.053781,
+      "load_average": [
+        5.83154296875,
+        5.6328125,
+        5.0888671875
+      ],
+      "elapsed_seconds": 4.455344200134277,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:38:30.203 datafriend_todo_lab[73564:153201879] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-1000-durable-1",
+      "config": {
+        "engine": "instantdb",
+        "count": 1000,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-i8fyss1b/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-1000-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548714.511675,
+      "load_average": [
+        5.83154296875,
+        5.6328125,
+        5.0888671875
+      ],
+      "elapsed_seconds": 50.27499318122864,
+      "returncode": 0,
+      "stdout": "flutter: [18:38:34.656] [Instance-4656] [Root        ] [INFO   ] InstantDB logging configured for Instance-4656\nflutter: [18:38:34.656] [Instance-4656] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:39:23.383] [Instance-3383] [Root        ] [INFO   ] InstantDB logging configured for Instance-3383\nflutter: [18:39:23.383] [Instance-3383] [Root        ] [INFO   ] InstantDB logging configured for Instance-3383\nflutter: [18:39:23.383] [Instance-3383] [Root        ] [INFO   ] InstantDB logging configured for Instance-3383\nflutter: [18:39:23.384] [Instance-3383] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:39:23.384] [Instance-3383] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:39:23.384] [Instance-3383] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:38:34.610 datafriend_todo_lab[73679:153202679] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-1000-durable-2",
+      "config": {
+        "engine": "instantdb",
+        "count": 1000,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-xlabrl0j/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-1000-durable-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548764.793903,
+      "load_average": [
+        4.8251953125,
+        5.45703125,
+        5.06005859375
+      ],
+      "elapsed_seconds": 52.44682765007019,
+      "returncode": 0,
+      "stdout": "flutter: [18:39:24.973] [Instance-4973] [Root        ] [INFO   ] InstantDB logging configured for Instance-4973\nflutter: [18:39:24.973] [Instance-4973] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:40:15.882] [Instance-5882] [Root        ] [INFO   ] InstantDB logging configured for Instance-5882\nflutter: [18:40:15.882] [Instance-5882] [Root        ] [INFO   ] InstantDB logging configured for Instance-5882\nflutter: [18:40:15.882] [Instance-5882] [Root        ] [INFO   ] InstantDB logging configured for Instance-5882\nflutter: [18:40:15.882] [Instance-5882] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:40:15.882] [Instance-5882] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:40:15.882] [Instance-5882] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:39:24.924 datafriend_todo_lab[74870:153205054] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-1000-durable-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-y20yqcj9/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-1000-durable-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548817.250293,
+      "load_average": [
+        4.57421875,
+        5.2783203125,
+        5.0146484375
+      ],
+      "elapsed_seconds": 4.624547004699707,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:40:17.385 datafriend_todo_lab[76118:153208394] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-1000-buffered-2",
+      "config": {
+        "engine": "instantdb",
+        "count": 1000,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-l79o2loh/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-1000-buffered-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548821.877603,
+      "load_average": [
+        4.36767578125,
+        5.2236328125,
+        4.99658203125
+      ],
+      "elapsed_seconds": 49.69914793968201,
+      "returncode": 0,
+      "stdout": "flutter: [18:40:22.047] [Instance-2046] [Root        ] [INFO   ] InstantDB logging configured for Instance-2046\nflutter: [18:40:22.047] [Instance-2046] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:10.195] [Instance-195] [Root        ] [INFO   ] InstantDB logging configured for Instance-195\nflutter: [18:41:10.195] [Instance-195] [Root        ] [INFO   ] InstantDB logging configured for Instance-195\nflutter: [18:41:10.195] [Instance-195] [Root        ] [INFO   ] InstantDB logging configured for Instance-195\nflutter: [18:41:10.195] [Instance-195] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:10.195] [Instance-195] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:10.195] [Instance-195] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:40:21.993 datafriend_todo_lab[76215:153209038] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-1000-buffered-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-1ohy2el9/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-1000-buffered-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548871.591313,
+      "load_average": [
+        3.576171875,
+        4.9013671875,
+        4.89013671875
+      ],
+      "elapsed_seconds": 0.7876341342926025,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:41:11.725 datafriend_todo_lab[77399:153211848] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-100-durable-2",
+      "config": {
+        "engine": "instantdb",
+        "count": 100,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-vxy3bmeh/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-100-durable-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548872.381611,
+      "load_average": [
+        3.576171875,
+        4.9013671875,
+        4.89013671875
+      ],
+      "elapsed_seconds": 17.432572841644287,
+      "returncode": 0,
+      "stdout": "flutter: [18:41:12.536] [Instance-2536] [Root        ] [INFO   ] InstantDB logging configured for Instance-2536\nflutter: [18:41:12.536] [Instance-2536] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:29.795] [Instance-9795] [Root        ] [INFO   ] InstantDB logging configured for Instance-9795\nflutter: [18:41:29.795] [Instance-9795] [Root        ] [INFO   ] InstantDB logging configured for Instance-9795\nflutter: [18:41:29.795] [Instance-9795] [Root        ] [INFO   ] InstantDB logging configured for Instance-9795\nflutter: [18:41:29.795] [Instance-9795] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:29.795] [Instance-9795] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:29.795] [Instance-9795] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:41:12.489 datafriend_todo_lab[77412:153212351] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-100-durable-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-b_rjf5mc/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-100-durable-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548889.8182049,
+      "load_average": [
+        4.6943359375,
+        5.08203125,
+        4.95556640625
+      ],
+      "elapsed_seconds": 1.401993989944458,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:41:29.938 datafriend_todo_lab[77834:153213460] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-100-buffered-2",
+      "config": {
+        "engine": "instantdb",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-_2ipvb1l/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-100-buffered-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548891.2246919,
+      "load_average": [
+        4.6943359375,
+        5.08203125,
+        4.95556640625
+      ],
+      "elapsed_seconds": 17.39736819267273,
+      "returncode": 0,
+      "stdout": "flutter: [18:41:31.381] [Instance-1380] [Root        ] [INFO   ] InstantDB logging configured for Instance-1380\nflutter: [18:41:31.381] [Instance-1380] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:48.597] [Instance-8597] [Root        ] [INFO   ] InstantDB logging configured for Instance-8597\nflutter: [18:41:48.597] [Instance-8597] [Root        ] [INFO   ] InstantDB logging configured for Instance-8597\nflutter: [18:41:48.597] [Instance-8597] [Root        ] [INFO   ] InstantDB logging configured for Instance-8597\nflutter: [18:41:48.597] [Instance-8597] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:48.597] [Instance-8597] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:41:48.597] [Instance-8597] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:41:31.338 datafriend_todo_lab[77860:153213990] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-100-buffered-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-41ht7a7h/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-100-buffered-2.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548908.62715,
+      "load_average": [
+        4.4970703125,
+        5.0263671875,
+        4.93798828125
+      ],
+      "elapsed_seconds": 0.7002339363098145,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:41:48.753 datafriend_todo_lab[78269:153215229] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-100-buffered-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-uxg_9xle/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-100-buffered-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548909.3298318,
+      "load_average": [
+        4.4970703125,
+        5.0263671875,
+        4.93798828125
+      ],
+      "elapsed_seconds": 0.67618727684021,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:41:49.441 datafriend_todo_lab[78294:153215743] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-100-buffered-3",
+      "config": {
+        "engine": "instantdb",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-4aui10an/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-100-buffered-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548910.009024,
+      "load_average": [
+        4.296875,
+        4.97607421875,
+        4.92041015625
+      ],
+      "elapsed_seconds": 17.54968023300171,
+      "returncode": 0,
+      "stdout": "flutter: [18:41:50.152] [Instance-152] [Root        ] [INFO   ] InstantDB logging configured for Instance-152\nflutter: [18:41:50.152] [Instance-152] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:42:07.532] [Instance-7532] [Root        ] [INFO   ] InstantDB logging configured for Instance-7532\nflutter: [18:42:07.532] [Instance-7532] [Root        ] [INFO   ] InstantDB logging configured for Instance-7532\nflutter: [18:42:07.532] [Instance-7532] [Root        ] [INFO   ] InstantDB logging configured for Instance-7532\nflutter: [18:42:07.532] [Instance-7532] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:42:07.532] [Instance-7532] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:42:07.532] [Instance-7532] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:41:50.109 datafriend_todo_lab[78319:153216257] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-100-durable-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-2_tty4lu/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-100-durable-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548927.562461,
+      "load_average": [
+        5.2216796875,
+        5.12841796875,
+        4.97412109375
+      ],
+      "elapsed_seconds": 1.3237521648406982,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:42:07.672 datafriend_todo_lab[78724:153217364] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-100-durable-3",
+      "config": {
+        "engine": "instantdb",
+        "count": 100,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-ynsx60de/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-100-durable-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548928.889608,
+      "load_average": [
+        5.2216796875,
+        5.12841796875,
+        4.97412109375
+      ],
+      "elapsed_seconds": 17.560922145843506,
+      "returncode": 0,
+      "stdout": "flutter: [18:42:09.046] [Instance-9046] [Root        ] [INFO   ] InstantDB logging configured for Instance-9046\nflutter: [18:42:09.046] [Instance-9046] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:42:26.425] [Instance-6425] [Root        ] [INFO   ] InstantDB logging configured for Instance-6425\nflutter: [18:42:26.425] [Instance-6425] [Root        ] [INFO   ] InstantDB logging configured for Instance-6425\nflutter: [18:42:26.425] [Instance-6425] [Root        ] [INFO   ] InstantDB logging configured for Instance-6425\nflutter: [18:42:26.425] [Instance-6425] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:42:26.425] [Instance-6425] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:42:26.425] [Instance-6425] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:42:09.002 datafriend_todo_lab[78749:153217897] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-1000-buffered-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-jl4zkihv/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-1000-buffered-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548946.4543731,
+      "load_average": [
+        4.32373046875,
+        4.92529296875,
+        4.90380859375
+      ],
+      "elapsed_seconds": 0.7243127822875977,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:42:26.557 datafriend_todo_lab[79166:153219038] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-1000-buffered-3",
+      "config": {
+        "engine": "instantdb",
+        "count": 1000,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-5qks2qui/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-1000-buffered-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548947.181282,
+      "load_average": [
+        4.32373046875,
+        4.92529296875,
+        4.90380859375
+      ],
+      "elapsed_seconds": 51.97847080230713,
+      "returncode": 0,
+      "stdout": "flutter: [18:42:27.333] [Instance-7333] [Root        ] [INFO   ] InstantDB logging configured for Instance-7333\nflutter: [18:42:27.333] [Instance-7333] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:43:17.342] [Instance-7342] [Root        ] [INFO   ] InstantDB logging configured for Instance-7342\nflutter: [18:43:17.342] [Instance-7342] [Root        ] [INFO   ] InstantDB logging configured for Instance-7342\nflutter: [18:43:17.342] [Instance-7342] [Root        ] [INFO   ] InstantDB logging configured for Instance-7342\nflutter: [18:43:17.342] [Instance-7342] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:43:17.342] [Instance-7342] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:43:17.342] [Instance-7342] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:42:27.289 datafriend_todo_lab[79191:153219558] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-datafriend-1000-durable-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-064e2ibz/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-1000-durable-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548999.166956,
+      "load_average": [
+        4.4638671875,
+        4.87255859375,
+        4.88427734375
+      ],
+      "elapsed_seconds": 4.318321943283081,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:43:19.316 datafriend_todo_lab[80409:153221964] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-1000-durable-3",
+      "config": {
+        "engine": "instantdb",
+        "count": 1000,
+        "durable": true,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-kcfgdbiw/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-1000-durable-3.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790549003.487917,
+      "load_average": [
+        4.58642578125,
+        4.89111328125,
+        4.890625
+      ],
+      "elapsed_seconds": 49.834219217300415,
+      "returncode": 0,
+      "stdout": "flutter: [18:43:23.627] [Instance-3627] [Root        ] [INFO   ] InstantDB logging configured for Instance-3627\nflutter: [18:43:23.627] [Instance-3627] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:11.850] [Instance-1850] [Root        ] [INFO   ] InstantDB logging configured for Instance-1850\nflutter: [18:44:11.850] [Instance-1850] [Root        ] [INFO   ] InstantDB logging configured for Instance-1850\nflutter: [18:44:11.850] [Instance-1850] [Root        ] [INFO   ] InstantDB logging configured for Instance-1850\nflutter: [18:44:11.850] [Instance-1850] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:11.850] [Instance-1850] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:11.850] [Instance-1850] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:43:23.584 datafriend_todo_lab[80507:153222602] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-datafriend-1000-durable-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durable": true,
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-loifnb7m/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/frames-datafriend-1000-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790549053.327803,
+      "load_average": [
+        3.91259765625,
+        4.6591796875,
+        4.80322265625
+      ],
+      "elapsed_seconds": 11.49080204963684,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:44:13.456 datafriend_todo_lab[81687:153224858] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "capture-datafriend-6-durable-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 6,
+        "durable": true,
+        "mode": "capture",
+        "samples": 0,
+        "warmup": 0,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-55u53tuw/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/capture-datafriend-6-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790549064.82128,
+      "load_average": [
+        5.076171875,
+        4.85986328125,
+        4.87060546875
+      ],
+      "elapsed_seconds": 0.793781042098999,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:44:24.923 datafriend_todo_lab[81957:153225817] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-instantdb-1000-durable-1",
+      "config": {
+        "engine": "instantdb",
+        "count": 1000,
+        "durable": true,
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-95uyc474/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/frames-instantdb-1000-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790549065.616456,
+      "load_average": [
+        5.076171875,
+        4.85986328125,
+        4.87060546875
+      ],
+      "elapsed_seconds": 22.3858699798584,
+      "returncode": 0,
+      "stdout": "flutter: [18:44:25.760] [Instance-5760] [Root        ] [INFO   ] InstantDB logging configured for Instance-5760\nflutter: [18:44:25.760] [Instance-5760] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:47.741] [Instance-7741] [Root        ] [INFO   ] InstantDB logging configured for Instance-7741\nflutter: [18:44:47.741] [Instance-7741] [Root        ] [INFO   ] InstantDB logging configured for Instance-7741\nflutter: [18:44:47.741] [Instance-7741] [Root        ] [INFO   ] InstantDB logging configured for Instance-7741\nflutter: [18:44:47.741] [Instance-7741] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:47.741] [Instance-7741] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:47.741] [Instance-7741] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:44:25.716 datafriend_todo_lab[81983:153226361] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "capture-instantdb-6-durable-1",
+      "config": {
+        "engine": "instantdb",
+        "count": 6,
+        "durable": true,
+        "mode": "capture",
+        "samples": 0,
+        "warmup": 0,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-m31zg7ka/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/capture-instantdb-6-durable-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790549088.004829,
+      "load_average": [
+        4.36669921875,
+        4.7197265625,
+        4.81982421875
+      ],
+      "elapsed_seconds": 1.351773977279663,
+      "returncode": 0,
+      "stdout": "flutter: [18:44:48.144] [Instance-8144] [Root        ] [INFO   ] InstantDB logging configured for Instance-8144\nflutter: [18:44:48.144] [Instance-8144] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:49.350] [Instance-9350] [Root        ] [INFO   ] InstantDB logging configured for Instance-9350\nflutter: [18:44:49.350] [Instance-9350] [Root        ] [INFO   ] InstantDB logging configured for Instance-9350\nflutter: [18:44:49.350] [Instance-9350] [Root        ] [INFO   ] InstantDB logging configured for Instance-9350\nflutter: [18:44:49.350] [Instance-9350] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:49.350] [Instance-9350] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\nflutter: [18:44:49.350] [Instance-9350] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:44:48.100 datafriend_todo_lab[82510:153228128] Running with merged UI and platform thread. Experimental.\n"
+    }
+  ],
+  "scope": "Same Flutter macOS Release app and UI; actual sqflite platform plugin. Community flutter_instantdb 2.3.0; sync disabled for both. Buffered: Datafriend MDB_NOSYNC and SQLite synchronous=OFF. Durable: backend defaults. No network comparison. Store timers separate function return, write completion, query publication and read. Frame timings use the real shared UI, with 250 ms pauses after completed operations.",
+  "source_sha256": {
+    "src/todo_demo/lib/change.dart": "9b95d020000098d670f32da81e0f49caed233bc0928ad12d6acdcd2c32cc8bc4",
+    "src/todo_demo/lib/stores.dart": "f0c0ebc78d4f20a2b7ef80421a9062812cfe4f5a3bcb22a6673cc36fa559ff43",
+    "src/todo_demo/lib/main.dart": "b3b78aaa94cf63c1398ae86b4e90b3a06dcb055faaae55c73917c0729d11a4e0",
+    "src/todo_demo/lib/benchmark.dart": "586bd8ceabb7eeb00cf1139e1ee66580e7b42965389fbdbf383c2fff507e42ba",
+    "src/todo_demo/lib/todo_screen.dart": "11119c09b9cb8309fb5a8cab2f1fff35a851356561ad55e66372ea89acccc969",
+    "src/todo_demo/pubspec.lock": "7662472b2d67fb951f74356a7f3e29a612246ab550b91ee5d3c1cdfbe21f47e3",
+    "src/todo_demo/tool/run_benchmarks.py": "a1c8f37b8804bae4ee9de701f16f7b7023951e88fb769344ade0b4883e8e539f",
+    "src/app/lib/data/app_views.dart": "d8e8c1aafc64e36839021db2ef42cce16272068bee207b46359f8e911e6b1625",
+    "src/app/lib/data/datafriend.dart": "583e3759df14ee4f3b27fd12d60abb29593cd382a37d6a09ac5b664ee9eca04a",
+    "src/datafriend/native/engine.cpp": "f848001ba0eab66e3a68f0693ea2dd9f2a91743a6d687ae14d402b2e6b8689c9",
+    "src/datafriend/native/c_api.cpp": "2bae3530119736453d2b158999fbff9d279c4d3532a4c153c07a873d519bad28"
+  },
+  "binary_sha256": {
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/MacOS/datafriend_todo_lab": "bc09e7d04b707697f6a9e121aeaced92023d565a074fc7c9aac7afe4bcbf361b",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/libdatafriend.dylib": "51dfce9eae163472055b73b4b12f5ff099a5adfee8520822e5605e74fa58e312",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/App.framework/Versions/A/App": "dd1a101d41e6a98c27c547f66a6515cc360be622258facbc197a0661a70afc20"
+  }
+}

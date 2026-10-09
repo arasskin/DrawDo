@@ -1,0 +1,5 @@
+{
+  "result": "PASS: AELMDB/Littlebear reconciliation, snapshots, versions, imports, notifications and namespaces\n",
+  "device": "motorola/river/river:10/QPUS30.52-23-13-4/d00bb5:user/release-keys",
+  "binary_sha256": "ee30ddd1dcdc9f67e226ac3f7bb51ab81c00d131694459520106e0d5a1540441"
+}

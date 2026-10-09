@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-27",
+  "passed": [
+    "CMake Release ctest engine + persistent tree",
+    "CMake instrumented Release ctest engine + persistent tree",
+    "Flutter test: 14 passed",
+    "Dart analyze: no issues",
+    "Ubuntu 24.04 arm64 GCC 13 ASan/UBSan/leak detection: engine_test"
+  ],
+  "benchmarks": "docs/datafriend-query-sharing.md; 100 warmup + 1000 samples; no fsync",
+  "source_sha256": {
+    "src/datafriend/native/engine.cpp": "3c0cebe29d3dcca760afdc319625eda48107bdc8dc0b8b665396a3538a54f327",
+    "src/datafriend/include/datafriend/engine.h": "9203b63af3ef2b4476cdbb3d9d36a9fffc69a5d924ce01d4281544e3380b6d27",
+    "src/datafriend/tests/engine_test.cpp": "0918acd186d5a5f410a0e73d71713eb74fe50c45face7be2c8887f0d5c258d92",
+    "src/datafriend/benchmarks/engine.cpp": "38cd4baa65914131a6d86dc8d4c2f79d1c27ad0fc76241a2938fd55eebb12960",
+    "src/datafriend/benchmarks/profile.cpp": "22e96fd2cb1949d081f14e1ca141375f020c8e3a71a0c1f4ed31286b4fb71e60",
+    "src/datafriend/benchmarks/run_sharing.py": "ab69bba9c00f59f2c31befe43d42d27112551444a2ff8cf20666f575ebe4b376",
+    "src/app/test/datafriend_test.dart": "d36358a5273a95057e9700e4c4e3ba26211e87aae1ea03a9782137c776ff5923"
+  }
+}

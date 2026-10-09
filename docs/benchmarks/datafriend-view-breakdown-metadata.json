@@ -1,0 +1,474 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "arguments": {
+    "rounds": 3,
+    "entities": 10000,
+    "samples": 1000,
+    "breakdown": true,
+    "native_breakdown": true,
+    "view_breakdown": true
+  },
+  "warmup_edits": 100,
+  "source_sha256": {
+    "src/datafriend/benchmarks/sqlite.cpp": "f4c9f59dbc9d95fd04f63898d50f77a0edcc6752382c68e5456f459a86bb764f",
+    "src/datafriend/benchmarks/run_sqlite.py": "20c130ce6a10757b2d072a912691f1d7515bf8887f7e08edf27dfd82e64b2cc3",
+    "src/datafriend/CMakeLists.txt": "ef2c2c2b7a69c1d6dcb5802ff4d24e94acc70b6a73166a3a37257479aa05f1ac",
+    "src/datafriend/native/engine.cpp": "a1e4a57ab99e4c041e5a7041bd882172651a50635b312892aa8e7990b08be1a7",
+    "src/datafriend/include/datafriend/persistent_wide_tree.h": "25fcf12d07839f5228f06fdfa881b9d6fbeb5f2ad9d57bba20dd1a19e11b96a6",
+    "src/datafriend/include/datafriend/profiling.h": "e8b1291bc52d8d4217cb7dc7363b78554be4899f6fb15609908a0cb2093fbf51"
+  },
+  "runs": [
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "237",
+        "3",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "237",
+        "3",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "237",
+        "3",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "237",
+        "3",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "237",
+        "3",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-buffered/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-detailed/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-buffered/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-detailed/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-detailed/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-buffered/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/native-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-buffered/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-detailed/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-buffered/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-detailed/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-detailed/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-buffered/sqlite_comparison",
+        "datafriend",
+        "0",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-detailed/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "detailed"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "stream"
+      ],
+      "stderr": "verification=passed\n"
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/profile-buffered/sqlite_comparison",
+        "datafriend",
+        "10",
+        "10000",
+        "1000",
+        "buffered"
+      ],
+      "stderr": "verification=passed\n"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"engine":"instantdb","package":"flutter_instantdb 2.3.0","mode":"capture","count":6,"durable":true,"samples":0,"warmup":0,"setup_us":19003,"reopen_read_us":1135,"settings":{"sync":false,"storage":"SQLite via sqflite","synchronous":2,"journal_mode":"delete","package":"flutter_instantdb 2.3.0"},"checks":"CRUD, checksums and persistence passed","rows":[]}

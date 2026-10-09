@@ -1,0 +1,29 @@
+{
+  "status": "pass",
+  "facts": 1998,
+  "notifications": 4,
+  "pushExchanges": 2,
+  "wireBytes": 69403,
+  "checks": [
+    "plain TCP without credentials",
+    "fragmented/coalesced frames",
+    "oversized-frame rejection",
+    "absent namespace preservation",
+    "Unicode",
+    "same-key updates",
+    "deletion",
+    "notifications",
+    "offline edits",
+    "cache restart",
+    "automatic scheduling",
+    "close during I/O"
+  ],
+  "time": "2026-09-28T15:06:47.772455+00:00",
+  "server": "Linux io_uring TCP (test-only writes)",
+  "server_sha256": "85a4cb25e9d706f308178af78dcf6e9c485adcc77829b83483ae1ba3e8b742d8",
+  "container": {
+    "cpus": 1,
+    "memory_mib": 256
+  },
+  "authentication": "Test-only unauthenticated writes; normal server writes disabled pending owner authentication"
+}

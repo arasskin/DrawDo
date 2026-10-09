@@ -1,7 +1,6 @@
 #pragma once
-#include "main_data_containers/hash_table.h"
-#include "main_data_containers/endless_virtual_memory_field.h"
-#include "size_class_file_heap.h"
+#include "namespaces.h"
+#include "heap.h"
 #include <cerrno>
 #include <sys/file.h>
 
@@ -9,9 +8,8 @@
 // remain at stable addresses until completion. No per-record I/O bookkeeping.
 namespace storage {
 namespace table = hash_table;
-namespace tree = augmented_tree;
-namespace heap = size_class_file_heap;
-namespace arena = geometric_rank_partioned_virtual_slab_arena;
+namespace tree = record_index;
+namespace heap = file_heap;
 using namespace_id = table::key;
 using record_key = tree::key;
 
@@ -26,9 +24,8 @@ enum class phase { idle, ready, submitted, finished };
 struct request;
 struct store {
   heap::file_and_allocator values{.file_descriptor = -1, .file_allocator = {}, .has_error = true};
-  arena::allocator nodes{};
-  uint64_t *hashes = nullptr;
-  table::two_way namespaces{};
+  tree::pool nodes{};
+  table::directory namespaces{};
   request *pending = nullptr;
   size_t pending_count = 0;
   size_t pending_limit = 64;
@@ -60,22 +57,22 @@ struct io_operation {
 
 // Also used to unwind partial initialization. There must be no outstanding I/O.
 inline void release_resources(store *s) {
+  table::for_each(&s->namespaces, [](namespace_id, tree::header& index) { tree::destroy(&index); });
   table::destroy(&s->namespaces);
-  endless_virtual_memory_field::destroy(s->hashes);
-  arena::destroy(&s->nodes);
   heap::destroy(&s->values);
-  *s = {};
+  s->~store();
+  ::new(s) store{};
 }
 
 // Dedicated disposable cache file, locked before truncation. Call on a fresh or
 // destroyed store; it must not subsequently move, because tree headers borrow it.
 inline result create(store *s, const char *path, uint64_t file_limit,
-                     size_t pending_limit = 64, size_t initial_buckets = table::DEFAULT_BUCKET_COUNT,
-                     size_t max_buckets = table::DEFAULT_MAX_BUCKET_COUNT) {
+                     size_t pending_limit = 64, size_t initial_namespaces = table::DEFAULT_INITIAL_CAPACITY,
+                     tree::pool::system_allocate_fn index_allocate = nullptr,
+                     table::allocate_fn namespace_allocate = table::system_allocate) {
   if (s->opened) return {error::busy};
-  if (path == nullptr || file_limit == 0 || file_limit > six_byte_mask + 1 || pending_limit == 0 ||
-      !table::valid_bucket_count(initial_buckets) || !table::valid_bucket_count(max_buckets) ||
-      initial_buckets > max_buckets) return {error::invalid_argument};
+  if (path == nullptr || file_limit == 0 || file_limit > tree::OFFSET_MASK + 1 || pending_limit == 0 ||
+      !table::valid_capacity(initial_namespaces) || !namespace_allocate) return {error::invalid_argument};
   s->values = heap::create(path, file_limit);
   if (s->values.has_error) return {error::io_failure, errno};
   if (flock(s->values.file_descriptor, LOCK_EX | LOCK_NB) != 0) {
@@ -83,11 +80,12 @@ inline result create(store *s, const char *path, uint64_t file_limit,
     release_resources(s);
     return {error::io_failure, saved};
   }
-  auto nodes = arena::create();
-  s->nodes = nodes.a;
-  if (!nodes.has_error) s->hashes = endless_virtual_memory_field::create();
-  if (s->hashes != nullptr) s->namespaces = table::create(initial_buckets, max_buckets);
-  if (nodes.has_error || s->hashes == nullptr || table::bad(&s->namespaces)) {
+  if(index_allocate) {
+    std::destroy_at(&s->nodes);
+    std::construct_at(&s->nodes,index_allocate);
+  }
+  s->namespaces = table::create(initial_namespaces, namespace_allocate);
+  if (table::bad(&s->namespaces)) {
     release_resources(s);
     return {error::no_memory};
   }
@@ -129,8 +127,8 @@ inline presence lookup_namespace(store *s, namespace_id ns) {
 inline result create_namespace(store *s, namespace_id ns) {
   if (!s->opened) return {error::not_open};
   if (table::contains(&s->namespaces, ns)) return {};
-  return table::unsafe_insert(&s->namespaces, ns, tree::create(&s->nodes, s->hashes))
-    ? result{} : result{error::capacity};
+  return table::unsafe_insert(&s->namespaces, ns, tree::create(&s->nodes))
+    ? result{} : result{error::no_memory};
 }
 
 inline result erase_record(store *s, namespace_id ns, record_key key) {
@@ -138,13 +136,15 @@ inline result erase_record(store *s, namespace_id ns, record_key key) {
   auto *index = table::get(&s->namespaces, ns);
   if (index == nullptr) return {error::namespace_missing};
   if (record_busy(s, ns, key, true)) return {error::busy};
-  const uint32_t leaf = tree::find(index, key);
-  if (leaf == tree::INVALID_NODE_INDEX) return {error::record_missing};
-  const auto value = tree::node_get_data(index, leaf)[tree::node_item::v].value;
+  const auto entry = tree::find(index, key);
+  if (!entry) return {error::record_missing};
+  const auto value = entry->value;
   const int ticket = heap::prepare_release(&s->values.file_allocator);
   if (ticket == -1) return {error::no_memory};
-  const uint64_t fingerprint = s->hashes[leaf];
-  tree::unsafe_dissociate(index, key, fingerprint);
+  if(tree::erase(index,key)!=tree::erase_result::removed) {
+    heap::cancel_release(&s->values.file_allocator,ticket);
+    return {error::no_memory};
+  }
   heap::release_prepared(&s->values.file_allocator, tree::vpointer_get_offset(value),
                          tree::vpointer_get_size(value), ticket);
   return {};
@@ -159,10 +159,7 @@ inline result clear_namespace(store *s, namespace_id ns, size_t record_budget = 
   if (index == nullptr) return {error::namespace_missing};
   if (namespace_busy(s, ns)) return {error::busy};
   while (!tree::is_empty(index) && record_budget-- != 0) {
-    uint32_t leaf = index->root;
-    while (tree::node_rank(leaf) != -1)
-      leaf = tree::node_get_data(index, leaf)[tree::node_item::children].left_index;
-    const auto key = tree::node_get_data(index, leaf)[tree::node_item::k].value;
+    const auto key = tree::select(index,0)->key;
     const result erased = erase_record(s, ns, key);
     if (erased.code != error::ok) return erased;
   }

@@ -1,0 +1,577 @@
+{
+  "server_binary_sha256": "9436bdfe52e43ef01de2855df8d81b6ac506661892e1d67484814b2c0f86fb76",
+  "runs": [
+    {
+      "source": "docs/benchmarks/datafriend-document-public-final/4c7d7789eeb64bb6bc78f45aaf0a9637-summary.json",
+      "room": "4c7d7789eeb64bb6bc78f45aaf0a9637",
+      "case": "concurrent",
+      "seed": 1000,
+      "equal_text": true,
+      "equal_operation_counts": true,
+      "devices": {
+        "android": {
+          "edits": 67,
+          "acknowledged_edits": 67,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": {
+            "p50": 7.136,
+            "p95": 7.775,
+            "max": 8.019
+          },
+          "edit_components_ms": {
+            "diff": {
+              "p50": 1.443,
+              "p95": 1.786,
+              "max": 1.986
+            },
+            "allocate": {
+              "p50": 0.335,
+              "p95": 0.438,
+              "max": 0.557
+            },
+            "commit": {
+              "p50": 2.11,
+              "p95": 2.336,
+              "max": 2.861
+            },
+            "merge": {
+              "p50": 3.176,
+              "p95": 3.525,
+              "max": 3.739
+            }
+          },
+          "ack_roundtrip_ms": {
+            "p50": 1675.542,
+            "p95": 2598.447,
+            "max": 3048.439
+          },
+          "frame_cpu_ms": {
+            "p50": 2.287864,
+            "p95": 14.646408,
+            "max": 32.558698
+          },
+          "frame_work_ms": {
+            "p50": 0.061146,
+            "p95": 4.463542,
+            "max": 15.172137
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 60.01302722706343,
+          "present_gaps_over_25ms": 0,
+          "network": {
+            "sent": 207248,
+            "received": 32269,
+            "requests": 151,
+            "exchanges": 56,
+            "restarts": 0,
+            "connections": 1,
+            "signed_batches": 25,
+            "reconcile_us": 42371,
+            "sign_us": 22417,
+            "apply_us": 18515,
+            "merge_us": 61224,
+            "pump_us": 356343,
+            "request_us": 16496568,
+            "request_count": 147
+          }
+        },
+        "iphone": {
+          "edits": 67,
+          "acknowledged_edits": 67,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": {
+            "p50": 2.434,
+            "p95": 2.765,
+            "max": 3.452
+          },
+          "edit_components_ms": {
+            "diff": {
+              "p50": 0.436,
+              "p95": 0.525,
+              "max": 0.581
+            },
+            "allocate": {
+              "p50": 0.684,
+              "p95": 0.95,
+              "max": 1.029
+            },
+            "commit": {
+              "p50": 0.244,
+              "p95": 0.376,
+              "max": 1.872
+            },
+            "merge": {
+              "p50": 1.008,
+              "p95": 1.159,
+              "max": 1.241
+            }
+          },
+          "ack_roundtrip_ms": {
+            "p50": 1637.679,
+            "p95": 2555.976,
+            "max": 3006.527
+          },
+          "frame_cpu_ms": {
+            "p50": 0.790084,
+            "p95": 4.58775,
+            "max": 7.642041
+          },
+          "frame_work_ms": {
+            "p50": 0.022,
+            "p95": 2.397,
+            "max": 4.746
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 59.923708776611065,
+          "present_gaps_over_25ms": 0,
+          "network": {
+            "sent": 66420,
+            "received": 210591,
+            "requests": 201,
+            "exchanges": 53,
+            "restarts": 3,
+            "connections": 1,
+            "signed_batches": 31,
+            "reconcile_us": 32010,
+            "sign_us": 9814,
+            "apply_us": 34980,
+            "merge_us": 24169,
+            "pump_us": 219396,
+            "request_us": 23901508,
+            "request_count": 197
+          }
+        }
+      }
+    },
+    {
+      "source": "docs/benchmarks/datafriend-document-public-final/9ff0e8fc1ba5469c97b041d48afa7e03-summary.json",
+      "room": "9ff0e8fc1ba5469c97b041d48afa7e03",
+      "case": "typing",
+      "seed": 1000,
+      "equal_text": true,
+      "equal_operation_counts": true,
+      "devices": {
+        "android": {
+          "edits": 67,
+          "acknowledged_edits": 67,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": {
+            "p50": 6.903,
+            "p95": 7.622,
+            "max": 8.246
+          },
+          "edit_components_ms": {
+            "diff": {
+              "p50": 1.419,
+              "p95": 1.595,
+              "max": 1.758
+            },
+            "allocate": {
+              "p50": 0.334,
+              "p95": 0.46,
+              "max": 0.477
+            },
+            "commit": {
+              "p50": 2.124,
+              "p95": 2.444,
+              "max": 2.846
+            },
+            "merge": {
+              "p50": 2.948,
+              "p95": 3.409,
+              "max": 3.582
+            }
+          },
+          "ack_roundtrip_ms": {
+            "p50": 1264.775,
+            "p95": 1484.515,
+            "max": 1533.874
+          },
+          "frame_cpu_ms": {
+            "p50": 2.259947,
+            "p95": 16.196094,
+            "max": 29.073127
+          },
+          "frame_work_ms": {
+            "p50": 0.061927,
+            "p95": 6.727969,
+            "max": 9.953022
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 60.01314002704177,
+          "present_gaps_over_25ms": 0,
+          "network": {
+            "sent": 199646,
+            "received": 42851,
+            "requests": 138,
+            "exchanges": 54,
+            "restarts": 0,
+            "connections": 1,
+            "signed_batches": 26,
+            "reconcile_us": 32760,
+            "sign_us": 19893,
+            "apply_us": 14342,
+            "merge_us": 100,
+            "pump_us": 191431,
+            "request_us": 14772333,
+            "request_count": 135
+          }
+        },
+        "iphone": {
+          "edits": 0,
+          "acknowledged_edits": 0,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": null,
+          "edit_components_ms": {},
+          "ack_roundtrip_ms": null,
+          "frame_cpu_ms": {
+            "p50": 0.7910835,
+            "p95": 1.807875,
+            "max": 5.967833
+          },
+          "frame_work_ms": {
+            "p50": 0.023,
+            "p95": 0.818,
+            "max": 3.404
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 59.93412494865422,
+          "present_gaps_over_25ms": 0,
+          "network": {
+            "sent": 46520,
+            "received": 194793,
+            "requests": 176,
+            "exchanges": 53,
+            "restarts": 0,
+            "connections": 1,
+            "signed_batches": 27,
+            "reconcile_us": 22743,
+            "sign_us": 8571,
+            "apply_us": 35065,
+            "merge_us": 28529,
+            "pump_us": 192827,
+            "request_us": 17867175,
+            "request_count": 174
+          }
+        }
+      }
+    },
+    {
+      "source": "docs/benchmarks/datafriend-document-public-final/203e0222fa1c4286b6a546ec25aca88b-summary.json",
+      "room": "203e0222fa1c4286b6a546ec25aca88b",
+      "case": "offline",
+      "seed": 1000,
+      "equal_text": true,
+      "equal_operation_counts": true,
+      "devices": {
+        "android": {
+          "edits": 67,
+          "acknowledged_edits": 67,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": {
+            "p50": 7.051,
+            "p95": 7.556,
+            "max": 7.816
+          },
+          "edit_components_ms": {
+            "diff": {
+              "p50": 1.499,
+              "p95": 1.651,
+              "max": 1.891
+            },
+            "allocate": {
+              "p50": 0.332,
+              "p95": 0.493,
+              "max": 0.915
+            },
+            "commit": {
+              "p50": 2.022,
+              "p95": 2.262,
+              "max": 2.464
+            },
+            "merge": {
+              "p50": 3.097,
+              "p95": 3.392,
+              "max": 3.847
+            }
+          },
+          "ack_roundtrip_ms": {
+            "p50": 3776.725,
+            "p95": 7223.983,
+            "max": 7618.77
+          },
+          "frame_cpu_ms": {
+            "p50": 2.238854,
+            "p95": 12.224424,
+            "max": 30.465209
+          },
+          "frame_work_ms": {
+            "p50": 0.060989,
+            "p95": 3.025677,
+            "max": 9.813699
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 59.973384083223564,
+          "present_gaps_over_25ms": 1,
+          "network": {
+            "sent": 192546,
+            "received": 37687,
+            "requests": 88,
+            "exchanges": 31,
+            "restarts": 1,
+            "connections": 2,
+            "signed_batches": 13,
+            "reconcile_us": 27858,
+            "sign_us": 12986,
+            "apply_us": 11474,
+            "merge_us": 29087,
+            "pump_us": 212028,
+            "request_us": 10027573,
+            "request_count": 85
+          }
+        },
+        "iphone": {
+          "edits": 67,
+          "acknowledged_edits": 67,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": {
+            "p50": 2.365,
+            "p95": 2.894,
+            "max": 3.048
+          },
+          "edit_components_ms": {
+            "diff": {
+              "p50": 0.431,
+              "p95": 0.521,
+              "max": 0.57
+            },
+            "allocate": {
+              "p50": 0.664,
+              "p95": 0.999,
+              "max": 1.22
+            },
+            "commit": {
+              "p50": 0.256,
+              "p95": 0.613,
+              "max": 1.07
+            },
+            "merge": {
+              "p50": 1.016,
+              "p95": 1.139,
+              "max": 1.176
+            }
+          },
+          "ack_roundtrip_ms": {
+            "p50": 3940.248,
+            "p95": 7377.466,
+            "max": 7827.287
+          },
+          "frame_cpu_ms": {
+            "p50": 0.80225,
+            "p95": 2.925542,
+            "max": 6.807417
+          },
+          "frame_work_ms": {
+            "p50": 0.023,
+            "p95": 1.555,
+            "max": 3.768
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 59.930397123230776,
+          "present_gaps_over_25ms": 0,
+          "network": {
+            "sent": 45674,
+            "received": 207451,
+            "requests": 124,
+            "exchanges": 30,
+            "restarts": 1,
+            "connections": 2,
+            "signed_batches": 19,
+            "reconcile_us": 15496,
+            "sign_us": 5755,
+            "apply_us": 22461,
+            "merge_us": 12300,
+            "pump_us": 141143,
+            "request_us": 13311761,
+            "request_count": 120
+          }
+        }
+      }
+    },
+    {
+      "source": "docs/benchmarks/datafriend-document-lan-final/160a23012ed14081abfaa3dd60c4adea-summary.json",
+      "room": "160a23012ed14081abfaa3dd60c4adea",
+      "case": "concurrent",
+      "seed": 1000,
+      "equal_text": true,
+      "equal_operation_counts": true,
+      "devices": {
+        "iphone": {
+          "edits": 67,
+          "acknowledged_edits": 67,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": {
+            "p50": 2.354,
+            "p95": 2.62,
+            "max": 8.538
+          },
+          "edit_components_ms": {
+            "diff": {
+              "p50": 0.451,
+              "p95": 0.553,
+              "max": 0.611
+            },
+            "allocate": {
+              "p50": 0.632,
+              "p95": 0.858,
+              "max": 7.081
+            },
+            "commit": {
+              "p50": 0.249,
+              "p95": 0.351,
+              "max": 2.042
+            },
+            "merge": {
+              "p50": 0.994,
+              "p95": 1.103,
+              "max": 1.136
+            }
+          },
+          "ack_roundtrip_ms": {
+            "p50": 535.073,
+            "p95": 903.427,
+            "max": 1051.077
+          },
+          "frame_cpu_ms": {
+            "p50": 0.832708,
+            "p95": 5.418333,
+            "max": 8.369208
+          },
+          "frame_work_ms": {
+            "p50": 0.023,
+            "p95": 2.803,
+            "max": 20.883
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 59.92839656214431,
+          "present_gaps_over_25ms": 0,
+          "network": {
+            "sent": 147562,
+            "received": 264675,
+            "requests": 521,
+            "exchanges": 141,
+            "restarts": 18,
+            "connections": 1,
+            "signed_batches": 80,
+            "reconcile_us": 81251,
+            "sign_us": 25343,
+            "apply_us": 91633,
+            "merge_us": 55082,
+            "pump_us": 448563,
+            "request_us": 17804608,
+            "request_count": 519
+          }
+        },
+        "android": {
+          "edits": 67,
+          "acknowledged_edits": 67,
+          "pending_acks": 0,
+          "error": "",
+          "connected": 1,
+          "settled": 1,
+          "edit_ms": {
+            "p50": 7.012,
+            "p95": 8.224,
+            "max": 9.054
+          },
+          "edit_components_ms": {
+            "diff": {
+              "p50": 1.456,
+              "p95": 1.762,
+              "max": 2.211
+            },
+            "allocate": {
+              "p50": 0.332,
+              "p95": 0.532,
+              "max": 0.706
+            },
+            "commit": {
+              "p50": 2.094,
+              "p95": 2.443,
+              "max": 2.575
+            },
+            "merge": {
+              "p50": 3.033,
+              "p95": 3.727,
+              "max": 4.918
+            }
+          },
+          "ack_roundtrip_ms": {
+            "p50": 498.93,
+            "p95": 786.608,
+            "max": 1001.112
+          },
+          "frame_cpu_ms": {
+            "p50": 2.31349,
+            "p95": 22.399997,
+            "max": 32.552603
+          },
+          "frame_work_ms": {
+            "p50": 0.063541,
+            "p95": 6.838438,
+            "max": 14.198439
+          },
+          "presentation_coverage": 1.0,
+          "present_fps": 60.012771741044254,
+          "present_gaps_over_25ms": 0,
+          "network": {
+            "sent": 281973,
+            "received": 74313,
+            "requests": 439,
+            "exchanges": 159,
+            "restarts": 0,
+            "connections": 1,
+            "signed_batches": 79,
+            "reconcile_us": 95624,
+            "sign_us": 53851,
+            "apply_us": 39811,
+            "merge_us": 139854,
+            "pump_us": 659521,
+            "request_us": 12507947,
+            "request_count": 436
+          }
+        }
+      }
+    }
+  ],
+  "excluded_rendering_runs": [
+    "81c55bb0fec141edb5ce4cb856579c4f"
+  ],
+  "notes": [
+    "All reported runs have full drawable presentation coverage.",
+    "One-way display latency is not measured; acknowledgement includes peer merge and return sync.",
+    "Offline round-trip includes deliberate five-second disconnection.",
+    "One exploratory run per case, not a controlled statistical comparison."
+  ]
+}

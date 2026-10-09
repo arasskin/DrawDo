@@ -1,0 +1,26 @@
+[
+  {
+    "frequency_hz": 19200000,
+    "hardware_elapsed_ns": 50036823,
+    "steady_elapsed_ns": 50037453,
+    "ratio": 0.999987,
+    "direct_read_ns": 200.09,
+    "steady_read_ns": 247.8
+  },
+  {
+    "frequency_hz": 19200000,
+    "hardware_elapsed_ns": 50006927,
+    "steady_elapsed_ns": 50007713,
+    "ratio": 0.999984,
+    "direct_read_ns": 200.85,
+    "steady_read_ns": 246.51
+  },
+  {
+    "frequency_hz": 19200000,
+    "hardware_elapsed_ns": 50016979,
+    "steady_elapsed_ns": 50017817,
+    "ratio": 0.999983,
+    "direct_read_ns": 200.2,
+    "steady_read_ns": 247.73
+  }
+]

@@ -1,0 +1,101 @@
+{
+  "started": 1791496417.1442711,
+  "args": {
+    "device": "Phone",
+    "counts": [
+      1000
+    ],
+    "cases": [
+      "add_remove",
+      "toggle"
+    ],
+    "rounds": 1,
+    "frames": 360,
+    "warmup": 60,
+    "prefix": "datafriend-ios-awake-1000"
+  },
+  "scope": "same scripted app-thread workloads, Sokol/Metal, async disk flush, no network; Metal drawable presentation timestamps; excludes hardware input and keyboard latency",
+  "sources_sha256": {
+    "demo-app/src/datafriend_ui.h": "c8cbd25d4861b33a01fb2dce3ad290228fabf68bcac929b7da5f145f29b6ea1a",
+    "demo-app/src/main.cpp": "5c20d2f9188763e34910a7475e6a4292c3250f2d173c039c9a4c7f258e8473fb",
+    "demo-app/src/particle_model.h": "c0a3e9438c90248ca4b6f6f462fc369f8a4076a282d3c34b19b2f21c63bb2cc4",
+    "demo-app/src/particle_simulation.h": "f674bdd3207b7f23601c778eafeddd407e97b72c235c5f0712f841ba1db67c76",
+    "demo-app/src/platform/android/runtime.cpp": "d355ffa69425bcf70968874d115fad38768862b33dfc92f03200dd7290e380cb",
+    "demo-app/src/platform/android/text.cpp": "656cd9d43a1d615fae04cfcd863b769260d5f21c1c7e2d6dc1c2f2d84d03db2c",
+    "demo-app/src/platform/android/text_input.cpp": "60e11ea3b217314fb7a4beefb5dd8095c177380f309f830425010312162a936f",
+    "demo-app/src/platform/apple/runtime.mm": "e70ddd21c02d4c996a52855021e7c565d7e4ea76d4119b5c92537a519a909b52",
+    "demo-app/src/platform/apple/text.mm": "42053dcb029d4d6f2c7236202f1622755c8a437b697225905d467d490b304714",
+    "demo-app/src/platform/apple/text_input.mm": "6283de411fb39b7d5730b1f4c20b3d1667b92cf3b1a49567ba73f51e0eef33af",
+    "demo-app/src/platform/runtime.h": "dd668b091293d8cc3f86d5d2469c9d1f4d97c6df8b908e4b4be0f7af532dd1cb",
+    "demo-app/src/platform/text_input.h": "b56448658a034f07aa68f28dad2fda5f5f950229a4ea471e85e79a15d497b441",
+    "demo-app/src/platform/text_raster.h": "8f2efe1ec5ad72e21676a0f158b24b1569439a032cb3f9d49d583270e0ea5d85",
+    "demo-app/src/profiling/metrics.h": "9226ffa99b2cceeffd59e36cdb4fb0e7390e4947123486afc155bd5be92ec14c",
+    "demo-app/src/profiling/task_benchmark.h": "62005ac3ac1732035aed2d0a057ee1914b87fb28de179cd0c147de711e90a4a2",
+    "demo-app/src/render/shaders.glsl": "4255788bde64b89429dbdd45504c7ea2c1adafe2408b37e6b25ad9b8039c8c4b",
+    "demo-app/src/render/shaders.h": "9bc3919b6f5afccab5e45aed433b4fdf3fe90d9efb3ff40212df15cdaec302fd",
+    "demo-app/src/render/shaders.json": "44979ac746c5adc5b8632669d5114ff45138e18892239446dc4f84565a36683a",
+    "demo-app/src/render/sokol_backend.cpp": "90ce25b75605e359e39d47741db5d2b94ea9c32720a5b2bff57d17f3185d81fd",
+    "demo-app/src/render/text.cpp": "16794b675a245f6361e4acfaecdf1fa320e081a0d10d379e8364c91ab5ed0064",
+    "demo-app/src/render/text.h": "59ba83cf8552a2901a1d992e616399129360aef135f3d5581ad806d3973eb56c",
+    "demo-app/src/render/text_cache.h": "cc3b1e7318179cd58fef9ee6e7f678bdb635016ce0dc34daec54cf83cd544e27",
+    "demo-app/src/task_model.h": "40b659177916a59556e17b1d38a47f96117041264941574d938c30d8e31e1e37",
+    "demo-app/src/task_screen.h": "90c7a531ca409057aeb8788cabde7d85c29db27240c2b0303a03428c96db1413",
+    "datafriend/src/async_flush.h": "b5bd48d8050536d6832685ddf90fd7e178260748f7c0cc5912abda6d1d4017ba",
+    "datafriend/src/c_api.cpp": "0245c9f96b37b609aed93affdb15eec89c46e429de24acf9d70e5107c2006f18",
+    "datafriend/src/engine.cpp": "f6b3077599c5ef97757b750ee2a6883c76f85865f820bc21a4fd7e40c4568330",
+    "datafriend/src/owner_identity.cpp": "5b30e66f38e41eb04b470468f83ff5dc1f84bb83dca9d802aa4d8f917189071a",
+    "datafriend/src/owner_identity.h": "6e7f1106d55f6d9d9b2e290ed19948c34bb19dba2e17c6b1efb20b4dbf7a3538",
+    "datafriend/src/reconciliation_snapshot.h": "4b08c90c5cf840bde23018d98288541f9413bb3b3d0abd0fc0e37ac4f25c003d",
+    "datafriend/include/datafriend/attributes.h": "795bcc540a5369bf005879479956fe7b83b81a391108c8a6be24095938b2f24e",
+    "datafriend/include/datafriend/c_api.h": "8400518bc9fa0e6193470ae262ee578bc74344bcc9c0a0578ba1f63c044af241",
+    "datafriend/include/datafriend/engine.h": "36c7207aba2a3e27b930b4ae740f39daae7644ebd25fde119b4baeb15589b70a",
+    "datafriend/include/datafriend/tree_allocator.h": "7769fa91c0657afb54cf71d7628ebaf6d35ac36f494a56f03deac26a883c64bf",
+    "datafriend/include/datafriend/wide_tree.h": "77948dcc6e32cf8119593977464f36445316a7501c3d5fdf1c94b007ff8a2db7",
+    "datafriend/include/datafriend/wire_codec.h": "2fc8ea279d0b8b12c6824800bfddc65eeef8271d32ab3ade8c8be14f1ac205ab",
+    "datafriend/platform/android/keystore.cpp": "9973b3fa5c4c5b9f8cbe4b316fea1e5911fd1ccf9286c5b07abf89f6b2c54ede",
+    "datafriend/platform/android/proguard-rules.pro": "db9904d895432623987aa243f1710ec07e656ed575ba7a3a7d153a965d901c45",
+    "datafriend/platform/android/src/main/java/dev/drawdo/datafriend/IdentityStore.java": "7c05ad99ea7c49ba25e1c009584f010fd4dd833137720a93f0c3f98908e6e1ec",
+    "datafriend/platform/apple/keychain.cpp": "c76cf469901ea4252817326eeed6b8d9d8ebe3b78630fc48cb1982155c960c08",
+    "datafriend/platform/apple/vendor/aelmdb.c": "c01ee12536a9e537f77d451329ffe410e398c27b140e921797777250f5808fa4",
+    "datafriend/platform/apple/vendor/ed25519.c": "63715f0a28c59978e4e87e3c2757675f77b6a75f992f0a471765c1cf6e6592f9",
+    "datafriend/platform/apple/vendor/monocypher.c": "a5de601039e567e19309d37e8ebaee16f9484e1c93cda77bed95d516477bc3d9"
+  },
+  "runs": [
+    {
+      "name": "1000-toggle-1",
+      "checks": "passed",
+      "thermal_state": 0,
+      "low_power": 0
+    },
+    {
+      "name": "1000-add_remove-1",
+      "checks": "passed",
+      "thermal_state": 0,
+      "low_power": 0
+    }
+  ],
+  "binary_sha256": "43f3a067b063efe6f5edc978f93c581ba49704ff1c665b9977347cf2386fb85e",
+  "build_files_sha256": {
+    "demo-app/CMakeLists.txt": "96aee695031ec07f2437dd2618b31017c11726ddbce7449a15ba0cbcf66ca388",
+    "datafriend/CMakeLists.txt": "e61ff1cdd70f139d3669f7ea7781dfaf79ec60c0c067c7085d6b3bd6d54ca0c9",
+    "demo-app/tools/build_ios.py": "a95cc5a9a22fc171aac5aba1b5b0392c078f523c6c0b9b4677a1ebafaf7dc848",
+    "demo-app/tools/profile_ios.py": "00c44d98374467e442556b852e71c5f23ca36e9c8993250037a342e0277c119a",
+    "demo-app/tools/profile_report.py": "b25411187344590116e55150ca8fb89b07e1d63b97e70f5aa203f9f0396664e2"
+  },
+  "compiler_settings": [
+    "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG",
+    "CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG",
+    "CMAKE_OBJCXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG"
+  ],
+  "device": {
+    "marketingName": "iPhone 13",
+    "productType": "iPhone14,5",
+    "cpuType": {
+      "name": "arm64e",
+      "subType": 2,
+      "type": 16777228
+    },
+    "os": "26.5"
+  },
+  "finished": 1791496439.101328
+}

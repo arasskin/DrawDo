@@ -1,0 +1,27 @@
+{
+  "phases_seconds": {
+    "native": 7.6707740410000005,
+    "java_dex": 1.460613792000001,
+    "resources": 0.5845193330000011,
+    "package_sign_verify": 1.7274093750000006
+  },
+  "apk": "/Users/alex/DrawDo/src/app/build/sokol-android/drawdo-sokol.apk",
+  "apk_bytes": 2982588,
+  "apk_sha256": "2a796b749042f48ea640cf57fcc2eaf17a2d08187a18aba569c61f2a9fcdbab1",
+  "toolchain": "/Users/alex/Library/Android/sdk/ndk/28.2.13676358",
+  "sources_sha256": {
+    "src/app/native/CMakeLists.txt": "887c627b83003a2bc3161491cf05ebc1fe4067dee433224720e483e46fde7308",
+    "src/app/native/android/AndroidManifest.xml": "9bfae6f011d1e5a190296de24251f8b9ae749016f75fa047738218d5a83dc129",
+    "src/app/native/android/java/dev/drawdo/sokol/MainActivity.java": "d7c101007b14739912313b111b82522dbc9375121db2c3a56e48cc8eda5a6f69",
+    "src/app/native/android/res/drawable/icon.xml": "7ce3a60833276473da169c40296efde2045f0618b2243fc05c9b9dd13aa93659",
+    "src/app/native/build_android.py": "0dd5d5ba0094bf71930ce8f0aa4aca79fef4846c35e109bc28c086ffeba07a48",
+    "src/app/native/main.cpp": "53df49dc655bc47f9a70c1b1b1a1e32a965d2cc5ec7eb9bbfd926f4b3c3582cd",
+    "src/app/native/particles.h": "faf85ccdbb59275806d59e48cb83521ca0387d54941aff0aa1af4376d57c2d04",
+    "src/app/native/shaders.glsl": "4255788bde64b89429dbdd45504c7ea2c1adafe2408b37e6b25ad9b8039c8c4b",
+    "src/app/native/shaders.h": "9bc3919b6f5afccab5e45aed433b4fdf3fe90d9efb3ff40212df15cdaec302fd",
+    "src/app/native/shaders.json": "44979ac746c5adc5b8632669d5114ff45138e18892239446dc4f84565a36683a",
+    "src/app/native/sokol.cpp": "90ce25b75605e359e39d47741db5d2b94ea9c32720a5b2bff57d17f3185d81fd",
+    "src/app/native/text.h": "0d03702717aa64ece8b012b44332cdf44a8c961b20601ff19ba985d49a47aa74",
+    "src/app/native/text_android.cpp": "3603397300076b3f82a8e5695a39113c8e232364c9e7c829b4cee433a17e8659"
+  }
+}

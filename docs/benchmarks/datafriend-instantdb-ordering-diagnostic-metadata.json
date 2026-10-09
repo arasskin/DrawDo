@@ -1,0 +1,81 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "arguments": {
+    "flutter": "flutter",
+    "skip_build": true,
+    "samples": 30,
+    "warmup": 5,
+    "rounds": 3,
+    "smoke": false,
+    "output_prefix": "datafriend-instantdb"
+  },
+  "runs": [
+    {
+      "name": "store-datafriend-100-buffered-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-o83f6uzq/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-datafriend-100-buffered-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/datafriend.png"
+      },
+      "started_unix": 1790548348.883702,
+      "load_average": [
+        4.3134765625,
+        4.46826171875,
+        4.6484375
+      ],
+      "elapsed_seconds": 1.314190149307251,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 18:32:29.582 datafriend_todo_lab[64330:153174626] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-instantdb-100-buffered-1",
+      "config": {
+        "engine": "instantdb",
+        "count": 100,
+        "durable": false,
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/todo-lab-bench-ptna3z96/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-instantdb-runs/store-instantdb-100-buffered-1.json",
+        "screenshot": "/Users/alex/DrawDo/docs/validation/todo-demo/instantdb.png"
+      },
+      "started_unix": 1790548350.202017,
+      "load_average": [
+        4.2880859375,
+        4.46044921875,
+        4.64453125
+      ],
+      "elapsed_seconds": 30.755481004714966,
+      "returncode": 1,
+      "stdout": "flutter: [18:32:30.378] [Instance-378] [Root        ] [INFO   ] InstantDB logging configured for Instance-378\nflutter: [18:32:30.378] [Instance-378] [Root        ] [INFO   ] Log level: INFO, Hierarchical: true\n",
+      "stderr": "2026-09-27 18:32:30.329 datafriend_todo_lab[64367:153174750] Running with merged UI and platform thread. Experimental.\nTimeoutException after 0:00:30.000000: Future not completed\n#0      Future.timeout.<anonymous closure> (dart:async/future_impl.dart:1042)\n<asynchronous suspension>\n#1      change (package:datafriend_todo_lab/change.dart:39)\n<asynchronous suspension>\n#2      runBenchmark (package:datafriend_todo_lab/benchmark.dart:114)\n<asynchronous suspension>\n#3      main (package:datafriend_todo_lab/main.dart:19)\n<asynchronous suspension>\n\n"
+    }
+  ],
+  "scope": "Same Flutter macOS Release app and UI; actual sqflite platform plugin. Community flutter_instantdb 2.3.0; sync disabled for both. Buffered: Datafriend MDB_NOSYNC and SQLite synchronous=OFF. Durable: backend defaults. No network comparison. Store timers separate function return, write completion, query publication and read. Frame timings use the real shared UI, with 250 ms pauses after completed operations.",
+  "source_sha256": {
+    "src/todo_demo/lib/change.dart": "1bbac2788e4a644b4b2c1c2859080853a94eb15ccbb0a9e6ed43e236b62e8010",
+    "src/todo_demo/lib/stores.dart": "a5e0b8643cb934a0c48a40ceab910b02c98ac0313d595277c5a01ee1d0f6e710",
+    "src/todo_demo/lib/main.dart": "b3b78aaa94cf63c1398ae86b4e90b3a06dcb055faaae55c73917c0729d11a4e0",
+    "src/todo_demo/lib/benchmark.dart": "586bd8ceabb7eeb00cf1139e1ee66580e7b42965389fbdbf383c2fff507e42ba",
+    "src/todo_demo/lib/todo_screen.dart": "11119c09b9cb8309fb5a8cab2f1fff35a851356561ad55e66372ea89acccc969",
+    "src/todo_demo/pubspec.lock": "7662472b2d67fb951f74356a7f3e29a612246ab550b91ee5d3c1cdfbe21f47e3",
+    "src/todo_demo/tool/run_benchmarks.py": "a1c8f37b8804bae4ee9de701f16f7b7023951e88fb769344ade0b4883e8e539f",
+    "src/app/lib/data/app_views.dart": "d8e8c1aafc64e36839021db2ef42cce16272068bee207b46359f8e911e6b1625",
+    "src/app/lib/data/datafriend.dart": "583e3759df14ee4f3b27fd12d60abb29593cd382a37d6a09ac5b664ee9eca04a",
+    "src/datafriend/native/engine.cpp": "f848001ba0eab66e3a68f0693ea2dd9f2a91743a6d687ae14d402b2e6b8689c9",
+    "src/datafriend/native/c_api.cpp": "2bae3530119736453d2b158999fbff9d279c4d3532a4c153c07a873d519bad28"
+  },
+  "binary_sha256": {
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/MacOS/datafriend_todo_lab": "1f1c144e24c377a5c0a804c4984c0ebd2eca0e906fee9f0308b2da9f7a2d6986",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/libdatafriend.dylib": "51dfce9eae163472055b73b4b12f5ff099a5adfee8520822e5605e74fa58e312",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/App.framework/Versions/A/App": "bbdd5c9f1e9d96b7d4b5cec624b0bb698f5227751d9df694d7d9eb47b2cc82c1"
+  }
+}

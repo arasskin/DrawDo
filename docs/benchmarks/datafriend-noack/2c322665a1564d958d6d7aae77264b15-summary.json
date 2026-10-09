@@ -1,0 +1,153 @@
+{
+  "room": "2c322665a1564d958d6d7aae77264b15",
+  "case": "offline",
+  "seed": 1000,
+  "equal_text": true,
+  "equal_operation_counts": true,
+  "devices": {
+    "android": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1223,
+      "ui_facts": 1,
+      "edits": 67,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.912,
+        "p95": 1.081,
+        "max": 1.147
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.243,
+          "p95": 0.277,
+          "max": 0.392
+        },
+        "encode_state": {
+          "p50": 0.124,
+          "p95": 0.14,
+          "max": 0.327
+        },
+        "commit_publish": {
+          "p50": 0.533,
+          "p95": 0.682,
+          "max": 0.791
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "frame_cpu_ms": {
+        "p50": 2.2384895,
+        "p95": 10.259481,
+        "max": 26.726041
+      },
+      "frame_work_ms": {
+        "p50": 0.06526,
+        "p95": 1.182135,
+        "max": 3.907917
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 60.01384796315958,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 144659,
+        "received": 135021,
+        "requests": 67,
+        "exchanges": 112,
+        "restarts": 2,
+        "connections": 2,
+        "signed_batches": 56,
+        "reconcile_us": 471,
+        "sign_us": 32029,
+        "apply_us": 25917,
+        "merge_us": 23005,
+        "pump_us": 210403,
+        "request_us": 1104399,
+        "request_count": 10
+      },
+      "optimistic_sync": {
+        "uploads": 54,
+        "publications": 56,
+        "fallbacks": 0
+      }
+    },
+    "iphone": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1223,
+      "ui_facts": 1,
+      "edits": 67,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.772,
+        "p95": 1.056,
+        "max": 1.332
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.073,
+          "p95": 0.127,
+          "max": 0.176
+        },
+        "encode_state": {
+          "p50": 0.042,
+          "p95": 0.071,
+          "max": 0.098
+        },
+        "commit_publish": {
+          "p50": 0.649,
+          "p95": 0.938,
+          "max": 1.19
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "frame_cpu_ms": {
+        "p50": 0.789208,
+        "p95": 2.577417,
+        "max": 5.542042
+      },
+      "frame_work_ms": {
+        "p50": 0.022,
+        "p95": 0.888,
+        "max": 2.536
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 59.92470043317467,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 148075,
+        "received": 113366,
+        "requests": 69,
+        "exchanges": 106,
+        "restarts": 0,
+        "connections": 2,
+        "signed_batches": 58,
+        "reconcile_us": 300,
+        "sign_us": 21301,
+        "apply_us": 25096,
+        "merge_us": 12896,
+        "pump_us": 137803,
+        "request_us": 1000877,
+        "request_count": 10
+      },
+      "optimistic_sync": {
+        "uploads": 56,
+        "publications": 46,
+        "fallbacks": 0
+      }
+    }
+  },
+  "server_build": {
+    "release": "d891d8b86795aafed8162f71644356c67e040b4e-20261008-5",
+    "sha256": "e04a21e1c726f3bb512b44d0e46ce8f457cfd251efb428c5be0b0230ec6ab568"
+  }
+}

@@ -30,11 +30,31 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential liburing-dev
+          sudo apt-get install -y build-essential liburing-dev libsodium-dev cmake
       - name: Build and check storage components
         run: timeout 180 make -C littlebear all test
+      - name: Check TCP transport and signed writes
+        run: timeout 60 python3 scripts/test_littlebear_tcp.py littlebear/build/server
+      - name: Check Datafriend and Littlebear integration
+        run: |
+          cmake -S datafriend -B /tmp/datafriend -DCMAKE_BUILD_TYPE=Release
+          cmake --build /tmp/datafriend --target network_test transport_test -j 2
+          ctest --test-dir /tmp/datafriend --output-on-failure -R network_test
+          timeout 180 python3 scripts/test_native_sync.py littlebear/build/server /tmp/datafriend/transport_test
       - name: Run address and undefined-behavior sanitizers
         run: timeout 180 make -C littlebear sanitize
+      - name: Package the tested server
+        if: github.ref == 'refs/heads/main'
+        run: |
+          python3 deploy/package.py littlebear/build/server "$RUNNER_TEMP/littlebear.tar.gz"
+      - name: Retain deployment artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: littlebear-server
+          path: ${{ runner.temp }}/littlebear.tar.gz
+          if-no-files-found: error
+          retention-days: 7
 
   deploy:
     needs: checks
@@ -75,12 +95,17 @@ jobs:
             ServerAliveCountMax 4
           EOF
 
-      - name: Upload, build, and restart
+      - name: Download the tested server
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: littlebear-server
+          path: ${{ runner.temp }}
+
+      - name: Upload and restart the tested server
         run: |
           set -euo pipefail
           release_id="${GITHUB_SHA}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          git archive --format=tar.gz --output="$RUNNER_TEMP/source.tar.gz" HEAD
-          scp "$RUNNER_TEMP/source.tar.gz" "dodo-deploy:/opt/littlebear/incoming/${release_id}.tar.gz"
+          scp "$RUNNER_TEMP/littlebear.tar.gz" "dodo-deploy:/opt/littlebear/incoming/${release_id}.tar.gz"
           # The identifier consists only of GitHub-provided SHA and numeric run IDs.
           # shellcheck disable=SC2029
           ssh dodo-deploy "bash -s -- '$release_id'" < deploy/deploy.sh

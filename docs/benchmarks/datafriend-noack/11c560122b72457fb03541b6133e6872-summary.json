@@ -1,0 +1,425 @@
+{
+  "room": "11c560122b72457fb03541b6133e6872",
+  "case": "concurrent",
+  "seed": 1000,
+  "equal_text": true,
+  "equal_operation_counts": true,
+  "devices": {
+    "android": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1278,
+      "ui_facts": 1,
+      "edits": 67,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.846,
+        "p95": 1.068,
+        "max": 1.104
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.234,
+          "p95": 0.268,
+          "max": 0.339
+        },
+        "encode_state": {
+          "p50": 0.116,
+          "p95": 0.156,
+          "max": 0.182
+        },
+        "commit_publish": {
+          "p50": 0.494,
+          "p95": 0.713,
+          "max": 0.765
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "frame_cpu_ms": {
+        "p50": 2.346928,
+        "p95": 16.490209,
+        "max": 27.325055
+      },
+      "frame_work_ms": {
+        "p50": 0.080052,
+        "p95": 1.465,
+        "max": 3.480781
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 60.013343032615595,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 326537,
+        "received": 300969,
+        "requests": 133,
+        "exchanges": 249,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 126,
+        "reconcile_us": 102,
+        "sign_us": 69951,
+        "apply_us": 58589,
+        "merge_us": 66661,
+        "pump_us": 343844,
+        "request_us": 416683,
+        "request_count": 4
+      },
+      "optimistic_sync": {
+        "uploads": 125,
+        "publications": 123,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 98.232,
+            "p95": 98.232,
+            "max": 98.232
+          },
+          "queue_ms": {
+            "p50": 0.121,
+            "p95": 0.121,
+            "max": 0.121
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 103.924,
+            "p95": 103.924,
+            "max": 103.924
+          },
+          "queue_ms": {
+            "p50": 0.075,
+            "p95": 0.075,
+            "max": 0.075
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 116.212,
+            "p95": 116.212,
+            "max": 116.212
+          },
+          "queue_ms": {
+            "p50": 0.069,
+            "p95": 0.069,
+            "max": 0.069
+          }
+        },
+        "optimistic_apply": {
+          "count": 125,
+          "elapsed_ms": null,
+          "queue_ms": {
+            "p50": 0.262,
+            "p95": 0.852,
+            "max": 19.468
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 100.1995,
+            "p95": 144.971,
+            "max": 144.971
+          },
+          "queue_ms": {
+            "p50": 0.3015,
+            "p95": 28.463,
+            "max": 28.463
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 98.298,
+            "p95": 98.298,
+            "max": 98.298
+          },
+          "queue_ms": {
+            "p50": 0.12,
+            "p95": 0.12,
+            "max": 0.12
+          }
+        }
+      }
+    },
+    "iphone": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1278,
+      "ui_facts": 1,
+      "edits": 67,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.662,
+        "p95": 0.858,
+        "max": 1.185
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.073,
+          "p95": 0.113,
+          "max": 0.148
+        },
+        "encode_state": {
+          "p50": 0.058,
+          "p95": 0.091,
+          "max": 0.115
+        },
+        "commit_publish": {
+          "p50": 0.527,
+          "p95": 0.701,
+          "max": 1.048
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "frame_cpu_ms": {
+        "p50": 0.8203119999999999,
+        "p95": 3.637208,
+        "max": 5.217042
+      },
+      "frame_work_ms": {
+        "p50": 0.02,
+        "p95": 0.901,
+        "max": 1.628
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 59.92044577288053,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 329398,
+        "received": 298730,
+        "requests": 136,
+        "exchanges": 251,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 128,
+        "reconcile_us": 66,
+        "sign_us": 47475,
+        "apply_us": 58151,
+        "merge_us": 30186,
+        "pump_us": 221448,
+        "request_us": 519704,
+        "request_count": 5
+      },
+      "optimistic_sync": {
+        "uploads": 127,
+        "publications": 122,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 102.224,
+            "p95": 102.224,
+            "max": 102.224
+          },
+          "queue_ms": {
+            "p50": 0.056,
+            "p95": 0.056,
+            "max": 0.056
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 100.419,
+            "p95": 100.419,
+            "max": 100.419
+          },
+          "queue_ms": {
+            "p50": 0.126,
+            "p95": 0.126,
+            "max": 0.126
+          }
+        },
+        "fetch": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 100.634,
+            "p95": 100.634,
+            "max": 100.634
+          },
+          "queue_ms": {
+            "p50": 0.137,
+            "p95": 0.137,
+            "max": 0.137
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 114.153,
+            "p95": 114.153,
+            "max": 114.153
+          },
+          "queue_ms": {
+            "p50": 1.186,
+            "p95": 1.186,
+            "max": 1.186
+          }
+        },
+        "optimistic_apply": {
+          "count": 127,
+          "elapsed_ms": null,
+          "queue_ms": {
+            "p50": 0.326,
+            "p95": 0.684,
+            "max": 1.129
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 100.20949999999999,
+            "p95": 100.312,
+            "max": 100.312
+          },
+          "queue_ms": {
+            "p50": 0.266,
+            "p95": 0.428,
+            "max": 0.428
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 102.266,
+            "p95": 102.266,
+            "max": 102.266
+          },
+          "queue_ms": {
+            "p50": 0.066,
+            "p95": 0.066,
+            "max": 0.066
+          }
+        }
+      }
+    }
+  },
+  "one_way": {
+    "clock_calibration": {
+      "android": {
+        "samples": 468,
+        "pre_sample": [
+          92008022843,
+          6716857,
+          6716871,
+          92008029007
+        ],
+        "post_sample": [
+          92049921465,
+          48616412,
+          48616419,
+          92049931449
+        ],
+        "pre_rtt_ms": 6.15,
+        "post_rtt_ms": 9.977,
+        "estimated_drift_ppm": -23.400657538190686,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      },
+      "iphone": {
+        "samples": 441,
+        "pre_sample": [
+          5911655061413,
+          9005064,
+          9005068,
+          5911655075642
+        ],
+        "post_sample": [
+          5911688121571,
+          42064020,
+          42064035,
+          5911688137794
+        ],
+        "pre_rtt_ms": 14.225,
+        "post_rtt_ms": 16.208,
+        "estimated_drift_ppm": -66.34674438929916,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      }
+    },
+    "directions": {
+      "android_to_iphone": {
+        "edits": 67,
+        "distinct_uploads": 67,
+        "send_to_receive_ms": {
+          "p50": 105.97363928222656,
+          "p95": 114.27844398498536,
+          "max": 127.60056050109863
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 128.06760012817384,
+          "p95": 141.71285821533203,
+          "max": 150.34956176757814
+        },
+        "edit_to_display_ms": {
+          "p50": 176.51524072265624,
+          "p95": 189.81583282470703,
+          "max": 198.77213989257814
+        },
+        "edit_to_send_ms": {
+          "p50": 20.292,
+          "p95": 29.335,
+          "max": 33.682
+        },
+        "receive_to_display_ms": {
+          "p50": 48.772916015625,
+          "p95": 49.020458984375,
+          "max": 49.4189990234375
+        },
+        "max_clock_uncertainty_ms": 12.565599550234442
+      },
+      "iphone_to_android": {
+        "edits": 67,
+        "distinct_uploads": 67,
+        "send_to_receive_ms": {
+          "p50": 153.7438479309082,
+          "p95": 195.02448141479493,
+          "max": 229.75697053527833
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 171.8723463897705,
+          "p95": 213.08132203674316,
+          "max": 247.85280722045897
+        },
+        "edit_to_display_ms": {
+          "p50": 224.8625396118164,
+          "p95": 264.71591372680666,
+          "max": 299.33187855529786
+        },
+        "edit_to_send_ms": {
+          "p50": 17.34,
+          "p95": 17.802,
+          "max": 18.454
+        },
+        "receive_to_display_ms": {
+          "p50": 53.61586399841308,
+          "p95": 54.51714799499512,
+          "max": 54.88871800231934
+        },
+        "max_clock_uncertainty_ms": 12.482984392042578
+      }
+    }
+  },
+  "server_build": {
+    "release": "d891d8b86795aafed8162f71644356c67e040b4e-20261008-4",
+    "sha256": "6f2ff61b84aa05541a93d3c9fb9633f5874f70465784cd02fc2257bdefd0c8b7",
+    "note": "Initial silent-upload build, before correcting subscriber scheduling after silent writes. Retained as diagnostic data, not the final performance result."
+  }
+}

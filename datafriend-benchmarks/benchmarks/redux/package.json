@@ -1,0 +1,11 @@
+{
+  "name": "datafriend-redux-benchmark",
+  "private": true,
+  "type": "module",
+  "description": "Host-only comparison; not an application dependency",
+  "dependencies": {
+    "@reduxjs/toolkit": "2.12.0",
+    "immer": "11.1.18",
+    "redux": "5.0.1"
+  }
+}

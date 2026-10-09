@@ -1,0 +1,96 @@
+Datafriend_demo
+    demo-app/src/main.cpp
+    Task_UI
+    Shared_document
+    Particle_demo
+    Rendering_and_platform
+    Rendered_profiles
+Task_UI
+    demo-app/src/task_screen.h
+    demo-app/src/task_model.h
+    Datafriend_UI_bindings
+Particle_demo
+    demo-app/src/particle_model.h
+    demo-app/src/particle_simulation.h
+    Datafriend_UI_bindings
+Datafriend_UI_bindings
+    demo-app/src/datafriend_ui.h
+    Datafriend_store
+    demo-app/src/profiling/metrics.h
+Rendering_and_platform
+    demo-app/src/render/text.cpp
+    demo-app/src/platform/apple/text.mm
+    demo-app/src/platform/apple/text_input.mm
+    demo-app/src/platform/apple/runtime.mm
+    demo-app/src/platform/android/runtime.cpp
+    demo-app/src/render/text.h
+    demo-app/src/render/text_cache.h
+    demo-app/src/render/sokol_backend.cpp
+    demo-app/src/render/shaders.glsl
+    demo-app/src/platform/android/text.cpp
+    demo-app/src/platform/android/text_input.cpp
+    demo-app/android/java/dev/drawdo/sokol/MainActivity.java
+Rendered_profiles
+    demo-app/src/profiling/task_benchmark.h
+    demo-app/src/profiling/metrics.h
+    demo-app/tools/profile_tasks.py
+    demo-app/tools/profile_ios.py
+    demo-app/tools/profile_report.py
+Datafriend_store
+    datafriend/include/datafriend/engine.h
+    datafriend/src/engine.cpp
+    datafriend/src/async_flush.h
+    datafriend/src/reconciliation_snapshot.h
+    AELMDB
+    Littlebear_protocol
+    Shared_attributes
+Datafriend_C_ABI
+    datafriend/include/datafriend/c_api.h
+    datafriend/src/c_api.cpp
+    Datafriend_store
+    Owner_identity
+Owner_identity
+    datafriend/src/owner_identity.h
+    datafriend/src/owner_identity.cpp
+    datafriend/platform/android/keystore.cpp
+    datafriend/platform/android/src/main/java/dev/drawdo/datafriend/IdentityStore.java
+    datafriend/platform/apple/keychain.cpp
+    third_party/monocypher/monocypher.c
+    third_party/monocypher/monocypher-ed25519.c
+AELMDB
+    third_party/aelmdb/src/mdb.c
+    third_party/aelmdb/src/midl.c
+Littlebear_protocol
+    datafriend/include/datafriend/wire_codec.h
+    littlebear/src/codec.h
+    littlebear/src/exchange.h
+    littlebear/src/reconcile.h
+Shared_attributes
+    datafriend/schema/attributes.json
+    datafriend/include/datafriend/attributes.h
+    datafriend/tool/generate_attributes.py
+Littlebear_record_index
+    littlebear/src/index.h
+    datafriend/include/datafriend/wide_tree.h
+    datafriend/include/datafriend/tree_allocator.h
+Archived_Flutter_reference
+    src/app/lib/main.dart
+    src/app/lib/data/datafriend.dart
+    src/app/lib/data/datafriend_network.dart
+    Datafriend_C_ABI
+
+Shared_document
+    demo-app/src/document_screen.h
+    demo-app/src/document_model.h
+    demo-app/src/document_crdt.h
+    third_party/yrs/include/libyrs.h
+    demo-app/cmake/yrs.cmake
+    Native_network
+    demo-app/src/profiling/document_frames.h
+    demo-app/tools/sync_phones.py
+Native_network
+    datafriend/include/datafriend/network.h
+    datafriend/src/network.cpp
+    datafriend/include/datafriend/identity.h
+    Datafriend_store
+    littlebear/src/server.cpp

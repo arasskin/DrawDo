@@ -1,0 +1,39 @@
+lines
+@visualize terminal harness socket /var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/visualize-44b93a97.harness.sock placement bottom 0 480 1033 label littlebear unfaded true
+#box littlebear
+fold assets
+box third_party
+hide ?
+box docs
+fold littlebear.tests
+@visualize terminal 7 socket /var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/visualize-44b93a97.7.sock placement top 0 476 1033 label datafriend unfaded true
+#fold reference
+box src.app
+fold src.app.ios
+#fold src.app.lib
+fold src.app.android
+box src.app.lib
+@visualize terminal 11 label benchmarks
+box thiredd
+box third_party.negentropy
+box third_party.unordered_dense
+#box datafriend
+fold docs
+box src.todo_demo
+#fold-hide third_party
+fold third_party
+fold src.app
+fold src.todo_demo
+fold-hide datafriend-benchmarks.
+#fold-hide littlebear-benchmarks
+fold-hide littlebear-benchmarks.
+box datafriend.
+box littlebear.
+
+fold littlebear-benchmarks
+fold datafriend-benchmarks
+box scripts
+box demo-app.
+fold-hide reference
+@visualize zoom 0
+fold datafriend.tests

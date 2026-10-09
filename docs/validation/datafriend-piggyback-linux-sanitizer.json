@@ -1,0 +1,36 @@
+{
+  "status": "pass",
+  "facts": 1998,
+  "notifications": 4,
+  "pushExchanges": 2,
+  "wireBytes": 69864,
+  "checks": [
+    "plain TCP with Ed25519 owner writes",
+    "no challenge on reads or equal pushes",
+    "signed empty namespace creation",
+    "multiple signed pages with one challenge",
+    "zero authentication round trips",
+    "equal small offer without challenge",
+    "fragmented/coalesced frames",
+    "oversized-frame rejection",
+    "absent namespace preservation",
+    "Unicode",
+    "same-key updates",
+    "deletion",
+    "notifications",
+    "offline edits",
+    "cache restart",
+    "automatic scheduling",
+    "close during I/O"
+  ],
+  "time": "2026-09-28T15:39:15.280381+00:00",
+  "server": "Linux io_uring TCP / Ed25519 writes",
+  "server_sha256": "dfe5384f3b330929da4a0999aa1806758a2c3eb9b7d70eb1f3cb0655b54db631",
+  "container": {
+    "cpus": 1,
+    "memory_mib": 256
+  },
+  "authentication": "LBS4: Ed25519 challenge piggybacked on existing responses; no separate authentication requests",
+  "paged_payload_bytes": 9600000,
+  "notes": "An initial integration run timed out with host load above 260. Rerun passed with unchanged deadlines and no concurrent compilation."
+}

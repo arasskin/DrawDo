@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-08",
+  "result": "Android arm64/API24 Sokol GLES3 lifecycle and generated simple/text shader descriptors compile/link; NativeActivity entry point exported. Not installed or rendered.",
+  "ndk": "28.2.13676358",
+  "source_revision": "f5cd92ace74f0f112cba76743786660ee0ae9ebf",
+  "shader_command": "/Users/alex/summer/junstodos/sokol-shdc -i reference/junstodos/src/shaders.glsl -o /tmp/drawdo-sokol-shaders.h -l metal_sim:metal_ios:glsl300es",
+  "compile_command": "$NDK/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android24-clang++ -std=c++20 -O2 -DNDEBUG -fPIC -shared -I reference/junstodos/include -I /tmp docs/validation/sokol-import-android.cpp -o /tmp/libdrawdo-sokol-probe.so -landroid -llog -lEGL -lGLESv3",
+  "exported_symbols": [
+    "ANativeActivity_onCreate",
+    "sokol_main"
+  ],
+  "sha256": {
+    "reference/junstodos/src/shaders.glsl": "aeb88c2a423374ebbf71d4827b588a91f3f1f856960ca353c766f772d12813f0",
+    "/Users/alex/summer/junstodos/sokol-shdc": "9b5c6ad6b556a33f3ccd17a3a6bb1a41059cb600074e5dbbb916f70f68a40581",
+    "/tmp/drawdo-sokol-shaders.h": "b04f35b0ee5ddeb09a1d294adcf70be1ea9d4685017ba147f49e70d2acc35e97",
+    "/tmp/libdrawdo-sokol-probe.so": "eba6a02890afa8728d7d5a7116d427a2c14601d3894a543c5f6340ef55e7954a"
+  }
+}

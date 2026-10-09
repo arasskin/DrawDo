@@ -1,0 +1,757 @@
+{
+  "timestamp_utc": "2026-09-27T14:52:58.270113+00:00",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "dart": "Dart SDK version: 3.11.1 (stable) (Tue Feb 24 00:03:07 2026 -0800) on \"macos_arm64\"",
+  "arguments": {
+    "dart": "/Users/alex/developer/flutter/bin/cache/dart-sdk/bin/dart",
+    "rounds": 3,
+    "samples": 1000,
+    "skip_build": true
+  },
+  "warmup": 100,
+  "durability": "MDB_NOSYNC; no synchronous disk flush or network",
+  "native": "Uninstrumented Release library; native FFI time includes owner-thread waits and C ABI serialization",
+  "scope": "Dart AOT; excludes Flutter widget build/layout/rasterization",
+  "source_sha256": {
+    "src/app/tool/benchmark_dart_phases.dart": "013e6461f17f0a682951c4fa78991524460cb0c5f5af927764ce0cd0ef5c8196",
+    "src/app/lib/data/datafriend.dart": "909d7bce3d74c1e9389a2ebc47bc3a9edecac59c4c91d28ea73bea2566d10b80",
+    "src/app/lib/data/datafriend_profile.dart": "c3113cb068941dc20343358ba99f59a52bec7dcc36f6b31fc2d4218c431a4867",
+    "src/app/lib/data/datafriend_document_store.dart": "6f5bc0c28ab1158f2be956c45fbd0274a43bb343d1fcc655a25111f776a5fa3e",
+    "src/app/lib/model/document.dart": "7468f341b7d458704ae869fefea7f7a9d35c5e988204c4e3bc5ebc0c4864609a",
+    "src/datafriend/benchmarks/run_dart_phases.py": "c09db5e388e51224ff46cf58cf8db79722796a29a5166e264e88004e72f35ffd"
+  },
+  "binary_sha256": {
+    "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib": "6068c4229fafbc35cc174c0b9e17ea00a26084b906f80eb0fd9966129d9937ee",
+    "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control": "aa7703dc77b494d5b19697556ee9f0fe34df2d856394e865501627b70117c61a",
+    "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile": "5652409590fc1153629afa43da4f751fb8b0d5a7dc4b1c90db6361f01e13db6d"
+  },
+  "runs": [
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "3",
+        "237"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_edit_only",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_mixed_snapshot_reuse",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_100",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_1000",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "app_noop",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_add_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-control",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/alex/DrawDo/src/datafriend/build/dart-phases-profile",
+        "/Users/alex/DrawDo/src/datafriend/build/native/libdatafriend.dylib",
+        "views_shared_edit_read",
+        "1000",
+        "10000"
+      ],
+      "stderr": ""
+    }
+  ],
+  "post_measurement_notes": [
+    "Added braces around the cached-result validation after timing. The measured code paths and diagnostic hooks are unchanged; original source/binary hashes above describe the measured executables."
+  ],
+  "post_measurement_source_sha256": {
+    "src/app/tool/benchmark_dart_phases.dart": "a9dde89f329fda20ba711cebb7de7112aecff05d60018c2103a6d8549153e3aa"
+  }
+}

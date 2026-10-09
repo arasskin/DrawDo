@@ -1,0 +1,455 @@
+{
+  "room": "d394e85d6de846809fe3d24349c701d8",
+  "case": "concurrent",
+  "seed": 1000,
+  "equal_text": true,
+  "equal_operation_counts": true,
+  "devices": {
+    "android": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1281,
+      "ui_facts": 1,
+      "edits": 67,
+      "acknowledged_edits": 67,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.868,
+        "p95": 1.121,
+        "max": 1.278
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.23,
+          "p95": 0.335,
+          "max": 0.38
+        },
+        "encode_state": {
+          "p50": 0.125,
+          "p95": 0.213,
+          "max": 0.477
+        },
+        "commit_publish": {
+          "p50": 0.501,
+          "p95": 0.656,
+          "max": 0.861
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "ack_roundtrip_ms": {
+        "p50": 337.588,
+        "p95": 415.123,
+        "max": 472.699
+      },
+      "frame_cpu_ms": {
+        "p50": 2.377084,
+        "p95": 16.027605,
+        "max": 31.793956
+      },
+      "frame_work_ms": {
+        "p50": 0.07901,
+        "p95": 1.518229,
+        "max": 3.265677
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 60.013467895240034,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 248657,
+        "received": 235281,
+        "requests": 104,
+        "exchanges": 198,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 96,
+        "reconcile_us": 111,
+        "sign_us": 60972,
+        "apply_us": 52248,
+        "merge_us": 65928,
+        "pump_us": 320045,
+        "request_us": 10963418,
+        "request_count": 100
+      },
+      "optimistic_sync": {
+        "uploads": 95,
+        "publications": 101,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 136.147,
+            "p95": 136.147,
+            "max": 136.147
+          },
+          "queue_ms": {
+            "p50": 0.123,
+            "p95": 0.123,
+            "max": 0.123
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 116.644,
+            "p95": 116.644,
+            "max": 116.644
+          },
+          "queue_ms": {
+            "p50": 0.13,
+            "p95": 0.13,
+            "max": 0.13
+          }
+        },
+        "fetch": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 117.028,
+            "p95": 117.028,
+            "max": 117.028
+          },
+          "queue_ms": {
+            "p50": 0.11,
+            "p95": 0.11,
+            "max": 0.11
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 116.244,
+            "p95": 116.244,
+            "max": 116.244
+          },
+          "queue_ms": {
+            "p50": 0.321,
+            "p95": 0.321,
+            "max": 0.321
+          }
+        },
+        "optimistic_apply": {
+          "count": 95,
+          "elapsed_ms": {
+            "p50": 106.92,
+            "p95": 126.705,
+            "max": 197.148
+          },
+          "queue_ms": {
+            "p50": 0.263,
+            "p95": 0.675,
+            "max": 22.472
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 99.6695,
+            "p95": 100.374,
+            "max": 100.374
+          },
+          "queue_ms": {
+            "p50": 0.301,
+            "p95": 0.371,
+            "max": 0.371
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 136.213,
+            "p95": 136.213,
+            "max": 136.213
+          },
+          "queue_ms": {
+            "p50": 0.123,
+            "p95": 0.123,
+            "max": 0.123
+          }
+        }
+      }
+    },
+    "iphone": {
+      "implementation": "yrs-0.24.0-state-fact-v2",
+      "state_bytes": 1281,
+      "ui_facts": 1,
+      "edits": 67,
+      "acknowledged_edits": 67,
+      "pending_acks": 0,
+      "error": "",
+      "connected": 1,
+      "settled": 1,
+      "edit_ms": {
+        "p50": 0.653,
+        "p95": 0.948,
+        "max": 0.995
+      },
+      "edit_components_ms": {
+        "crdt": {
+          "p50": 0.075,
+          "p95": 0.156,
+          "max": 0.186
+        },
+        "encode_state": {
+          "p50": 0.046,
+          "p95": 0.106,
+          "max": 0.171
+        },
+        "commit_publish": {
+          "p50": 0.496,
+          "p95": 0.779,
+          "max": 0.822
+        },
+        "reserved": {
+          "p50": 0.0,
+          "p95": 0.0,
+          "max": 0.0
+        }
+      },
+      "ack_roundtrip_ms": {
+        "p50": 317.599,
+        "p95": 384.524,
+        "max": 501.373
+      },
+      "frame_cpu_ms": {
+        "p50": 0.81275,
+        "p95": 3.645667,
+        "max": 5.359375
+      },
+      "frame_work_ms": {
+        "p50": 0.02,
+        "p95": 0.975,
+        "max": 5.086
+      },
+      "presentation_coverage": 1.0,
+      "present_fps": 59.92493526913491,
+      "present_gaps_over_25ms": 0,
+      "network": {
+        "sent": 252444,
+        "received": 230100,
+        "requests": 109,
+        "exchanges": 197,
+        "restarts": 0,
+        "connections": 1,
+        "signed_batches": 101,
+        "reconcile_us": 170,
+        "sign_us": 38311,
+        "apply_us": 57435,
+        "merge_us": 32432,
+        "pump_us": 205692,
+        "request_us": 11192257,
+        "request_count": 105
+      },
+      "optimistic_sync": {
+        "uploads": 100,
+        "publications": 95,
+        "fallbacks": 0
+      },
+      "requests_by_operation": {
+        "start": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 103.674,
+            "p95": 103.674,
+            "max": 103.674
+          },
+          "queue_ms": {
+            "p50": 0.028,
+            "p95": 0.028,
+            "max": 0.028
+          }
+        },
+        "reconcile": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 116.636,
+            "p95": 116.636,
+            "max": 116.636
+          },
+          "queue_ms": {
+            "p50": 0.343,
+            "p95": 0.343,
+            "max": 0.343
+          }
+        },
+        "fetch": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 116.722,
+            "p95": 116.722,
+            "max": 116.722
+          },
+          "queue_ms": {
+            "p50": 0.303,
+            "p95": 0.303,
+            "max": 0.303
+          }
+        },
+        "apply": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 115.614,
+            "p95": 115.614,
+            "max": 115.614
+          },
+          "queue_ms": {
+            "p50": 1.296,
+            "p95": 1.296,
+            "max": 1.296
+          }
+        },
+        "optimistic_apply": {
+          "count": 100,
+          "elapsed_ms": {
+            "p50": 99.82249999999999,
+            "p95": 116.55,
+            "max": 132.951
+          },
+          "queue_ms": {
+            "p50": 0.31,
+            "p95": 0.995,
+            "max": 16.526
+          }
+        },
+        "heartbeat": {
+          "count": 4,
+          "elapsed_ms": {
+            "p50": 100.21700000000001,
+            "p95": 116.751,
+            "max": 116.751
+          },
+          "queue_ms": {
+            "p50": 0.256,
+            "p95": 0.269,
+            "max": 0.269
+          }
+        },
+        "optimistic_subscribe": {
+          "count": 1,
+          "elapsed_ms": {
+            "p50": 103.749,
+            "p95": 103.749,
+            "max": 103.749
+          },
+          "queue_ms": {
+            "p50": 0.037,
+            "p95": 0.037,
+            "max": 0.037
+          }
+        }
+      }
+    }
+  },
+  "one_way": {
+    "clock_calibration": {
+      "android": {
+        "samples": 465,
+        "pre_sample": [
+          90744254037,
+          7364565,
+          7364578,
+          90744260163
+        ],
+        "post_sample": [
+          90779248704,
+          42358795,
+          42358798,
+          90779255273
+        ],
+        "pre_rtt_ms": 6.113,
+        "post_rtt_ms": 6.566,
+        "estimated_drift_ppm": -18.959911816835763,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      },
+      "iphone": {
+        "samples": 444,
+        "pre_sample": [
+          5910389594563,
+          7980642,
+          7980648,
+          5910389603365
+        ],
+        "post_sample": [
+          5910422080828,
+          40465018,
+          40465025,
+          5910422097053
+        ],
+        "pre_rtt_ms": 8.796,
+        "post_rtt_ms": 16.218,
+        "estimated_drift_ppm": -172.36085104586027,
+        "inconsistent_samples": 0,
+        "assumption": "affine relative clock drift during this short run; midpoint estimate with delay bounds"
+      }
+    },
+    "directions": {
+      "android_to_iphone": {
+        "edits": 67,
+        "distinct_uploads": 66,
+        "send_to_receive_ms": {
+          "p50": 107.9250209197998,
+          "p95": 117.65927766418457,
+          "max": 120.62122567749023
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 165.01927166748047,
+          "p95": 229.14211000061036,
+          "max": 332.933364151001
+        },
+        "edit_to_display_ms": {
+          "p50": 212.89810076904297,
+          "p95": 277.13862757873534,
+          "max": 381.3389354400635
+        },
+        "edit_to_send_ms": {
+          "p50": 51.514,
+          "p95": 116.205,
+          "max": 217.072
+        },
+        "receive_to_display_ms": {
+          "p50": 48.5456669921875,
+          "p95": 48.9082080078125,
+          "max": 48.997541015625
+        },
+        "max_clock_uncertainty_ms": 11.140077562784073
+      },
+      "iphone_to_android": {
+        "edits": 67,
+        "distinct_uploads": 67,
+        "send_to_receive_ms": {
+          "p50": 107.2235379486084,
+          "p95": 129.43419728088378,
+          "max": 181.57821308898926
+        },
+        "edit_to_ui_ready_ms": {
+          "p50": 161.53722964477538,
+          "p95": 214.90058404541017,
+          "max": 249.2706431427002
+        },
+        "edit_to_display_ms": {
+          "p50": 214.9376361694336,
+          "p95": 267.7926752471924,
+          "max": 303.0091832580566
+        },
+        "edit_to_send_ms": {
+          "p50": 50.721,
+          "p95": 100.242,
+          "max": 116.741
+        },
+        "receive_to_display_ms": {
+          "p50": 53.47011500549316,
+          "p95": 54.553440994262694,
+          "max": 54.77347900390625
+        },
+        "max_clock_uncertainty_ms": 10.989230694275161
+      }
+    }
+  }
+}

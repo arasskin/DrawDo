@@ -1,0 +1,16 @@
+--------- beginning of main
+10-08 11:35:11.892  9923  9950 I DrawDoSokol: Ready: tasks with scoped Datafriend row views
+10-08 11:35:11.974  9923  9950 I DrawDoTasks: revision=0 list=1 rows=8 counter=1 detail=1 mounted=8 filter=All items=12
+10-08 11:36:11.187  9923  9950 I DrawDoTasks: revision=1 list=2 rows=8 counter=1 detail=1 mounted=8 filter=All items=12
+10-08 11:36:12.737  9923  9950 I DrawDoTasks: revision=2 list=3 rows=8 counter=1 detail=1 mounted=8 filter=All items=12
+10-08 11:36:13.635  9923  9950 I DrawDoTasks: revision=3 list=3 rows=8 counter=1 detail=2 mounted=8 filter=All items=12
+10-08 11:36:17.032  9923  9950 I DrawDoTasks: revision=4 list=4 rows=8 counter=1 detail=2 mounted=3 filter=Completed items=3
+10-08 11:36:17.907  9923  9950 I DrawDoTasks: revision=5 list=5 rows=16 counter=1 detail=2 mounted=8 filter=Active items=9
+10-08 11:36:18.746  9923  9950 I DrawDoTasks: revision=6 list=6 rows=19 counter=1 detail=2 mounted=8 filter=All items=12
+
+--- After process restart ---
+--------- beginning of main
+10-08 11:36:21.316 10185 10213 I DrawDoSokol: Ready: tasks with scoped Datafriend row views
+10-08 11:36:21.402 10185 10213 I DrawDoTasks: revision=0 list=1 rows=8 counter=1 detail=1 mounted=8 filter=All items=12
+10-08 11:36:26.663 10185 10213 I DrawDoSokol: frame=1 count=1000 mode=local paused=0 fps=0.2 step_us=2715 moved=80 cells=10 button_builds=7
+10-08 11:36:27.177 10185 10213 I DrawDoSokol: frame=32 count=1000 mode=local paused=0 fps=60.8 step_us=6059 moved=74 cells=9 button_builds=7

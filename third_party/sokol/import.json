@@ -1,0 +1,10 @@
+{
+  "source": "reference/junstodos",
+  "revision": "f5cd92ace74f0f112cba76743786660ee0ae9ebf",
+  "sha256": {
+    "sokol_app.h": "ea8c1ed8befbea9c2aced9d2517b2f9d93bfdac712ca4f3e0ab2613890477126",
+    "sokol_gfx.h": "63d9b88aeddd78beaaad65f16e9cdf08a24745a0a60a924b502aece7b4ebfec3",
+    "sokol_glue.h": "6ecc6b6f5def33c30aac09bc266633b73979d767eefa8e0c379f2eeacc7ae067",
+    "sokol_log.h": "b1bf1403c738b8f18b09819d9190ac160298dd590440c9df57cb9d90b77eb29d"
+  }
+}

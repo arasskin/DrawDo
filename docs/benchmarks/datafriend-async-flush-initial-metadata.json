@@ -1,0 +1,683 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "arguments": {
+    "flutter": "flutter",
+    "skip_build": true,
+    "smoke": false,
+    "rounds": 3,
+    "samples": 30,
+    "warmup": 5,
+    "output_prefix": "datafriend-async-flush"
+  },
+  "runs": [
+    {
+      "name": "store-asynchronous-100-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "asynchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-oejhkpui/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-asynchronous-100-1.json"
+      },
+      "started_unix": 1790550785.763275,
+      "elapsed_seconds": 1.9671099185943604,
+      "load_average": [
+        4.974609375,
+        4.12646484375,
+        4.0556640625
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:06.501 datafriend_todo_lab[25218:153327522] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-synchronous-100-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "synchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-avivimje/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-synchronous-100-1.json"
+      },
+      "started_unix": 1790550787.732842,
+      "elapsed_seconds": 2.0959770679473877,
+      "load_average": [
+        4.65625,
+        4.07421875,
+        4.03759765625
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:07.839 datafriend_todo_lab[25273:153328155] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-buffered-100-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "buffered",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-flvdeljm/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-buffered-100-1.json"
+      },
+      "started_unix": 1790550789.834121,
+      "elapsed_seconds": 1.35390305519104,
+      "load_average": [
+        4.65625,
+        4.07421875,
+        4.03759765625
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:09.951 datafriend_todo_lab[25323:153328732] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-asynchronous-1000-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "asynchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-5_5invj3/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-asynchronous-1000-1.json"
+      },
+      "started_unix": 1790550791.193711,
+      "elapsed_seconds": 1.418733835220337,
+      "load_average": [
+        4.65625,
+        4.07421875,
+        4.03759765625
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:11.322 datafriend_todo_lab[25348:153329261] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-synchronous-1000-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "synchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-3vlhwbcl/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-synchronous-1000-1.json"
+      },
+      "started_unix": 1790550792.615288,
+      "elapsed_seconds": 5.2554450035095215,
+      "load_average": [
+        4.763671875,
+        4.10595703125,
+        4.048828125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:12.720 datafriend_todo_lab[25385:153329810] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-buffered-1000-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "buffered",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-xc2wln5g/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-buffered-1000-1.json"
+      },
+      "started_unix": 1790550797.8735318,
+      "elapsed_seconds": 1.4039652347564697,
+      "load_average": [
+        5.1025390625,
+        4.18701171875,
+        4.07763671875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:17.990 datafriend_todo_lab[25512:153330522] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-asynchronous-1000-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "asynchronous",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-hwqbr1mx/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-asynchronous-1000-1.json"
+      },
+      "started_unix": 1790550799.2804291,
+      "elapsed_seconds": 7.826887845993042,
+      "load_average": [
+        5.1025390625,
+        4.18701171875,
+        4.07763671875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:19.387 datafriend_todo_lab[25550:153331092] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-synchronous-1000-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "synchronous",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-bqtzur0l/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-synchronous-1000-1.json"
+      },
+      "started_unix": 1790550807.112148,
+      "elapsed_seconds": 11.273985862731934,
+      "load_average": [
+        4.53857421875,
+        4.09765625,
+        4.04736328125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:27.225 datafriend_todo_lab[25734:153331907] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-buffered-1000-1",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "buffered",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-uzdrd0fp/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-buffered-1000-1.json"
+      },
+      "started_unix": 1790550818.389339,
+      "elapsed_seconds": 7.874791145324707,
+      "load_average": [
+        4.14111328125,
+        4.02783203125,
+        4.02294921875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:38.530 datafriend_todo_lab[25997:153332896] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-synchronous-1000-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "synchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-u9vhu8qu/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-synchronous-1000-2.json"
+      },
+      "started_unix": 1790550826.270047,
+      "elapsed_seconds": 5.263082981109619,
+      "load_average": [
+        3.88916015625,
+        3.9775390625,
+        4.0048828125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:46.392 datafriend_todo_lab[26179:153333741] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-buffered-1000-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "buffered",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-7jzviflo/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-buffered-1000-2.json"
+      },
+      "started_unix": 1790550831.5363488,
+      "elapsed_seconds": 1.4196581840515137,
+      "load_average": [
+        3.66552734375,
+        3.927734375,
+        3.986328125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:51.640 datafriend_todo_lab[26316:153334477] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-asynchronous-1000-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "asynchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-5wf5egif/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-asynchronous-1000-2.json"
+      },
+      "started_unix": 1790550832.958894,
+      "elapsed_seconds": 1.4614670276641846,
+      "load_average": [
+        3.66552734375,
+        3.927734375,
+        3.986328125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:53.059 datafriend_todo_lab[26341:153335036] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-synchronous-100-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "synchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-rxa82tng/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-synchronous-100-2.json"
+      },
+      "started_unix": 1790550834.423051,
+      "elapsed_seconds": 2.1136717796325684,
+      "load_average": [
+        3.66552734375,
+        3.927734375,
+        3.986328125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:54.524 datafriend_todo_lab[26378:153335609] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-buffered-100-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "buffered",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-we18egss/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-buffered-100-2.json"
+      },
+      "started_unix": 1790550836.541378,
+      "elapsed_seconds": 1.3759198188781738,
+      "load_average": [
+        3.77197265625,
+        3.9453125,
+        3.9921875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:56.667 datafriend_todo_lab[26429:153336202] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-asynchronous-100-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "asynchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-8zjd83_3/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-asynchronous-100-2.json"
+      },
+      "started_unix": 1790550837.9231129,
+      "elapsed_seconds": 1.3705999851226807,
+      "load_average": [
+        3.77197265625,
+        3.9453125,
+        3.9921875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:58.051 datafriend_todo_lab[26469:153336777] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-synchronous-1000-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "synchronous",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-eqvgka47/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-synchronous-1000-2.json"
+      },
+      "started_unix": 1790550839.299427,
+      "elapsed_seconds": 11.25610089302063,
+      "load_average": [
+        3.77197265625,
+        3.9453125,
+        3.9921875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:13:59.409 datafriend_todo_lab[26494:153337319] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-buffered-1000-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "buffered",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-z8sn5h9l/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-buffered-1000-2.json"
+      },
+      "started_unix": 1790550850.5585878,
+      "elapsed_seconds": 7.829739093780518,
+      "load_average": [
+        3.81298828125,
+        3.94677734375,
+        3.9921875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:10.672 datafriend_todo_lab[26763:153338282] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-asynchronous-1000-2",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "asynchronous",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-ixh379af/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-asynchronous-1000-2.json"
+      },
+      "started_unix": 1790550858.3928928,
+      "elapsed_seconds": 7.880950212478638,
+      "load_average": [
+        3.22607421875,
+        3.81640625,
+        3.9453125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:18.506 datafriend_todo_lab[26951:153339163] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-buffered-100-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "buffered",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-3hnd637i/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-buffered-100-3.json"
+      },
+      "started_unix": 1790550866.278362,
+      "elapsed_seconds": 1.3870339393615723,
+      "load_average": [
+        3.04736328125,
+        3.76953125,
+        3.927734375
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:26.400 datafriend_todo_lab[27133:153339993] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-asynchronous-100-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "asynchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-d2wktn1s/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-asynchronous-100-3.json"
+      },
+      "started_unix": 1790550867.670217,
+      "elapsed_seconds": 1.3748011589050293,
+      "load_average": [
+        3.68408203125,
+        3.88916015625,
+        3.96875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:27.790 datafriend_todo_lab[27170:153340581] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-synchronous-100-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 100,
+        "durability": "synchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-uhhs_mz_/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-synchronous-100-3.json"
+      },
+      "started_unix": 1790550869.050436,
+      "elapsed_seconds": 2.139477014541626,
+      "load_average": [
+        3.68408203125,
+        3.88916015625,
+        3.96875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:29.173 datafriend_todo_lab[27198:153341150] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-buffered-1000-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "buffered",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-3xbilodg/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-buffered-1000-3.json"
+      },
+      "started_unix": 1790550871.19706,
+      "elapsed_seconds": 1.479698896408081,
+      "load_average": [
+        3.68408203125,
+        3.88916015625,
+        3.96875
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:31.328 datafriend_todo_lab[27249:153341735] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-asynchronous-1000-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "asynchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-zca4udhb/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-asynchronous-1000-3.json"
+      },
+      "started_unix": 1790550872.679565,
+      "elapsed_seconds": 1.407641887664795,
+      "load_average": [
+        4.189453125,
+        3.990234375,
+        4.00390625
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:32.777 datafriend_todo_lab[27290:153342347] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "store-synchronous-1000-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "synchronous",
+        "mode": "store",
+        "samples": 30,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-sduguomx/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/store-synchronous-1000-3.json"
+      },
+      "started_unix": 1790550874.090274,
+      "elapsed_seconds": 5.212548732757568,
+      "load_average": [
+        4.189453125,
+        3.990234375,
+        4.00390625
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:34.194 datafriend_todo_lab[27328:153342915] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-buffered-1000-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "buffered",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-pv5wl52j/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-buffered-1000-3.json"
+      },
+      "started_unix": 1790550879.3061042,
+      "elapsed_seconds": 7.878039598464966,
+      "load_average": [
+        4.25390625,
+        4.0068359375,
+        4.00927734375
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:39.410 datafriend_todo_lab[27454:153343620] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-asynchronous-1000-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "asynchronous",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-1y0k4xiw/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-asynchronous-1000-3.json"
+      },
+      "started_unix": 1790550887.1881611,
+      "elapsed_seconds": 7.825192928314209,
+      "load_average": [
+        4.64990234375,
+        4.103515625,
+        4.04345703125
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:47.307 datafriend_todo_lab[27638:153344470] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "frames-synchronous-1000-3",
+      "config": {
+        "engine": "datafriend",
+        "count": 1000,
+        "durability": "synchronous",
+        "mode": "frames",
+        "samples": 20,
+        "warmup": 5,
+        "paced": true,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-flush-bench-s6qrf37v/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-async-flush-runs/frames-synchronous-1000-3.json"
+      },
+      "started_unix": 1790550895.018826,
+      "elapsed_seconds": 11.393328189849854,
+      "load_average": [
+        4.91796875,
+        4.16796875,
+        4.06640625
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "2026-09-27 19:14:55.140 datafriend_todo_lab[27824:153345313] Running with merged UI and platform thread. Experimental.\n"
+    }
+  ],
+  "scope": "Datafriend only, Flutter macOS Release. Async = MDB_NOSYNC plus a 100 ms coalescing flush worker; synchronous = per-commit sync; buffered = no automatic flush. All cases explicitly flush and verify reopen outside edit timers. Paced edits sleep 16 ms before the action; UI cases pause 250 ms after end-of-frame. Frame-start and end callbacks separate scheduling wait from framework frame work; update build/raster durations are matched by engine frame number. No network.",
+  "source_sha256": {
+    "src/todo_demo/lib/change.dart": "9b95d020000098d670f32da81e0f49caed233bc0928ad12d6acdcd2c32cc8bc4",
+    "src/todo_demo/lib/stores.dart": "08c50d9330ec8760c9b80629ba586d520e2e5dd5830cf839ce976918f745afb6",
+    "src/todo_demo/lib/main.dart": "b3b78aaa94cf63c1398ae86b4e90b3a06dcb055faaae55c73917c0729d11a4e0",
+    "src/todo_demo/lib/benchmark.dart": "e59909df18b362958be64edce50e3af01977afa169c82b06d73ec17cb9240eb0",
+    "src/todo_demo/lib/todo_screen.dart": "ebf9871dae74aaed55c6fac32616926349bceb175ca7ccea39b3e3a8e016ad16",
+    "src/todo_demo/pubspec.lock": "7662472b2d67fb951f74356a7f3e29a612246ab550b91ee5d3c1cdfbe21f47e3",
+    "src/todo_demo/tool/run_flush_benchmarks.py": "08dfb2f67e0d48bd2c966c71f8895e21dab91d89c16b44e799c3238c9d468dca",
+    "src/app/lib/data/datafriend.dart": "d6e0d7a8483a0cea53ba64f93123a6c945ab7b27013664e0f1877a45da8e317b",
+    "src/app/lib/data/app_views.dart": "d8e8c1aafc64e36839021db2ef42cce16272068bee207b46359f8e911e6b1625",
+    "src/datafriend/native/engine.cpp": "67de959d7a1a4563f7d14922c33b766502221e763b5ad8ba6b08a3cda3c6098c",
+    "src/datafriend/native/async_flush.h": "b5bd48d8050536d6832685ddf90fd7e178260748f7c0cc5912abda6d1d4017ba",
+    "src/datafriend/native/c_api.cpp": "db6fd7aa6310ae6e997114b214c9c99c597299ea72f25abe15da61b13bf99a32",
+    "src/datafriend/include/datafriend/engine.h": "854172aa834960f9f94b52ae36c4f8a14df2d5c1594fefa144d04fdca4a3eee5"
+  },
+  "binary_sha256": {
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/MacOS/datafriend_todo_lab": "1b5e8f13ae458214784f86c4ea74ae4d9951c3ca232b0f04c991ecc62580f936",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/libdatafriend.dylib": "e331378ce0b0dc3a071ea8efc483caaf4d7d4240ea166db38418d2a75bb7bf6c",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/App.framework/Versions/A/App": "b46a12a83112acddb3d9a7aa91583c435995099ddfdb63c5c0e90b9d045f0f15"
+  }
+}

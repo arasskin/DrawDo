@@ -1,0 +1,322 @@
+{
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "arguments": {
+    "flutter": "flutter",
+    "skip_build": true,
+    "rounds": 1,
+    "samples": 2,
+    "warmup": 1,
+    "output_prefix": "datafriend-row-queries-smoke",
+    "uis": [
+      "bulk",
+      "rows"
+    ],
+    "workloads": [
+      "toggle",
+      "title",
+      "order"
+    ]
+  },
+  "runs": [
+    {
+      "name": "bulk-toggle-100-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "bulk",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-klso7sqj/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/bulk-toggle-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 2.2547829151153564,
+      "started_unix": 1790557500.305689,
+      "load_average": [
+        4.6962890625,
+        4.6474609375,
+        4.22412109375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:00.934 datafriend_todo_lab[91464:153696380] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "bulk-title-100-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "bulk",
+        "workload": "title",
+        "count": 100,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-pt_e633j/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/bulk-title-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7308049201965332,
+      "started_unix": 1790557502.562693,
+      "load_average": [
+        4.6962890625,
+        4.6474609375,
+        4.22412109375
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:02.679 datafriend_todo_lab[91514:153696521] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "bulk-order-100-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "bulk",
+        "workload": "order",
+        "count": 100,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-sgdd3x7c/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/bulk-order-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7060420513153076,
+      "started_unix": 1790557504.295899,
+      "load_average": [
+        4.39990234375,
+        4.58642578125,
+        4.205078125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:04.417 datafriend_todo_lab[91552:153697195] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-100-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 100,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-5jesn8q9/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/rows-toggle-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7157230377197266,
+      "started_unix": 1790557506.004871,
+      "load_average": [
+        4.39990234375,
+        4.58642578125,
+        4.205078125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:06.133 datafriend_todo_lab[91589:153697869] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-100-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 100,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-cn_most5/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/rows-title-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.721351146697998,
+      "started_unix": 1790557507.7236118,
+      "load_average": [
+        4.39990234375,
+        4.58642578125,
+        4.205078125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:07.847 datafriend_todo_lab[91626:153698543] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-100-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 100,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-vdgsetjw/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/rows-order-100-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7567360401153564,
+      "started_unix": 1790557509.448513,
+      "load_average": [
+        4.28759765625,
+        4.56005859375,
+        4.19775390625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:09.584 datafriend_todo_lab[91678:153699237] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "bulk-toggle-1000-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "bulk",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-nt0sv14f/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/bulk-toggle-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7404699325561523,
+      "started_unix": 1790557511.208578,
+      "load_average": [
+        4.28759765625,
+        4.56005859375,
+        4.19775390625
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:11.328 datafriend_todo_lab[91715:153699925] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "bulk-title-1000-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "bulk",
+        "workload": "title",
+        "count": 1000,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-xmfgs3x3/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/bulk-title-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.718301773071289,
+      "started_unix": 1790557512.950557,
+      "load_average": [
+        4.74462890625,
+        4.64990234375,
+        4.2314453125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:13.050 datafriend_todo_lab[91753:153700678] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "bulk-order-1000-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "bulk",
+        "workload": "order",
+        "count": 1000,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-js3ae68u/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/bulk-order-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7838737964630127,
+      "started_unix": 1790557514.6713321,
+      "load_average": [
+        4.74462890625,
+        4.64990234375,
+        4.2314453125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:14.800 datafriend_todo_lab[91803:153701507] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-toggle-1000-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "toggle",
+        "count": 1000,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-1o52xybb/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/rows-toggle-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.767266035079956,
+      "started_unix": 1790557516.4587321,
+      "load_average": [
+        4.74462890625,
+        4.64990234375,
+        4.2314453125
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:16.580 datafriend_todo_lab[91840:153702181] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-title-1000-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "title",
+        "count": 1000,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-recvpcvv/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/rows-title-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7469708919525146,
+      "started_unix": 1790557518.227542,
+      "load_average": [
+        5.0048828125,
+        4.705078125,
+        4.25341796875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:18.346 datafriend_todo_lab[91877:153702869] Running with merged UI and platform thread. Experimental.\n"
+    },
+    {
+      "name": "rows-order-1000-1",
+      "config": {
+        "mode": "widgets",
+        "ui": "rows",
+        "workload": "order",
+        "count": 1000,
+        "samples": 2,
+        "warmup": 1,
+        "directory": "/var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/datafriend-widget-bench-5lh6a29m/db",
+        "output": "/Users/alex/DrawDo/docs/benchmarks/datafriend-row-queries-smoke-runs/rows-order-1000-1.json"
+      },
+      "returncode": 0,
+      "elapsed_seconds": 1.7580389976501465,
+      "started_unix": 1790557519.976468,
+      "load_average": [
+        5.0048828125,
+        4.705078125,
+        4.25341796875
+      ],
+      "stdout": "",
+      "stderr": "2026-09-27 21:05:20.100 datafriend_todo_lab[91929:153703575] Running with merged UI and platform thread. Experimental.\n"
+    }
+  ],
+  "scope": "Datafriend macOS Release, async flush. Checkbox callbacks for toggle; direct triple edits for title/order. Bulk uses the previous full-list query; rows uses order-only list plus mounted row queries. Counter query shared by both. 30 measured edits after 5 warmups by default, 250 ms pause after each frame. Actual edited frame build/raster matched by engine frame number. Bulk and rows have identical visual layout. App builder callbacks counted; per-action row rebuild scope checked. No network; seed, lookup, checks and close/reopen outside timers.",
+  "source_sha256": {
+    "src/todo_demo/lib/change.dart": "9b95d020000098d670f32da81e0f49caed233bc0928ad12d6acdcd2c32cc8bc4",
+    "src/todo_demo/lib/build_probe.dart": "66f3db929aba9e453d157fd27c2f170a9b714c95e8c4a217adb2446856371a35",
+    "src/todo_demo/lib/stores.dart": "08c50d9330ec8760c9b80629ba586d520e2e5dd5830cf839ce976918f745afb6",
+    "src/todo_demo/lib/database.dart": "886d3a60e367d9c2b14a3ab8a380fea3352e2b0b7a8973cffd79e5130bd1b283",
+    "src/todo_demo/lib/main.dart": "7c2cd20ce942f0ae705aedec7498fe38460c4ae1952f19707cab5f02cc4c848e",
+    "src/todo_demo/lib/widget_benchmark.dart": "acd363c5ff9a1117a4015a80cb85eb4c821f24bd6c829624f85c1a0f5b93cacf",
+    "src/todo_demo/lib/comparison_screen.dart": "331228e858b86f16b5148a2ef585eb948405017cfa6627d176ae263934ddeee4",
+    "src/todo_demo/lib/benchmark.dart": "75bae89da263c3d453832409da59d564b2d62c6801cfb86b1faecb0b567deae9",
+    "src/todo_demo/lib/todo_screen.dart": "d885524e24f964f8b13b53f865d86bb54ffbd20ff2427ae61c974d059e8717d8",
+    "src/todo_demo/lib/bulk_query_screen.dart": "4108a65bfd7592c7f44dc3ee448bd5e2bbcd51af60d783c675ce1f05b28fa8b9",
+    "src/todo_demo/tool/run_widget_benchmarks.py": "ba161b49b15ce4b3fddd34d918cbe634537d2adca34744e9f30c39f0333d4d29",
+    "src/app/lib/data/datafriend_builder.dart": "77c50a2031c0cf52ef2ca9970b11a927fe853b7d7a6beab344022903e165c196",
+    "src/app/lib/data/datafriend.dart": "db35a07f27d3b310c5ee6ac646e752ffdcbef37694bb89d462d4ad0773a33d83",
+    "src/app/lib/data/app_views.dart": "686ddb001967d11eeb0419784deae46d7b43370fc0e0ec5cad2a9b31090efc7e",
+    "src/datafriend/native/engine.cpp": "ff9c34836a8868c2a44aeb81799ed33af39ccaa41395c89fb3133181bebe4c9c",
+    "src/datafriend/native/async_flush.h": "b5bd48d8050536d6832685ddf90fd7e178260748f7c0cc5912abda6d1d4017ba"
+  },
+  "binary_sha256": {
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/MacOS/datafriend_todo_lab": "08f19ecce6131940938f1d76b61825f068a688dc6d710b87682dc78ab66c878c",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/libdatafriend.dylib": "8a315fa62e4822b70792bf0c2a0e49f93f092db84b5cf4119d3e814a4c8e1786",
+    "src/todo_demo/build/macos/Build/Products/Release/datafriend_todo_lab.app/Contents/Frameworks/App.framework/Versions/A/App": "f9522bf68e2f58d6562296802618b3d547a6f378b354af369fff86d976bfb42b"
+  }
+}
