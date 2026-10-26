@@ -3,19 +3,19 @@
 DrawDo is a fresh rebuild of iCare for iOS and Android: tasks, friends, drawing,
 and playful physical interactions, backed by littlebear.
 
-The supported application is **C++ with Sokol** on iOS and Android.
+The supported application is **C99 with Sokol** on iOS and Android.
 Dart and Flutter clients are no longer supported; their code is historical reference. The
 recovered native iOS app in [`reference/junstodos/`](reference/junstodos/README.md)
 provides the starting point for platform and rendering code; see the
 [Sokol client direction and Android assessment](docs/sokol-client.md).
 
-The **Datafriend C++ service** owns local persistence, queries, mutable live views,
+The **Datafriend C99 library** owns local persistence, queries, mutable live views,
 and native identity operations. Its Littlebear protocol supports Ed25519 owner
 writes; the Sokol app now uses native nonblocking TCP orchestration. See the
 [network interface](docs/datafriend-network.md) and
 [two-phone document demo](docs/datafriend-document-sync.md).
 Reconciliation uses a custom negentropy variant with 64-bit xxHash/XOR
-fingerprints. Littlebear remains a C++ server with its custom storage design.
+fingerprints. Littlebear is a C99 server with its custom storage design.
 See the [Datafriend design](docs/datafriend-design.md).
 
 A standalone native Sokol task list and particle app
@@ -25,17 +25,31 @@ now run on Android and iOS, using Datafriend directly. Build and launch with
 
 ## Repository
 
+This enclosing repository contains the component sources together, including
+Littlebear, Datafriend, the apps, and their shared native libraries. The local
+component Git repositories are organizational tools; their source files are
+tracked here directly, rather than as submodules. Clone this workspace to get
+the sibling dependencies needed by the builds.
+
 | Path | Contents |
 | --- | --- |
-| `demo-app/` | C++/Sokol task, particle and shared-document demo, Android/iOS shells, host tests and phone profiling |
+| `DrawDo/` | C99/Sokol todo screen with Datafriend-backed tasks and appearance; Android tested, iOS target included |
+| `crdt-demo-app/` | Minimal Sokol app: one shared text buffer, white background, black text |
+| `text_crdt/` | Shared C99 wrapper around the pinned Yrs text CRDT |
+| `demo-app/` | C99/Sokol task, particle and shared-document demo, Android/iOS shells, host tests and phone profiling |
 | `src/app/` | Unsupported historical Dart/Flutter client and comparisons |
-| `datafriend/` | Portable C++ store/query engine, live results, C ABI and platform key storage |
-| `littlebear/` | C++ namespace cache and TCP/io_uring sync endpoint |
+| `datafriend/` | C99 store/query engine, live results, C/C++ interfaces and platform key storage |
+| `containers/` | Shared header-only C99 arrays, buffers, maps, trees and pools |
+| `littlebear/` | C99 namespace cache and TCP/io_uring sync endpoint |
 | `littlebear-benchmarks/` | Littlebear worktree on `benchmarks`, with experiments and comparisons |
 | `datafriend-benchmarks/` | Datafriend worktree on `benchmarks`, with experiments and profiling |
-| `third_party/unordered_dense/` | Pinned namespace-directory map and MIT license |
+| `third_party/unordered_dense/` | Historical C++ adapters/tests map and MIT license |
 | `littlebear/src/reconcile.h` | Allocation-free reconciliation with separate 64-bit IDs and fingerprints |
 | `assets/` | iCare illustrations, animations, and icons for the new client |
+| `text_buffers/` | C99 text buffers and native inline editors |
+| `accessible_ui/` | Native accessibility for custom drawn controls |
+| `clipboard/`, `haptics/` | Small native service libraries with C interfaces |
+| `native/` | Shared native bridge helpers and event-loop adapters |
 | `reference/junstodos/` | Recovered C++/Sokol iOS app, text renderer and platform code |
 | `reference/icare/` | ClojureDart client and Clojure backend source snapshot for porting behavior |
 | `docs/starting-point.md` | Current state, architectural decisions, and first development milestones |
@@ -49,7 +63,7 @@ for file responsibilities and build commands.
 
 ## Development direction
 
-- Build the new UI and interaction logic in C++ with Sokol, reusing the recovered
+- Build the new UI and interaction logic in C99 with Sokol, reusing the recovered
   native foundation. Keep persistence, queries, identity and sync in Datafriend.
 - Retain the unsupported Flutter source as historical reference while building native
   rendering and platform services on both phones.
@@ -60,7 +74,7 @@ for file responsibilities and build commands.
   correctness tests before integration.
 - Preserve the original projects in `summer` as reference material.
 
-Littlebear targets Linux with C++23, liburing and libsodium. `make -C littlebear`
+Littlebear targets Linux with C99, liburing and libsodium (C++23 is used for model tests). `make -C littlebear`
 builds the TCP storage server at `littlebear/build/server`; `make -C littlebear
 debug` builds it with sanitizers. One io_uring loop handles sockets and files.
 See [Littlebear's module boundaries and build commands](littlebear/README.md).
@@ -68,8 +82,8 @@ See [Littlebear's module boundaries and build commands](littlebear/README.md).
 The internal storage index now uses the mutable hash-ranked wide tree with a
 slab pool shared across namespaces. Leaves hold packed value-file references;
 nodes cache counts and XOR summaries. Namespace headers remain 24 bytes.
-The namespace directory uses vendored `unordered_dense` with no application
-namespace-count limit. See [the storage contract](docs/littlebear-storage.md).
+The namespace directory uses dense entries with a linear-probing array of
+32-bit indices and no application namespace-count limit. See [the storage contract](docs/littlebear-storage.md).
 
 `make -C littlebear test` runs storage component checks, `make -C littlebear
 sanitize` runs their sanitizer builds. Benchmarks run from the dedicated

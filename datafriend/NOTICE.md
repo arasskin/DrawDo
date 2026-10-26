@@ -11,9 +11,9 @@ included in [licenses/epl-v10.html](licenses/epl-v10.html). Its notices must not
 be removed. The C++ adaptation adds mutable allocation, per-entry fingerprints,
 subtree XOR summaries, rank/select, and bounded range enumeration.
 
-Datafriend's native engine uses the bundled xxHash header (BSD-2-Clause),
-`third_party/unordered_dense` (MIT), and the pinned `third_party/aelmdb` sources
-and license. AELMDB's XOR aggregate and distinct format-tag changes are documented
+Datafriend's C99 engine uses the bundled xxHash header (BSD-2-Clause) and
+the pinned `third_party/aelmdb` sources and license. Its optional C++ adapters
+use `third_party/unordered_dense` (MIT). AELMDB's XOR aggregate and distinct format-tag changes are documented
 with upstream hashes in that directory. Local view reconciliation uses the
 independent shared `littlebear/src/reconcile.h` implementation (LBR3).
 
@@ -21,3 +21,8 @@ Native owner identities use Monocypher 4.0.3 core and optional Ed25519 sources,
 vendor-copied unchanged under `third_party/monocypher`, with their dual BSD-2-Clause /
 CC0 license and upstream SHA-512 archive checksum in `UPSTREAM.json`. The SHA-512
 Ed25519 API is used for RFC 8032 compatibility with Littlebear's libsodium verifier.
+
+The mutable wide-tree and slab allocation implementation now lives in
+`../containers/tree.h` and `../containers/pool.h` as C99.
+`include/datafriend/wide_tree.h` and `tree_allocator.h` provide C++ adapters.
+The original wide-tree attribution and EPL-1.0 terms remain in the shared source.

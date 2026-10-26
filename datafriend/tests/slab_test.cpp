@@ -1,3 +1,4 @@
+#include <cstring>
 #include "datafriend/wide_tree.h"
 #include <iostream>
 #include <random>

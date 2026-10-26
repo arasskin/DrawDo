@@ -1,0 +1,131 @@
+{
+  "before_apk_bytes": 6750908,
+  "after_apk_bytes": 4522608,
+  "before_apk_sha256": "c782ebfd2929b727becd1550cd4e074e5ffe2a580f4d2cd34e2cd59d71842496",
+  "after_apk_sha256": "b14631535673e065540f2d45716577781a223f94eafb7bf90f2e9ccb860fd776",
+  "host_suites": 5,
+  "linux_sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "tcp_integration": "passed on macOS and Linux ASan/UBSan/LSan; signed owner pushes, offline concurrent edits, stale editor drafts",
+  "linux_tcp_limit": {
+    "cpus": 1,
+    "memory_mb": 512
+  },
+  "ios": "ARM64 unsigned Release build passed, no physical-device run",
+  "android": "moto g(7), ZY227364TP, installed and launched",
+  "particle_differential": "all 1000 coordinates bit-for-bit identical to saved C++ baseline at initialization and after 100 ticks",
+  "scope": "active app code and C tests; Java/Objective-C platform adapters and Rust Yrs retained; archived clients and benchmark branches unchanged",
+  "benchmarks": [
+    {
+      "count": 12,
+      "case": "toggle",
+      "before_action_us": 190.43,
+      "after_action_us": 178.39849999999998,
+      "change_percent": -6.318069631885748
+    },
+    {
+      "count": 12,
+      "case": "rename",
+      "before_action_us": 202.51325,
+      "after_action_us": 167.8125,
+      "change_percent": -17.1350516571138
+    },
+    {
+      "count": 12,
+      "case": "filter",
+      "before_action_us": 315.44300000000004,
+      "after_action_us": 258.607,
+      "change_percent": -18.017835234891887
+    },
+    {
+      "count": 12,
+      "case": "reorder",
+      "before_action_us": 191.02875000000003,
+      "after_action_us": 171.77075,
+      "change_percent": -10.081205054213061
+    },
+    {
+      "count": 12,
+      "case": "add_remove",
+      "before_action_us": 224.97375,
+      "after_action_us": 214.362,
+      "change_percent": -4.716883636424251
+    },
+    {
+      "count": 12,
+      "case": "idle",
+      "before_action_us": 0.638,
+      "after_action_us": 0.664,
+      "change_percent": 4.0752351097178785
+    },
+    {
+      "count": 12,
+      "case": "scroll",
+      "before_action_us": 0.912,
+      "after_action_us": 1.4585,
+      "change_percent": 59.92324561403508
+    },
+    {
+      "count": 1000,
+      "case": "toggle",
+      "before_action_us": 385.42975,
+      "after_action_us": 373.06,
+      "change_percent": -3.2093397045765193
+    },
+    {
+      "count": 1000,
+      "case": "rename",
+      "before_action_us": 210.104,
+      "after_action_us": 176.01575,
+      "change_percent": -16.22446502684386
+    },
+    {
+      "count": 1000,
+      "case": "filter",
+      "before_action_us": 950.2217499999999,
+      "after_action_us": 911.2115000000001,
+      "change_percent": -4.105383822249897
+    },
+    {
+      "count": 1000,
+      "case": "reorder",
+      "before_action_us": 427.10925,
+      "after_action_us": 410.40349999999995,
+      "change_percent": -3.911352891561126
+    },
+    {
+      "count": 1000,
+      "case": "add_remove",
+      "before_action_us": 759.67475,
+      "after_action_us": 714.5965,
+      "change_percent": -5.9338881541080575
+    },
+    {
+      "count": 1000,
+      "case": "idle",
+      "before_action_us": 0.651,
+      "after_action_us": 0.6769999999999999,
+      "change_percent": 3.9938556067588227
+    },
+    {
+      "count": 1000,
+      "case": "scroll",
+      "before_action_us": 0.9375,
+      "after_action_us": 1.45825,
+      "change_percent": 55.54666666666668
+    }
+  ],
+  "benchmark_runs_per_version": 28,
+  "frames_per_run": 120,
+  "warmup_frames": 30,
+  "android_smoke": [
+    "existing shared document displayed and connected without edits",
+    "navigation through document, particles, tasks",
+    "all particle counts, local/all modes, pause/resume, patch drag",
+    "native keyboard opened; blank submission left task revision unchanged",
+    "home/resume brought existing process back with no errors"
+  ]
+}

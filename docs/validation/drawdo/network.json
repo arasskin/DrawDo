@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "clients": [
+    {
+      "binary": "DrawDo/build/host/network_test",
+      "result": "PASS: owner push, subscriber updates, task edit/toggle/delete, checkbox size and color sync"
+    }
+  ]
+}

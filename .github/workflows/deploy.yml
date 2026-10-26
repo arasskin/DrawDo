@@ -32,17 +32,21 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential liburing-dev libsodium-dev cmake
       - name: Build and check storage components
-        run: timeout 180 make -C littlebear all test
+        run: |
+          make -C containers test
+          timeout 180 make -C littlebear all test
       - name: Check TCP transport and signed writes
         run: timeout 60 python3 scripts/test_littlebear_tcp.py littlebear/build/server
       - name: Check Datafriend and Littlebear integration
         run: |
           cmake -S datafriend -B /tmp/datafriend -DCMAKE_BUILD_TYPE=Release
-          cmake --build /tmp/datafriend --target network_test transport_test -j 2
-          ctest --test-dir /tmp/datafriend --output-on-failure -R network_test
-          timeout 180 python3 scripts/test_native_sync.py littlebear/build/server /tmp/datafriend/transport_test
+          cmake --build /tmp/datafriend -j 2
+          ctest --test-dir /tmp/datafriend --output-on-failure
+          timeout 180 python3 scripts/test_native_sync.py littlebear/build/server /tmp/datafriend/transport_test /tmp/datafriend/channel_test
       - name: Run address and undefined-behavior sanitizers
-        run: timeout 180 make -C littlebear sanitize
+        run: |
+          make -C containers sanitize
+          timeout 180 make -C littlebear sanitize
       - name: Package the tested server
         if: github.ref == 'refs/heads/main'
         run: |

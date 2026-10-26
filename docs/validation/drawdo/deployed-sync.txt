@@ -1,0 +1,1 @@
+PASS: Android namespace, task and persisted UI settings received from deployed server

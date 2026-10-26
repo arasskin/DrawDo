@@ -1,0 +1,4 @@
+Test Case '-[NativeServicesTest testNativeServices]' passed (0.038 seconds).
+Test Case '-[EditorVerification testInitialTap]' passed (12.442 seconds).
+Test Case '-[EditorVerification testKeyboardLayout]' passed (6.987 seconds).
+Test Case '-[ServicesVerification testAccessibleScreens]' passed (9.812 seconds).

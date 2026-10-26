@@ -51,7 +51,7 @@ header and pinned unordered_dense map under their retained licenses.
 The native demo vendors Yrs 0.24.0 from `https://github.com/y-crdt/y-crdt`, revision
 `7dbc9d402533af3efa1e936342abeec499988b6b`. `third_party/yrs/import.json` records
 original SHA-256 hashes; the MIT license, C API header and locked Cargo dependency
-graph are retained. Upstream source is unmodified. `demo-app/src/document_crdt.h`
+graph are retained. Upstream source is unmodified. `text_crdt/crdt.h`
 is our C++ ownership/text-field adapter, not a CRDT implementation. The library
 links into the demo app, not Datafriend or Littlebear.
 
@@ -82,3 +82,8 @@ links into the demo app, not Datafriend or Littlebear.
   hashes are recorded in `demo-app/src/render/shaders.json`.
 - The simulation is shared with the existing native particle benchmark; the
   production Datafriend engine was not changed for this app port.
+
+The C99 app port changes only declarations in `third_party/yrs/include/libyrs.h`:
+empty opaque structs become forward declarations and redundant self-typedefs
+are removed. This preserves the ABI while allowing strict C99 compilation.
+`third_party/yrs/import.json` retains upstream hashes and records the local patch.

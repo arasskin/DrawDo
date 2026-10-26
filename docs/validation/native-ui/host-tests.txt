@@ -1,0 +1,21 @@
+Test project /Users/alex/DrawDo/demo-app/build/c99-tests
+    Start 1: text_test
+1/8 Test #1: text_test ........................   Passed    0.26 sec
+    Start 2: editor_test
+2/8 Test #2: editor_test ......................   Passed    0.36 sec
+    Start 3: access_test
+3/8 Test #3: access_test ......................   Passed    0.32 sec
+    Start 4: task_model_test
+4/8 Test #4: task_model_test ..................   Passed    0.43 sec
+    Start 5: particle_model_test
+5/8 Test #5: particle_model_test ..............   Passed    0.34 sec
+    Start 6: text_cache_test
+6/8 Test #6: text_cache_test ..................   Passed    0.29 sec
+    Start 7: document_test
+7/8 Test #7: document_test ....................   Passed    0.41 sec
+    Start 8: document_model_test
+8/8 Test #8: document_model_test ..............   Passed    0.62 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =   3.02 sec

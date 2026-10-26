@@ -1,0 +1,94 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test-without-building -project /tmp/crdt-range-sync-driver/CRDTSyncTest.xcodeproj -scheme CRDTSyncTest -destination id=00008110-000A7D681490401E -derivedDataPath /tmp/crdt-range-sync-driver/build DEVELOPMENT_TEAM=466U33S75F
+
+Build settings from command line:
+    DEVELOPMENT_TEAM = 466U33S75F
+
+2026-10-22 02:35:03.268555+0200 CRDTSyncTest-Runner[77002:4022770] [Default] Running tests...
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'All tests' started at 2026-10-22 02:35:04.015.
+Test Suite 'CRDTSyncTest.xctest' started at 2026-10-22 02:35:04.015.
+Test Suite 'SyncTest' started at 2026-10-22 02:35:04.016.
+Test Case '-[SyncTest testSync]' started.
+    t =     0.00s Start Test at 2026-10-22 02:35:04.016
+    t =     0.01s Set Up
+    t =     0.02s Open dev.drawdo.crdt
+    t =     0.02s     Launch dev.drawdo.crdt
+    t =     0.02s         Terminate dev.drawdo.crdt:76983
+    t =     1.14s         Setting up automation session
+    t =     1.22s         Wait for dev.drawdo.crdt to idle
+    t =     2.28s Waiting 15.0s for "Shared text" TextView to exist
+    t =     3.30s     Checking `Expect predicate `existsNoRetry == 1` for object "Shared text" TextView`
+    t =     3.31s         Checking existence of `"Shared text" TextView`
+    t =     4.37s Checking `Expect predicate `value == "Android"` for object "Shared text" TextView`
+    t =     4.37s     Find the "Shared text" TextView
+    t =     4.39s Find the "Shared text" TextView
+    t =     4.41s Tap "Shared text" TextView[0.90, 0.02]
+    t =     4.41s     Wait for dev.drawdo.crdt to idle
+    t =     4.42s     Find the "Shared text" TextView
+    t =     4.43s     Check for interrupting elements affecting "Shared text" TextView
+    t =     4.46s     Synthesize event
+    t =     4.46s         Find the "Shared text" TextView
+    t =     4.48s         Find the "Shared text" TextView
+    t =     4.50s         Find the "Shared text" TextView
+    t =     4.80s     Wait for dev.drawdo.crdt to idle
+    t =     5.16s Waiting 5.0s for Keyboard (First Match) to exist
+    t =     6.19s     Checking `Expect predicate `existsNoRetry == 1` for object Keyboard (First Match)`
+    t =     6.19s         Checking existence of `Keyboard (First Match)`
+    t =     6.24s Find the "Shared text" TextView
+    t =     6.30s Type ' iPhone ' into "Shared text" TextView
+    t =     6.30s     Wait for dev.drawdo.crdt to idle
+    t =     6.31s     Find the "Shared text" TextView
+    t =     6.34s     Check for interrupting elements affecting "Shared text" TextView
+    t =     6.37s     Synthesize event
+    t =     6.72s     Wait for dev.drawdo.crdt to idle
+    t =     7.76s Checking `Expect predicate `value == "Android iPhone synced"` for object "Shared text" TextView`
+    t =     7.76s     Find the "Shared text" TextView
+    t =     7.83s Checking existence of `Keyboard (First Match)`
+    t =     7.84s Find the Application 'dev.drawdo.crdt'
+    t =     8.02s Added attachment named 'Black text on white, synchronized while keyboard is open'
+    t =     8.02s Terminate dev.drawdo.crdt:77003
+    t =     9.06s Open dev.drawdo.crdt
+    t =     9.06s     Launch dev.drawdo.crdt
+    t =     9.14s         Setting up automation session
+    t =     9.27s         Wait for dev.drawdo.crdt to idle
+    t =    10.38s Waiting 15.0s for "Shared text" TextView to exist
+    t =    11.40s     Checking `Expect predicate `existsNoRetry == 1` for object "Shared text" TextView`
+    t =    11.40s         Checking existence of `"Shared text" TextView`
+    t =    12.50s Checking `Expect predicate `value == "Android iPhone synced"` for object "Shared text" TextView`
+    t =    12.50s     Find the "Shared text" TextView
+    t =    12.53s Tap "Shared text" TextView[0.90, 0.02]
+    t =    12.53s     Wait for dev.drawdo.crdt to idle
+    t =    12.54s     Find the "Shared text" TextView
+    t =    12.56s     Check for interrupting elements affecting "Shared text" TextView
+    t =    12.60s     Synthesize event
+    t =    12.60s         Find the "Shared text" TextView
+    t =    12.63s         Find the "Shared text" TextView
+    t =    12.66s         Find the "Shared text" TextView
+    t =    12.96s     Wait for dev.drawdo.crdt to idle
+    t =    12.98s Type '...' into "Shared text" TextView
+    t =    12.98s     Wait for dev.drawdo.crdt to idle
+    t =    13.40s     Find the "Shared text" TextView
+    t =    13.46s     Check for interrupting elements affecting "Shared text" TextView
+    t =    13.50s     Synthesize event
+    t =    14.06s     Wait for dev.drawdo.crdt to idle
+    t =    15.17s Checking `Expect predicate `value == ""` for object "Shared text" TextView`
+    t =    15.17s     Find the "Shared text" TextView
+    t =    15.25s Tear Down
+Test Case '-[SyncTest testSync]' passed (15.506 seconds).
+Test Suite 'SyncTest' passed at 2026-10-22 02:35:19.523.
+	 Executed 1 test, with 0 failures (0 unexpected) in 15.506 (15.507) seconds
+Test Suite 'CRDTSyncTest.xctest' passed at 2026-10-22 02:35:19.524.
+	 Executed 1 test, with 0 failures (0 unexpected) in 15.506 (15.508) seconds
+Test Suite 'All tests' passed at 2026-10-22 02:35:19.525.
+	 Executed 1 test, with 0 failures (0 unexpected) in 15.506 (15.510) seconds
+2026-10-21 20:35:19.702 xcodebuild[5063:236276186] [MT] IDETestOperationsObserverDebug: 21.370 elapsed -- Testing started completed.
+2026-10-21 20:35:19.702 xcodebuild[5063:236276186] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-21 20:35:19.702 xcodebuild[5063:236276186] [MT] IDETestOperationsObserverDebug: 21.370 sec, +21.370 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/crdt-range-sync-driver/build/Logs/Test/Test-CRDTSyncTest-2026.10.21_20-34-58--0400.xcresult
+
+** TEST EXECUTE SUCCEEDED **
+
+Testing started

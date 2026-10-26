@@ -63,7 +63,7 @@ stats exchange(snapshot *a, snapshot *b, size_t capacity = 4096, size_t budget =
   std::set<uint64_t> have[2], need[2];
   r::workspace work{};
   std::vector<uint8_t> memory(capacity);
-  r::output out{memory.data(), memory.size()};
+  r::output out{memory.data(), memory.size(), 0, 0};
   CHECK(r::begin(source(a), &work, &out) == r::status::complete);
   std::vector<packet> packets{{memory.begin(), memory.begin() + out.size}};
   bool to_b = true;
@@ -164,7 +164,7 @@ void content_changes() {
 }
 void encoding() {
   uint8_t memory[1024];
-  r::output out{memory, sizeof(memory)};
+  r::output out{memory, sizeof(memory), 0, 0};
   r::workspace work{};
   auto roundtrip = [&](r::range part) {
     CHECK(r::valid(part));
@@ -214,7 +214,7 @@ void counted_splits() {
   seal(&s);
   uint8_t input[64], memory[r::MIN_OUTPUT_CAPACITY];
   r::workspace work{};
-  r::output out{memory, sizeof(memory)}, request{input, sizeof(input)};
+  r::output out{memory, sizeof(memory), 0, 0}, request{input, sizeof(input), 0, 0};
   CHECK(r::begin(source(&s), &work, &out) == r::status::complete);
   CHECK(out.size == 14 && s.summary_calls == 1 && s.list_calls == 0 && s.select_calls == 0);
   // Equal roots use cached summaries without listing or selecting any IDs.
@@ -266,7 +266,7 @@ void malformed_and_backpressure() {
   snapshot a{{1, 2}, {}}, b{{3, 4}, {}}; seal(&a); seal(&b);
   uint8_t input[1024], memory[1024];
   r::workspace work{};
-  r::output first{input, sizeof(input)}, out{memory, sizeof(memory)};
+  r::output first{input, sizeof(input), 0, 0}, out{memory, sizeof(memory), 0, 0};
   CHECK(r::begin(source(&a), &work, &first) == r::status::complete);
   r::cursor at{};
   r::differences diff{};

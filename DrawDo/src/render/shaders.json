@@ -1,0 +1,6 @@
+{
+  "source_sha256": "4255788bde64b89429dbdd45504c7ea2c1adafe2408b37e6b25ad9b8039c8c4b",
+  "header_sha256": "9bc3919b6f5afccab5e45aed433b4fdf3fe90d9efb3ff40212df15cdaec302fd",
+  "compiler_sha256": "9b5c6ad6b556a33f3ccd17a3a6bb1a41059cb600074e5dbbb916f70f68a40581",
+  "command": "sokol-shdc -i shaders.glsl -o shaders.h -l metal_sim:metal_ios:glsl300es"
+}

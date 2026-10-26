@@ -1,0 +1,54 @@
+name: EditorVerification
+options:
+  bundleIdPrefix: dev.drawdo
+  deploymentTarget:
+    iOS: '15.0'
+settings:
+  base:
+    CODE_SIGN_STYLE: Automatic
+    GENERATE_INFOPLIST_FILE: YES
+    HEADER_SEARCH_PATHS: "$(SRCROOT)/../../.."
+    CLANG_ENABLE_OBJC_ARC: YES
+targets:
+  EditorVerification:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - EditorVerification.m
+      - ServicesVerification.m
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.drawdo.EditorVerification
+  ServicesHost:
+    type: application
+    platform: iOS
+    sources: [ServicesHost.m]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.drawdo.ServicesHost
+  NativeServicesTest:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - NativeServicesTest.m
+      - ../../../clipboard/apple/clipboard.m
+      - ../../../haptics/apple/haptics.m
+      - ../../../accessible_ui/apple/access.m
+      - ../../../accessible_ui/access.c
+      - ../../../accessible_ui/events.c
+      - ../../../text_buffers/text.c
+    dependencies:
+      - target: ServicesHost
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.drawdo.NativeServicesTest
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ServicesHost.app/ServicesHost"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+schemes:
+  EditorVerification:
+    build:
+      targets:
+        EditorVerification: all
+        NativeServicesTest: all
+    test:
+      targets: [NativeServicesTest, EditorVerification]

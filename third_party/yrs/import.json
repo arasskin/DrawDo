@@ -93,5 +93,12 @@
     "ywasm/src/xml_elem.rs": "c27af8e5ad86211f9764bb0734a79ab6b62880052c95c4345ebbf45f0c86f072",
     "ywasm/src/xml_frag.rs": "fd62fba55acf8a8f50f3350263155324aee0f80ae82b1188269fc9bc47eed0a8",
     "ywasm/src/xml_text.rs": "564752a3d8cc96b69db658e8145adef4a1977ff4594031b2a2f2a58bda73dcd6"
-  }
+  },
+  "local_patches": [
+    {
+      "file": "include/libyrs.h",
+      "description": "Use incomplete opaque struct declarations and omit redundant self-typedefs for strict C99. No ABI or Rust changes.",
+      "sha256": "12701dc8b23f9946c6be887d49f7518a17e537493698dbc8ca1d88949f86aee0"
+    }
+  ]
 }

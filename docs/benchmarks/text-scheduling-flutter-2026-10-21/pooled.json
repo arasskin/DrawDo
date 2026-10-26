@@ -1,0 +1,39 @@
+{
+  "Native API 24": {
+    "android": {
+      "n": 118,
+      "median": 62.0756835,
+      "p95": 70.657038
+    },
+    "ios": {
+      "n": 120,
+      "median": 33.019,
+      "p95": 39.825
+    }
+  },
+  "Flutter release": {
+    "android": {
+      "n": 120,
+      "median": 61.126751,
+      "p95": 81.363028
+    },
+    "ios": {
+      "n": 120,
+      "median": 49.1785,
+      "p95": 57.436
+    }
+  },
+  "Native API 29": {
+    "android": {
+      "n": 119,
+      "median": 55.86162,
+      "p95": 63.5036
+    },
+    "ios": {
+      "n": 120,
+      "median": 30.933,
+      "p95": 38.418
+    }
+  },
+  "_note": "Exploratory pool of both runs. Native1 overlapped an iPhone app installation. The report headline uses clean second runs, not this pool."
+}

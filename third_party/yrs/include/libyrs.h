@@ -36,7 +36,7 @@
  * Document manages so called root types, which are top-level shared types definitions (as opposed
  * to recursively nested types).
  */
-typedef struct YDoc {} YDoc;
+typedef struct YDoc YDoc;
 
 /**
  * A common shared data type. All Yrs instances can be refered to using this data type (use
@@ -47,38 +47,38 @@ typedef struct YDoc {} YDoc;
  * Using write methods of different shared types (eg. `ytext_insert` and `yarray_insert`) over
  * the same branch may result in undefined behavior.
  */
-typedef struct Branch {} Branch;
+typedef struct Branch Branch;
 
-typedef struct Transaction {} Transaction;
-typedef struct TransactionMut {} TransactionMut;
+typedef struct Transaction Transaction;
+typedef struct TransactionMut TransactionMut;
 
 /**
  * Iterator structure used by weak link unquote.
  */
-typedef struct YWeakIter {} YWeakIter;
+typedef struct YWeakIter YWeakIter;
 
 /**
  * Iterator structure used by shared array data type.
  */
-typedef struct YArrayIter {} YArrayIter;
+typedef struct YArrayIter YArrayIter;
 
 /**
  * Iterator structure used by shared map data type. Map iterators are unordered - there's no
  * specific order in which map entries will be returned during consecutive iterator calls.
  */
-typedef struct YMapIter {} YMapIter;
+typedef struct YMapIter YMapIter;
 
 /**
  * Iterator structure used by shared JSON Path expressions over document content.
  */
-typedef struct YJsonPathIter {} YJsonPathIter;
+typedef struct YJsonPathIter YJsonPathIter;
 
 /**
  * Iterator structure used by XML nodes (elements and text) to iterate over node's attributes.
  * Attribute iterators are unordered - there's no specific order in which map entries will be
  * returned during consecutive iterator calls.
  */
-typedef struct YXmlAttrIter {} YXmlAttrIter;
+typedef struct YXmlAttrIter YXmlAttrIter;
 
 /**
  * Iterator used to traverse over the complex nested tree structure of a XML node. XML node
@@ -86,13 +86,13 @@ typedef struct YXmlAttrIter {} YXmlAttrIter;
  * the order in which children are ordered within their parent nodes) and using **depth-first**
  * traverse.
  */
-typedef struct YXmlTreeWalker {} YXmlTreeWalker;
+typedef struct YXmlTreeWalker YXmlTreeWalker;
 
-typedef struct YUndoManager {} YUndoManager;
-typedef struct LinkSource {} LinkSource;
-typedef struct Unquote {} Unquote;
-typedef struct StickyIndex {} StickyIndex;
-typedef struct YSubscription {} YSubscription;
+typedef struct YUndoManager YUndoManager;
+typedef struct LinkSource LinkSource;
+typedef struct Unquote Unquote;
+typedef struct StickyIndex StickyIndex;
+typedef struct YSubscription YSubscription;
 
 
 #include <stdarg.h>
@@ -385,7 +385,6 @@ typedef struct YOptions {
  * Document manages so-called root types, which are top-level shared types definitions (as opposed
  * to recursively nested types).
  */
-typedef YDoc YDoc;
 
 /**
  * A common shared data type. All Yrs instances can be refered to using this data type (use
@@ -396,7 +395,6 @@ typedef YDoc YDoc;
  * Using write methods of different shared types (eg. `ytext_insert` and `yarray_insert`) over
  * the same branch may result in undefined behavior.
  */
-typedef Branch Branch;
 
 typedef union YOutputContent {
   uint8_t flag;
@@ -484,7 +482,6 @@ typedef struct YXmlAttr {
  * This subscription can be destroyed by calling `yunobserve` function, which will cause to unsubscribe
  * correlated callback.
  */
-typedef YSubscription YSubscription;
 
 /**
  * Struct representing a state of a document. It contains the last seen clocks for blocks submitted

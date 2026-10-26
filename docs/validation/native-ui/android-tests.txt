@@ -1,0 +1,2 @@
+INSTRUMENTATION_RESULT: result=PASS: accessible labels/focus/activation/navigation/scroll, native editor handoff, C clipboard Unicode/empty/invalid input, haptic dispatch
+INSTRUMENTATION_CODE: -1

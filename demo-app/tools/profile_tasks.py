@@ -28,6 +28,7 @@ from profile_report import summarize
 apk=root/'demo-app/build/android/drawdo-sokol.apk'
 source_dirs=['demo-app/src','demo-app/android','datafriend/src','datafriend/include','datafriend/platform']
 sources=[p for folder in source_dirs for p in sorted((root/folder).rglob('*'))]
+sources += sorted((root/'containers').glob('*.h'))
 sources += [root/'demo-app/CMakeLists.txt',root/'datafriend/CMakeLists.txt',Path(__file__)]
 meta={'started':time.time(),'args':vars(a),'device':shell('getprop','ro.product.model'),
  'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),

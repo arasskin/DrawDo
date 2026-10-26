@@ -1,0 +1,24 @@
+name: CRDTTimingTest
+options:
+  deploymentTarget:
+    iOS: '15.0'
+settings:
+  base:
+    CODE_SIGN_STYLE: Automatic
+    GENERATE_INFOPLIST_FILE: YES
+    CLANG_ENABLE_OBJC_ARC: YES
+targets:
+  CRDTTimingTest:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [TimingTest.m]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.drawdo.CRDTTimingTest
+schemes:
+  CRDTTimingTest:
+    build:
+      targets:
+        CRDTTimingTest: all
+    test:
+      targets: [CRDTTimingTest]

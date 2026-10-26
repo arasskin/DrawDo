@@ -111,6 +111,22 @@ def run(binary, schema):
         try:
             subprocess.run(['python3', str(Path(__file__).resolve().parents[1] / 'deploy/healthcheck.py'),
                             '--port', str(port)], check=True, timeout=5)
+            # IDs are opaque nonzero uint32 values, not array offsets. Grow
+            # beyond 64, remove entries from the middle, and reuse their IDs.
+            with connect(port) as many:
+                missing = bytes([249]) * 32
+                other_missing = bytes([250]) * 32
+                channels = [0x80000000 + i * 127 for i in range(159)] + [0xffffffff]
+                for channel in channels:
+                    assert exchange(many, body(schema, missing, channel=channel))[0] == 3
+                for channel in channels[::2]:
+                    assert exchange(many, body(schema, missing, 5, b'', channel=channel))[0] == 0
+                for channel in channels[1::2]:
+                    assert exchange(many, body(schema, missing, channel=channel))[0] == 3
+                for channel in channels[::2]:
+                    assert exchange(many, body(schema, other_missing, channel=channel))[0] == 3
+                assert exchange(many, body(schema, other_missing, channel=channels[-1]))[0] == 2
+                assert exchange(many, body(schema, missing, channel=0))[0] == 2
             with connect(port) as peer:
                 read = body(schema, alice.public)
                 status, epoch, revision, _, no_challenge = exchange(peer, read)
@@ -307,7 +323,8 @@ def main():
         'wrong owner', 'unsigned write denial', 'full request tampering', 'truncation',
         'sequence and connection replay', 'challenge rotation', 'restart replay', 'stale write consumption',
         'server-initiated subscription', 'multiplexed namespaces', 'stale fetch with opening',
-        'unsubscribe', 'namespace isolation', 'piggybacked absent/reconciliation challenges',
+        'unsubscribe', '160 dynamic channels with sparse IDs and slot reuse',
+        'namespace isolation', 'piggybacked absent/reconciliation challenges',
         'signed optimistic updates', 'optimistic replay/tamper rejection', 'immediate subscriber forwarding before owner slot',
         'silent uploads and pipelined mismatch recovery', 'optimistic stale revision with matching fingerprint',
         'no standalone challenge operation', 'equal offer without challenge', 'fragmented/coalesced frames', 'size/schema rejection',

@@ -1,134 +1,164 @@
-#pragma once
+#ifndef LB_NAMESPACES_H
+#define LB_NAMESPACES_H
 #include "index.h"
-#include "../../third_party/unordered_dense/include/ankerl/unordered_dense.h"
-#include <cassert>
-#include <cstdlib>
-#include <memory>
-#include <new>
-
-namespace hash_table {
-
-// Internal, uniformly distributed namespace fingerprints; wire identity is separate.
-using namespace_identifier = XXH128_hash_t;
-using key = namespace_identifier;
-using value = record_index::header;
-inline bool operator==(key a, key b) noexcept { return a.high64 == b.high64 && a.low64 == b.low64; }
-struct equal { bool operator()(key a, key b) const noexcept { return a == b; } };
-struct prehashed {
-  using is_avalanching = void;
-  uint64_t operator()(key k) const noexcept { return k.low64; }
-};
-
-// All keys are ordinary entries, including the old sentinel.
-constexpr key ALL_ONES{UINT64_MAX, UINT64_MAX};
-constexpr size_t DEFAULT_INITIAL_CAPACITY = 0; // allocate lazily
-
-// The callback must return free-compatible storage or nullptr. Used for both
-// dense values and index groups, including later growth. Alignment/size are
-// suitable for aligned_alloc; callback state must outlive the table.
-using allocate_fn = void *(*)(size_t alignment, size_t bytes);
-inline void *system_allocate(size_t alignment, size_t bytes) {
-  return std::aligned_alloc(alignment, bytes);
+#include "codec.h"
+typedef XXH128_hash_t lb_namespace;
+/* Dense entries with 32-bit linear-probing indices. Deletion backshifts the
+ * index and moves the last value. Headers must be looked up after mutation. */
+typedef struct lb_namespace_entry {
+  lb_namespace key;
+  lb_index value;
+  uint64_t revision, delta_before, delta_after;
+  lb_buffer delta;
+  bool writing;
+} lb_namespace_entry;
+typedef struct lb_directory {
+  lb_namespace_entry *entries;
+  uint32_t *slots;
+  size_t count, capacity, buckets;
+  ct_allocate_fn allocate;
+  bool initialized;
+} lb_directory;
+static inline bool lb_namespace_equal(lb_namespace a, lb_namespace b) {
+  return a.low64 == b.low64 && a.high64 == b.high64;
 }
-template<class T> struct allocator {
-  using value_type = T;
-  using propagate_on_container_move_assignment = std::true_type;
-  using propagate_on_container_swap = std::true_type;
-  allocate_fn allocate_bytes = system_allocate;
-  allocator() = default;
-  explicit allocator(allocate_fn fn) : allocate_bytes(fn) {}
-  template<class U> allocator(const allocator<U>& other) : allocate_bytes(other.allocate_bytes) {}
-  T *allocate(size_t n) {
-    constexpr size_t alignment = std::max(alignof(T), alignof(void*));
-    if (n > (SIZE_MAX - (alignment - 1)) / sizeof(T)) throw std::bad_alloc{};
-    const size_t bytes = (n * sizeof(T) + alignment - 1) & ~(alignment - 1);
-    auto *p = allocate_bytes(alignment, bytes);
-    if (!p) throw std::bad_alloc{};
-    return static_cast<T*>(p);
+static inline bool lb_directory_valid(size_t n) {
+  return n < UINT32_MAX && n <= SIZE_MAX / sizeof(lb_namespace_entry);
+}
+static inline size_t lb_directory_slot(const lb_directory *t, lb_namespace k) {
+  size_t i;
+  if (!t->buckets)
+    return SIZE_MAX;
+  i = (size_t)k.low64 & (t->buckets - 1);
+  while (t->slots[i]) {
+    if (lb_namespace_equal(t->entries[t->slots[i] - 1].key, k))
+      return i;
+    i = (i + 1) & (t->buckets - 1);
   }
-  void deallocate(T *p, size_t) noexcept { std::free(p); }
-  template<class U> bool operator==(const allocator<U>& other) const noexcept {
-    return allocate_bytes == other.allocate_bytes;
+  return i;
+}
+static inline lb_index *lb_directory_get(lb_directory *t, lb_namespace k) {
+  size_t i = lb_directory_slot(t, k);
+  return i == SIZE_MAX || !t->slots[i] ? NULL : &t->entries[t->slots[i] - 1].value;
+}
+static inline lb_namespace_entry *lb_directory_entry(lb_directory *t, lb_namespace k) {
+  size_t i = lb_directory_slot(t, k);
+  return i == SIZE_MAX || !t->slots[i] ? NULL : &t->entries[t->slots[i] - 1];
+}
+static inline bool lb_directory_reserve(lb_directory *t, size_t capacity) {
+  size_t buckets = 8, i;
+  lb_namespace_entry *entries = NULL;
+  uint32_t *slots = NULL;
+  if (!t->initialized || !lb_directory_valid(capacity))
+    return false;
+  if (capacity <= t->capacity)
+    return true;
+  while (capacity > buckets - buckets / 4) {
+    if (buckets > SIZE_MAX / 2 / sizeof(uint32_t))
+      return false;
+    buckets *= 2;
   }
-};
-using map = ankerl::unordered_dense::map<key, value, prehashed, equal,
-                                       allocator<std::pair<key, value>>>;
-struct directory {
-  map entries;
-  bool initialized = false;
-  directory() = default;
-  explicit directory(allocate_fn fn) : entries(allocator<std::pair<key, value>>(fn)) {}
-  directory(const directory&) = delete; // headers refer to uniquely owned trees
-  directory& operator=(const directory&) = delete;
-  directory(directory&&) = default;
-  directory& operator=(directory&&) = default;
-};
-
-inline bool valid_capacity(size_t initial) { return initial <= map::max_size(); }
-inline directory create(size_t initial = DEFAULT_INITIAL_CAPACITY,
-                        allocate_fn allocate = system_allocate) {
-  if (!allocate || !valid_capacity(initial)) return {};
-  directory t(allocate);
-  try {
-    if (initial) t.entries.reserve(initial);
-    t.initialized = true;
+  entries = (lb_namespace_entry *)t->allocate(sizeof(void *), capacity * sizeof(*entries));
+  if (!entries)
+    return false;
+  if (t->count)
+    memcpy(entries, t->entries, t->count * sizeof(*entries));
+  if (buckets != t->buckets) {
+    slots = (uint32_t *)t->allocate(sizeof(void *), buckets * sizeof(*slots));
+    if (!slots) {
+      free(entries);
+      return false;
+    }
+    memset(slots, 0, buckets * sizeof(*slots));
+    for (i = 0; i < t->count; ++i) {
+      size_t j = (size_t)entries[i].key.low64 & (buckets - 1);
+      while (slots[j])
+        j = (j + 1) & (buckets - 1);
+      slots[j] = (uint32_t)(i + 1);
+    }
+    free(t->slots);
+    t->slots = slots;
+    t->buckets = buckets;
+  }
+  free(t->entries);
+  t->entries = entries;
+  t->capacity = capacity;
+  return true;
+}
+static inline lb_directory lb_directory_create(size_t capacity, ct_allocate_fn fn) {
+  lb_directory t = CT_ZERO;
+  if (!fn || !lb_directory_valid(capacity))
     return t;
-  } catch (const std::bad_alloc&) { return {}; }
-  catch (const std::overflow_error&) { return {}; }
+  t.allocate = fn;
+  t.initialized = true;
+  if (capacity && !lb_directory_reserve(&t, capacity)) {
+    free(t.entries);
+    free(t.slots);
+    memset(&t, 0, sizeof(t));
+  }
+  return t;
 }
-inline bool bad(const directory *t) { return !t->initialized; }
-
-// Membership only: caller destroys tree roots before clear/destroy or replacing
-// a populated header. C++ destruction releases the directory's backing arrays.
-inline void destroy(directory *t) {
-  std::destroy_at(t);
-  std::construct_at(t);
+/* Membership owns delta buffers. Callers destroy record trees before clearing
+ * or destroying the directory; moving a header transfers its unique root. */
+static inline void lb_directory_destroy(lb_directory *t) {
+  size_t i;
+  for (i = 0; i < t->count; ++i)
+    lb_buffer_free(&t->entries[i].delta);
+  free(t->entries);
+  free(t->slots);
+  memset(t, 0, sizeof(*t));
 }
-inline void clear(directory *t) { t->entries.clear(); }
-inline size_t count(const directory *t) { return t->entries.size(); }
-inline size_t memory_usage(const directory *t) {
-  return sizeof(directory) + t->entries.index_bytes() +
-         t->entries.values().capacity() * sizeof(map::value_type);
+static inline void lb_directory_clear(lb_directory *t) {
+  size_t i;
+  for (i = 0; i < t->count; ++i)
+    lb_buffer_free(&t->entries[i].delta);
+  if (t->buckets)
+    memset(t->slots, 0, t->buckets * sizeof(*t->slots));
+  t->count = 0;
 }
-template<class F> void for_each(directory *t, F&& f) {
-  for (auto& [k, v] : t->entries) f(k, v);
+static inline bool lb_directory_insert(lb_directory *t, lb_namespace k, lb_index v) {
+  size_t i;
+  if (!t->initialized || lb_directory_get(t, k))
+    return false;
+  if (t->count == t->capacity) {
+    size_t next = t->capacity ? t->capacity + t->capacity / 2 + 1 : 8;
+    if (!lb_directory_reserve(t, next))
+      return false;
+  }
+  i = lb_directory_slot(t, k);
+  memset(&t->entries[t->count], 0, sizeof(*t->entries));
+  t->entries[t->count].key = k;
+  t->entries[t->count].value = v;
+  t->slots[i] = (uint32_t)(++t->count);
+  return true;
 }
-
-// Any insertion/reserve (even failed growth) or deletion can move headers.
-// Never retain these pointers across table mutation; look up by key again.
-inline value *get(directory *t, key k) {
-  auto it = t->entries.find(k);
-  return it == t->entries.end() ? nullptr : &it->second;
+static inline bool lb_directory_erase(lb_directory *t, lb_namespace k) {
+  size_t hole = lb_directory_slot(t, k), i, index, mask;
+  if (hole == SIZE_MAX || !t->slots[hole])
+    return false;
+  index = t->slots[hole] - 1;
+  lb_buffer_free(&t->entries[index].delta);
+  mask = t->buckets - 1;
+  i = (hole + 1) & mask;
+  while (t->slots[i]) {
+    size_t home = (size_t)t->entries[t->slots[i] - 1].key.low64 & mask;
+    if (((i - home) & mask) >= ((i - hole) & mask)) {
+      t->slots[hole] = t->slots[i];
+      hole = i;
+    }
+    i = (i + 1) & mask;
+  }
+  t->slots[hole] = 0;
+  --t->count;
+  if (index != t->count) {
+    lb_namespace_entry last = t->entries[t->count];
+    i = lb_directory_slot(t, last.key);
+    t->slots[i] = (uint32_t)(index + 1);
+    t->entries[index] = last;
+  }
+  return true;
 }
-inline bool contains(directory *t, key k) { return get(t, k) != nullptr; }
-inline value unsafe_get(directory *t, key k) {
-  auto *v = get(t, k);
-  assert(v);
-  return *v;
-}
-[[nodiscard]] inline bool reserve(directory *t, size_t capacity) {
-  if (bad(t) || !valid_capacity(capacity)) return false;
-  try { t->entries.reserve(capacity); return true; }
-  catch (const std::bad_alloc&) { return false; }
-  catch (const std::overflow_error&) { return false; }
-}
-// No application namespace limit. k must be absent. On allocation failure or
-// exhaustion of the library's index representation, existing contents survive;
-// successfully allocated capacity may remain. Hash/equality/header moves cannot throw.
-[[nodiscard]] inline bool unsafe_insert(directory *t, key k, value v) {
-  if (bad(t)) return false;
-  try { return t->entries.try_emplace(k, v).second; }
-  catch (const std::bad_alloc&) { return false; }
-  catch (const std::overflow_error&) { return false; }
-}
-[[nodiscard]] inline bool associate(directory *t, key k, value v) {
-  if (auto *existing = get(t, k)) { *existing = v; return true; }
-  return unsafe_insert(t, k, v);
-}
-inline bool dissociate(directory *t, key k) { return t->entries.erase(k) != 0; }
-inline void unsafe_dissociate(directory *t, key k) {
-  const bool removed = dissociate(t, k);
-  assert(removed);
-  (void)removed;
-}
-}
+#ifdef __cplusplus
+#include "cpp/namespaces.h"
+#endif
+#endif

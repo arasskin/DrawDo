@@ -37,6 +37,7 @@ void sizes() {
 heap::allocator create(uint64_t limit, int metadata_bytes = 32) {
   heap::allocator a{};
   a.limit = limit;
+  for(auto& head:a.size_class_heads) head.next_slab_index=-1;
   a.slab_allocator = slab_pool::create(sizeof(heap::slab), metadata_bytes);
   CHECK(!slab_pool::bad(&a.slab_allocator));
   return a;

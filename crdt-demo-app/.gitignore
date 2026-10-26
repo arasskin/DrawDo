@@ -1,0 +1,3 @@
+build/
+.android-debug.keystore
+tests/ios/*.xcodeproj/

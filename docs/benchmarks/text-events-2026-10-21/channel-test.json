@@ -1,0 +1,9 @@
+{
+  "status": "pass",
+  "clients": [
+    {
+      "binary": "datafriend/build/native/channel_test",
+      "result": "PASS dynamic channels: 140 channels, callback growth, allocation failure, stable IDs, late updates, reconnect, native watches, middle/in-flight detach"
+    }
+  ]
+}

@@ -1,40 +1,45 @@
-#pragma once
+#ifndef LB_INDEX_SYNC_H
+#define LB_INDEX_SYNC_H
 #include "reconcile.h"
 #include "index.h"
-
-// Adapter for the existing key-ordered index. IDs are record.key; individual
-// fingerprints are record.hash, and range XORs come from the cached summaries.
-// Keep the tree header and snapshot stable throughout the exchange.
-namespace index_sync {
-inline record_index::key_range bounds(reconciliation::range part) {
-  uint64_t high;
-  if (reconciliation::upper_bound(part, &high)) return {part.low, high};
-  return {part.low, std::nullopt};
+static inline ct_range lb_index_bounds(lb_recon_range p) {
+  ct_range r = {p.low, p.high, p.high != 0};
+  return r;
 }
-inline bool summarize(void *context, reconciliation::range part, reconciliation::summary *out) {
-  auto *tree = static_cast<record_index::header *>(context);
-  const auto result = record_index::summarize(tree, bounds(part));
-  *out = {result.count, result.hash};
+static inline bool lb_index_summarize_cb(void *ctx, lb_recon_range p, lb_recon_summary *out) {
+  ct_summary s = lb_index_summary((lb_index *)ctx, lb_index_bounds(p));
+  out->count = s.count;
+  out->fingerprint = s.hash;
   return true;
 }
-inline bool select(void *context, uint64_t rank, uint64_t *out) {
-  const auto item = record_index::select(static_cast<record_index::header *>(context), rank);
-  if (!item) return false;
-  *out = item->key;
+static inline bool lb_index_select_cb(void *ctx, uint64_t rank, uint64_t *out) {
+  ct_record r;
+  if (!lb_index_select((lb_index *)ctx, rank, &r))
+    return false;
+  *out = r.key;
   return true;
 }
-inline size_t list(void *context, reconciliation::range part, reconciliation::item *out, size_t capacity) {
-  auto *tree = static_cast<record_index::header *>(context);
-  const auto range = bounds(part);
-  const uint64_t first = record_index::summarize(tree, {0, part.low}).count;
-  const uint64_t count = record_index::summarize(tree, range).count;
-  const size_t length = size_t(std::min(uint64_t(capacity), count));
-  for (size_t i = 0; i < length; ++i) {
-    const auto item = record_index::select(tree, first + i);
-    if (!item) return SIZE_MAX;
-    out[i] = {item->key, item->hash};
+static inline size_t lb_index_list_cb(void *ctx, lb_recon_range p, lb_recon_item *out,
+                                      size_t capacity) {
+  lb_index *h = (lb_index *)ctx;
+  ct_range before = {0, p.low, true};
+  uint64_t first = lb_index_summary(h, before).count,
+           count = lb_index_summary(h, lb_index_bounds(p)).count;
+  size_t i, n = (size_t)CT_MIN((uint64_t)capacity, count);
+  for (i = 0; i < n; ++i) {
+    ct_record r;
+    if (!lb_index_select(h, first + i, &r))
+      return SIZE_MAX;
+    out[i].id = r.key;
+    out[i].fingerprint = r.hash;
   }
-  return length;
+  return n;
 }
-inline reconciliation::source source(record_index::header *tree) { return {tree, summarize, select, list}; }
+static inline lb_recon_source lb_index_source(lb_index *h) {
+  lb_recon_source s = {h, lb_index_summarize_cb, lb_index_select_cb, lb_index_list_cb};
+  return s;
 }
+#ifdef __cplusplus
+#include "cpp/index_sync.h"
+#endif
+#endif

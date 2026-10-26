@@ -1,0 +1,77 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test-without-building -project /tmp/crdt-timing-driver/CRDTTimingTest.xcodeproj -scheme CRDTTimingTest -destination id=00008110-000A7D681490401E -derivedDataPath /tmp/crdt-timing-driver/build DEVELOPMENT_TEAM=466U33S75F
+
+Build settings from command line:
+    DEVELOPMENT_TEAM = 466U33S75F
+
+2026-10-22 02:56:41.605646+0200 CRDTTimingTest-Runner[77144:4030938] [Default] Running tests...
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'All tests' started at 2026-10-22 02:56:43.527.
+Test Suite 'CRDTTimingTest.xctest' started at 2026-10-22 02:56:43.528.
+Test Suite 'TimingTest' started at 2026-10-22 02:56:43.528.
+Test Case '-[TimingTest testCapturePermission]' started.
+    t =     0.00s Start Test at 2026-10-22 02:56:43.529
+    t =     0.04s Set Up
+    t =     0.05s Open dev.drawdo.crdt
+    t =     0.05s     Launch dev.drawdo.crdt
+    t =     0.05s         Terminate dev.drawdo.crdt:77132
+    t =     1.19s         Setting up automation session
+    t =     1.30s         Wait for dev.drawdo.crdt to idle
+    t =     2.42s Waiting 8.0s for "Record Screen" Button to exist
+    t =     3.43s     Checking `Expect predicate `existsNoRetry == 1` for object "Record Screen" Button`
+    t =     3.43s         Checking existence of `"Record Screen" Button`
+    t =     3.58s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.59s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.60s Tap "Record Screen" Button
+    t =     3.60s     Wait for com.apple.springboard to idle
+    t =     3.61s     Find the "Record Screen" Button
+    t =     3.66s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.67s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.68s     Check for interrupting elements affecting "Record Screen" Button
+    t =     3.74s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.75s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.78s     Synthesize event
+    t =     4.08s     Wait for com.apple.springboard to idle
+    t =     4.35s Open dev.drawdo.crdt
+    t =     4.35s     Activate dev.drawdo.crdt
+    t =     4.38s         Wait for dev.drawdo.crdt to idle
+    t =     4.39s Requesting snapshot of accessibility hierarchy for app with pid 77146
+    t =     4.49s Requesting snapshot of accessibility hierarchy for app with pid 77146
+2026-10-22 02:56:48.034693+0200 CRDTTimingTest-Runner[77144:4030938] Application after consent: Attributes: Application, 0x13f629f40, pid: 77146, label: 'CRDT demo'
+Element subtree:
+ →Application, 0x13f629f40, pid: 77146, label: 'CRDT demo'
+    Window (Main), 0x13f6292c0, {{0.0, 0.0}, {390.0, 844.0}}
+      Other, 0x13f629400, {{0.0, 0.0}, {390.0, 844.0}}
+        Other, 0x13f629540, {{0.0, 0.0}, {390.0, 844.0}}
+          Other, 0x13f628b40, {{0.0, 0.0}, {390.0, 844.0}}
+      TextView, 0x13f628c80, {{16.0, 63.0}, {358.0, 731.0}}, label: 'Shared text'
+        Other, 0x13f628280, {{341.0, 63.0}, {30.0, 731.0}}, label: 'Vertical scroll bar, 1 page', value: 0%
+          Other, 0x13f629680, {{368.0, 775.0}, {3.0, 16.0}}
+        Other, 0x13f628140, {{16.0, 761.0}, {358.0, 30.0}}, label: 'Horizontal scroll bar, 1 page', value: 0%
+          Other, 0x13f628000, {{19.0, 788.0}, {352.0, 3.0}}
+Path to element:
+ →Application, 0x13f629f40, pid: 77146, label: 'CRDT demo'
+Query chain:
+ →Find: Application 'dev.drawdo.crdt'
+  Output: {
+    Application, 0x13f62ad00, pid: 77146, label: 'CRDT demo'
+  }
+2026-10-22 02:56:48.034915+0200 CRDTTimingTest-Runner[77144:4030938] CRDT_TIMING_STARTED
+    t =   109.51s Tear Down
+Test Case '-[TimingTest testCapturePermission]' passed (109.953 seconds).
+Test Suite 'TimingTest' passed at 2026-10-22 02:58:33.483.
+	 Executed 1 test, with 0 failures (0 unexpected) in 109.953 (109.955) seconds
+Test Suite 'CRDTTimingTest.xctest' passed at 2026-10-22 02:58:33.485.
+	 Executed 1 test, with 0 failures (0 unexpected) in 109.953 (109.957) seconds
+Test Suite 'All tests' passed at 2026-10-22 02:58:33.487.
+	 Executed 1 test, with 0 failures (0 unexpected) in 109.953 (109.959) seconds
+2026-10-21 20:58:33.723 xcodebuild[68872:236383897] [MT] IDETestOperationsObserverDebug: 116.730 elapsed -- Testing started completed.
+2026-10-21 20:58:33.723 xcodebuild[68872:236383897] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-21 20:58:33.723 xcodebuild[68872:236383897] [MT] IDETestOperationsObserverDebug: 116.730 sec, +116.730 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/crdt-timing-driver/build/Logs/Test/Test-CRDTTimingTest-2026.10.21_20-56-36--0400.xcresult
+
+** TEST EXECUTE SUCCEEDED **
+
+Testing started

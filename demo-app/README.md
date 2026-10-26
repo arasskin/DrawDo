@@ -1,267 +1,170 @@
 # Datafriend demo app
 
-A native task list, particle simulation and shared-document demo using C++/Sokol (GLES3 on Android, Metal on iOS) and the production
-Datafriend engine. Installed as **Datafriend demo** (`dev.drawdo.sokol`). No Flutter,
-Dart runtime, Gradle, or Android Studio is used by these builds.
+A C99/Sokol task list, particle simulation and shared-document app for Android
+(GLES3) and iOS (Metal). Installed as **Datafriend demo** (`dev.drawdo.sokol`).
+The app calls Datafriend's C API directly. Neither app nor database requires a
+C++ runtime. Small Objective-C adapters serve iOS, Java serves Android text and
+system services, and the document CRDT remains the pinned Rust Yrs dependency.
+
+## Build and run
 
 From the repository root:
 
 ```sh
-make -C demo-app android       # Compile and package a development APK
-make -C demo-app android-run   # Build, install on connected phone, launch
-make -C demo-app android-logs  # Follow app/native errors and diagnostic samples
+make -C demo-app android       # Build and package
+make -C demo-app android-run   # Build, install, launch on the connected phone
+make -C demo-app android-logs
+make -C demo-app test
 ```
 
-Use `ANDROID_SERIAL=ZY227364TP` when more than one device is connected.
-The APK is `demo-app/build/android/drawdo-sokol.apk`.
+Use `ANDROID_SERIAL=ZY227364TP` when multiple devices are connected. The APK is
+`demo-app/build/android/drawdo-sokol.apk`. Existing app data and signing identity
+are preserved during updates. The build uses the Android SDK, NDK, CMake/Ninja,
+Python and a JDK directly; it does not require Gradle or Android Studio.
+Defaults are SDK Build Tools 35.0.0, platform android-35, NDK 28.2.13676358 and
+ARM64/API 24. Override `ANDROID_HOME`, `ANDROID_NDK_HOME` and `JAVA_HOME` as needed.
 
-For an iPhone, with Xcode, a paired device in Developer Mode, and a development
-signing identity:
+For an iPhone with Developer Mode, Xcode and a development signing identity:
 
 ```sh
-DEVELOPMENT_TEAM=466U33S75F make -C demo-app ios-run
-# Subsequent builds reuse the team cached in build/ios:
+DEVELOPMENT_TEAM=your_team make -C demo-app ios-run
+# Later builds reuse the cached team:
 make -C demo-app ios
+```
+
+Set `IOS_DEVICE` to select a device. Output is
+`build/ios/Release-iphoneos/drawdo_sokol.app`, targeting ARM64/iOS 15+.
+The C99 port has an unsigned iOS build check; its physical-device validation in
+this change is Android. Older iPhone validation records describe the C++ app.
+
+C code is optimized with `-O3`; host debug symbols are retained while APK
+libraries are stripped. Packaging verifies signing and 16 KiB alignment.
+Native code, Java/DEX and resources have separate incremental caches. The
+ignored `.android-debug.keystore` persists across build-directory cleanup.
+The APK contains `libdrawdo_sokol.so` and `libdatafriend.so`, without libc++.
+
+## Module boundaries
+
+| Module | Responsibility |
+| --- | --- |
+| `src/main.c` | App lifecycle, navigation, frame submission; orchestrates the modules |
+| `src/base.h`, `src/base.c` | Small buffers, checked growth, byte codec, clocks and file helpers |
+| `../text_buffers/` | UTF-8 text buffers, selection/composition and app-owned native editor sessions |
+| `src/datafriend_ui.h`, `src/datafriend_ui.c` | Typed C values/queries, subscriptions, atomic edits, synchronous publication |
+| `src/task_model.c`, `src/task_screen.c` | Persisted tasks, narrow row queries, layout and gestures |
+| `src/particle_model.c` | Particle physics, 96 cell queries and persisted controls |
+| `../text_crdt/crdt.c` | Yrs ownership, UTF-8 edits, snapshots and independent editor drafts |
+| `src/document_model.c`, `src/document_screen.c` | Owner/peer stores, TCP sync, shared document UI |
+| `src/render/` | Content-keyed text LRU, batched GPU drawing, shaders, Sokol implementation |
+| `src/platform/` | App-specific text rasterization, insets, logging and presentation services |
+| `../accessible_ui/`, `../clipboard/`, `../haptics/` | Reusable C interfaces with native iOS/Android implementations |
+| `src/profiling/` | Optional task/frame measurements and clock calibration |
+| `tests/` | C99 model, cache, CRDT and network regression checks |
+
+Headers declare structs and prefixed functions; implementations live in `.c`
+files. Platform adapters use `.c` on Android and `.m` on Apple. Only the Sokol
+implementation is compiled as Objective-C for Metal; the shared app stays C99.
+Datafriend never includes app code. See the [dependency map](../architecture.visualize).
+
+All store access, callbacks, edits and network pumps run on the application
+thread. Disk flushing runs in the database's background worker. Each row owns
+an explicit `ui_watch`; teardown unsubscribes it. A publication callback may
+remove other subscriptions, and dispatch skips removed handles. Callbacks read
+views and update derived presentation; event handlers submit edits.
+
+A value passed to an edit is borrowed until `ui_add` encodes it. `ui_change`
+consumes the edit and publishes affected views before returning. Borrowed result
+bytes remain valid only until the next mutation. Editor callback contexts remain
+owned by the caller through final delivery or cancellation. No virtual widget
+tree or separate state scheduler is involved.
+
+## Behavior
+
+Tasks support add, rename, completion, filters, selection, scrolling, drag
+reordering and deletion. `tasks-v1` persists on the device and seeds twelve
+examples once. Row views mount only for visible tasks; renaming does not rebuild
+the list/counter. A late editor submission cannot resurrect a deleted entity.
+See [the task interface](../docs/datafriend-native-tasks.md).
+
+Particles use 96 fixed spatial queries, a 3×3 moving patch or all-moving mode,
+four particle counts, pause/resume and dragging. The controls are Datafriend facts.
+Changing count replaces particle facts and count in one transaction, preserving
+view handles and other controls. `particle-session` is disposable on launch.
+The C RNG preserves the old mt19937_64 seed/distribution; comparison against the
+saved C++ app matched every coordinate at initialization and after 100 ticks.
+Neighbor and update arrays retain capacity between frames.
+
+Text rasterization uses Android StaticLayout or UIKit/Core Text. The shared
+content-keyed cache has a 100 MB texture-data budget and a GPU handle limit.
+Keys include text, pixel size and clipping width, independent of position/tint.
+Current-frame entries stay pinned until submission; older entries are evicted
+in LRU order. Each cache entry owns its key and resource, with explicit cleanup.
+Sokol draws each frame; this is separate from rebuilding query-bound UI caches.
+System editors preserve IME composition, selection and paste. Canvas controls
+now expose native accessibility labels, states, activation and task-list scrolling.
+General hardware-keyboard navigation remains follow-on work.
+
+Task titles and document bodies use the shared inline editor. Its C API exposes
+cursor movement, selection, range replacement and revision-checked native updates.
+See [text editing](../docs/text-editing.md) for ownership and composition rules.
+
+## Shared document
+
+The document demo keeps one Yrs snapshot and one materialized text fact per
+owner. Datafriend stores opaque values and remains CRDT-agnostic. Each phone
+pushes only its owned namespace and subscribes to its peer. The public-key
+identity alias, schema, database paths and YDF2 snapshot records are unchanged.
+A live editor holds its own draft so repeated stale edits preserve unseen remote
+inserts. Snapshot and visible text publish atomically.
+
+Yrs is pinned at 0.24.0 and built through its C API with Cargo. The first build
+needs dependency downloads. Its generated header has a small local C99
+compatibility patch; Rust source and binary formats are unchanged.
+
+Pair/configure phones using `tools/sync_phones.py`; see
+[document sync](../docs/datafriend-document-sync.md). The existing
+`document-config.txt`, scripted scenarios, reports, request timings and UDP clock
+calibration remain supported. The app preserves the ordinary task and document
+stores during benchmarks.
+
+## Validation and profiling
+
+```sh
+make -C demo-app test
+# Against a running Littlebear instance:
+demo-app/build/tests/document_network_test 127.0.0.1 17879
+python3 datafriend/tool/generate_attributes.py --check
+python3 demo-app/tools/profile_tasks.py
 python3 demo-app/tools/profile_ios.py --device Phone
 ```
 
-Set `DEVELOPMENT_TEAM` to your own Apple team and `IOS_DEVICE` to the device name
-or identifier. The iOS build uses CMake/Xcode command-line tools, an optimized
-Release binary, static Datafriend linkage, and `devicectl` installation/launch.
-Its output is `build/ios/Release-iphoneos/drawdo_sokol.app`. Requires iOS 15+;
-currently validated on iPhone 13. No Xcode GUI project maintenance is needed.
-The first signing build permits Xcode to prepare the development provisioning
-profile. This is a device build, not an App Store distribution archive.
+Task profiling uses a separate disposable database. It exercises idle, toggle,
+rename, filter, reorder, scroll and add/remove with 12 and 1,000 tasks. Android
+uses EGL presentation timestamps; iOS uses Metal presented callbacks. These are
+automatic app-thread actions, not measurements of physical touch or IME latency.
+CPU, frame, query publication, rasterization and texture statistics are recorded
+under `docs/benchmarks/` with source/APK hashes and device conditions.
 
-## Source layout
-
-| Path | Responsibility |
-| --- | --- |
-| `src/main.cpp` | App lifecycle, navigation and frame submission |
-| `src/task_model.h`, `src/task_screen.h` | Datafriend task state/actions and task UI |
-| `src/particle_model.h`, `src/particle_simulation.h` | Datafriend particle controls and shared simulation |
-| `src/datafriend_ui.h` | Typed queries, scoped subscriptions, edits and UI publication |
-| `src/render/` | Text interface/cache, shaders and Sokol implementation |
-| `src/platform/` | Text raster/input, insets and lifecycle services; Android and Apple adapters |
-| `src/profiling/` | Optional phase counters and rendered task benchmark |
-| `android/`, `ios/` | Android activity/resources and iOS bundle metadata |
-| `tools/` | Direct SDK build/deployment and phone profiling |
-| `tests/` | Platform-independent task, particle and cache checks |
-
-The demo calls the production `datafriend::datafriend` target directly on its
-application thread. Subscriptions return their ID and shared live map together;
-only disk flushing runs in the background. Datafriend never
-includes demo code. The archived, unsupported Flutter comparison adapter uses `particle_simulation.h`
-without linking Sokol. The generic subscription dispatcher and typed UI helper
-are consolidated in `datafriend_ui.h`; models do not depend on Android/rendering.
-The separate Sokol implementation file is required for its implementation macros
-and avoids compiling the backend once per application translation unit.
-
-Use `make -C demo-app test` for host tests. The unsupported Flutter reference remains in
-[`src/app`](../src/app/README.md). See [the dependency map](../architecture.visualize).
-
-## Build pipeline
-
-`tools/build_android.py` runs CMake/Ninja with Android NDK Clang, `javac`/`d8` for the
-small platform adapter, `aapt2` for resources/manifest, and `zipalign`/`apksigner`
-for packaging. `adb install --no-incremental -r` installs updates, then the
-activity is restarted. C++ is optimized (`-O3`) with symbols retained on the
-host; debug information is stripped from packaged libraries. APK signing and
-16 KiB native-library alignment are verified before deployment.
-
-Native compilation is incremental. Java/DEX and resources are independently
-cached by inputs; unchanged packages are reused. No-op builds do not re-sign.
-The development signing key is generated at `demo-app/.android-debug.keystore`
-(ignored by Git), so normal build-directory cleanup preserves update identity.
-
-Defaults match the current development machine: Android SDK Build Tools 35.0.0,
-platform android-35, NDK 28.2.13676358, ARM64/API 24 minimum, macOS host. Set
-`ANDROID_HOME`, `ANDROID_NDK_HOME`, `JAVA_HOME` as needed. CMake, Ninja, Python 3
-and a JDK must be installed. If replacing the NDK, start with a fresh native
-CMake build directory. The output is a development APK, not a Play Store bundle.
-
-## Task list
-
-The app opens a persistent task list with add/edit, completion, filters, scrolling,
-drag reordering and a shared detail panel. Tap **Particles** to open the simulation.
-Queries and direct edits follow the Dart demo's ergonomics using C++ scoped
-subscriptions. See [native task-list design and checks](../docs/datafriend-native-tasks.md).
-
-## Particle runtime
-
-- 96 fixed spatial queries over particle x/y/region facts.
-- One blocking edit per tick, asynchronous Datafriend disk flushing.
-- Local 3×3 patch or all-moving modes, four particle counts, pause/resume and drag.
-- Fresh demo simulation on launch. Count changes atomically replace particle facts
-  in the same database, preserving controls and live query handles. Its disposable
-  store is inside this application's private `particle-session` directory.
-- Datafriend owns control state as well as particle state. C++ owns simulation
-  calculations, query-derived UI caches, layout, touch routing and rendering.
-- A small Java adapter reports system insets and uses Android StaticLayout to
-  rasterize uncached text labels. A content-keyed LRU uses a 100 MB texture-data
-  budget, shared across drawing positions and tints. Text, pixel size and clipping width
-  identify a raster; unchanged content never crosses JNI. Current-frame textures
-  stay pinned until draw submission, and offscreen entries remain reusable.
-- Shapes and particles share one batch. Cached text uses textured quads following
-  the recovered junstodos renderer's design. The native simulation is shared with
-  the earlier matched benchmark through `src/particle_simulation.h`.
-- The screen reports recent render-callback rate and the last synchronous
-  simulation step, not GPU/presentation timing. This is not a rigorous new FPS
-  benchmark. Native initialization uses a C++ RNG, so the interactive scene is
-  not an identical-seed comparison with the Flutter demo.
-
-The shell includes the task UI and system text editing on Android and iOS.
-Both use the same text-cache/GPU drawing code; Apple rasterization uses UIKit /
-Core Text and editing uses UITextField. Insets respect the iPhone notch and home
-indicator. Canvas accessibility remains follow-on work. Native document networking is
-implemented; see the document-sync section below. The Datafriend engine algorithms are unchanged; iOS selects POSIX rather
-than System V semaphores for AELMDB. The recovered Apple implementation remains
-available in `../reference/junstodos`. JNI is used for Android system services,
-not app logic.
-
-## Datafriend-driven particle controls
-
-`src/particle_model.h` defines the application model. Pause, count, movement mode, automatic
-patch movement and patch coordinates are six facts on a controls entity, using
-IDs 26–31 in the shared attribute schema. Particle x/y/region facts share the
-same engine. No parallel writable button state or pending action queue exists.
-
-`src/datafriend_ui.h` supplies `watch(query, builder)`. It subscribes once and invokes
-the builder initially, then only when a blocking edit returns that query handle.
-Builders read the already-published result and refresh presentation caches; they
-do not issue recursive edits. The native control pattern is:
-
-```cpp
-buttons[6].press = [this] {
-  set("simulation/paused", boolean(!state.paused));
-};
-views.watch(settings_query({"simulation/paused"}), [this](const auto& result) {
-  auto& button = buttons[6];
-  button.selected = number(result, "simulation/paused");
-  button.label = button.selected ? "Resume" : "Pause";
-});
-```
-
-The seven buttons have narrow subscriptions: four for count, two for mode, one
-for pause. A separate settings view drives the active patch and status label.
-Particle changes route to the 96 cell views without rebuilding any button views.
-Dragging stores both coordinates and disables automatic movement in one edit.
-Automatic patch advancement is batched with particle movement in the same edit.
-
-Count changes replace all particle facts and the count setting in one transaction,
-then refresh affected caches before returning to the button callback. The same
-engine, query handles and shared result maps survive. Pause, mode and manual patch
-placement survive count changes. Even an already-selected count button reseeds
-particles; unchanged setting views receive no notification.
-
-Sokol still draws the scene every frame. GPU resources, touch capture, layout,
-frame clocks and measured performance samples are transient renderer/diagnostic
-state, not database facts. Static labels and geometry are code. Persisted facts
-are the source of truth for interactive application state; UI caches are derived.
-The demo deliberately starts fresh on process launch, even though the controls
-are stored and disk flushing is asynchronous.
-
-Checks:
-
-```sh
-cmake -S demo-app -B demo-app/build/tests -G Ninja -DCMAKE_BUILD_TYPE=Release
-cmake --build demo-app/build/tests -j 4
-ctest --test-dir demo-app/build/tests --output-on-failure
-python3 datafriend/tool/generate_attributes.py --check
-```
-
-The text-cache test checks content reuse, scrolling/reordering, bounded eviction,
-current-frame pinning, byte accounting, growth past 96 entries, raster keys and
-failed-build recovery.
-The integration test checks synchronous/selective publication, unchanged-view
-identity across count replacements, coherent count/particle publication, paused
-frames doing no database work, automatic patch batching and control persistence
-across database reopen. Device validation covers all controls, drag and suspend/
-resume. Logs include builder counts so drawing a frame is not confused with
-rebuilding a query-bound component. See
-[device checks](../docs/validation/sokol-datafriend-ui-device.txt) and
-[screen](../docs/benchmarks/datafriend-sokol-ui-android.png).
-
-## Phone profiling
-
-```sh
-make -C demo-app android-run
-python3 demo-app/tools/profile_tasks.py
-```
-
-Runs 12- and 1,000-task workloads twice with real rendered frames and EGL
-presentation timestamps. `tools/profile_ios.py` runs the same workloads with
-Metal drawable presentation timestamps. Measures edits, subscriptions/callbacks, text/JNI,
-graphics submission and app-thread CPU time. All counters are disabled during
-ordinary use. Profiling uses a separate private `tasks-profile` database and
-restores the ordinary task screen after the run; saved tasks are preserved.
-Raw samples, summaries, device state and source/APK hashes go in
-`docs/benchmarks/datafriend-native-task-profile*`.
-
-Use `--counts 1000 --cases idle scroll --rounds 1` for a focused run, with a
-separate `--prefix` to preserve previous measurements. Physical touch delivery,
-keyboard latency and network activity are outside this benchmark. iOS profiling
-keeps the display awake and rejects incomplete presentation timestamps. Repeated
-automated iPhone relaunches have an intermittent black-screen issue still under
-investigation; sustained running is stable in the checked session.
-See [Android findings](../docs/datafriend-native-task-profile.md) and
-[iPhone comparison](../docs/datafriend-ios.md).
+See [C99 validation and matched benchmarks](../docs/validation/app-c99.md).
+Archived Flutter clients and benchmark branches remain historical references.
 
 ## Shaders and provenance
 
-Sokol headers are pinned in `../third_party/sokol` with original embedded licenses
-and import hashes. Lifecycle and textured-quad rendering were adapted from
-junstodos revision `f5cd92a`. `shaders.glsl` extends that app's shaders.
+Sokol and generated shaders retain their existing pinned sources and licenses.
+Rendering derives from `reference/junstodos`; see [provenance](../docs/provenance.md).
+Normal builds use checked-in `src/render/shaders.h`. Shader changes require the
+compatible sokol-shdc compiler and refreshed hashes in `shaders.json`.
 
-Generated shaders are checked in, so ordinary builds need no shader compiler.
-When changing shader source, use the compatible `sokol-shdc` recorded in
-`shaders.json`:
+## Native database interface
 
-```sh
-cd demo-app/src/render
-/path/to/sokol-shdc -i shaders.glsl -o shaders.h -l metal_sim:metal_ios:glsl300es
-```
+Models use Datafriend's direct C values, numeric query clauses, edit batches and
+watches from `datafriend/db.h`. The app binding retains only profiling, error
+presentation and text-buffer conversion. Local edits and friend imports dispatch
+the same watches. Document subscriptions use `df_network_follow`; no application
+forwarding of changed query IDs is needed. Task creation commits ID allocation
+and initial fields together. Task ordering reuses `df_entities` storage.
 
-Update the source/header SHA-256 entries in `shaders.json` after regeneration.
-The build refuses changed source paired with stale generated shaders.
-
-
-## Shared document over Littlebear
-
-Both phones use Datafriend's native nonblocking TCP client and securely stored
-Ed25519 identities. The app implements the sequence CRDT; the database/server
-transport opaque immutable operations. Each phone owns one namespace and reads
-its peer's namespace. Local edits are atomic, disk flushing and networking remain
-asynchronous, and published results are applied on the app thread.
-
-Build/install with the usual Android/iOS commands and launch both apps once to
-create their identities, then pair them from the development machine:
-
-```sh
-python3 demo-app/tools/sync_phones.py --host 147.182.181.182 --port 7777 --case interactive --seed 0
-```
-
-`Type / edit` opens a native multiline draft editor. Committed IME changes are
-sent while typing; the shared preview below reflects both writers. Remote inserts
-are preserved if the local editor's draft is stale. This is a basic text-CRDT demo,
-not a rich-text editor with shared cursors or remote caret transformation.
-`Go offline` disconnects that phone while local edits continue; `Reconnect`
-resumes synchronization. The top-right button cycles document → particles → tasks.
-Existing task data is preserved in `tasks-v1`.
-
-Scripted `typing`, `concurrent` and `offline` cases exercise 1,000-character
-(default) documents. Reports include edit component timings, optional calibrated one-way
-latency, native transport counters and actual EGL/Metal presentation timestamps.
-The script checks identical final text/operation counts, local quiescence and
-presentation coverage. See [results and limits](../docs/datafriend-document-sync.md).
-
-Document source lives in `src/document_{crdt,model,screen}.h`; native transport
-lives in Datafriend. `document_test` tests CRDT ordering/Unicode/stale edits;
-`document_network_test HOST PORT` checks two real native models over TCP.
-
-The CRDT is now pinned **Yrs 0.24.0**, accessed through `libyrs.h` and statically
-linked into the app. It requires Cargo/Rust (plus `aarch64-linux-android` and
-`aarch64-apple-ios` Rust targets for phone builds). CMake handles the library
-build; dependencies download on the first build. Datafriend remains a C++ library.
-The UI projects just `document/text` for entity 1; replication uses one encoded
-`document/state` fact per owner. See [design and measurements](../docs/datafriend-document-yrs.md).
+Profile `engine` time now includes native watch dispatch. The old request-encode
+and separate publication measurements no longer describe this direct call path;
+compare total action/frame time across versions. See the
+[C API guide](../docs/datafriend-c-api.md).

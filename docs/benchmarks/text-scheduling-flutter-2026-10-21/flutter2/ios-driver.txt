@@ -1,0 +1,72 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test-without-building -project /tmp/crdt-scheduling-driver/SchedulingTest.xcodeproj -scheme SchedulingTest -destination id=00008110-000A7D681490401E -derivedDataPath /tmp/crdt-scheduling-driver/build "-only-testing:SchedulingTest/TimingTest/testFlutter" DEVELOPMENT_TEAM=466U33S75F
+
+Build settings from command line:
+    DEVELOPMENT_TEAM = 466U33S75F
+
+2026-10-22 03:03:58.524629+0200 SchedulingTest-Runner[77234:4036206] [Default] Running tests...
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'Selected tests' started at 2026-10-22 03:03:59.329.
+Test Suite 'SchedulingTest.xctest' started at 2026-10-22 03:03:59.329.
+Test Suite 'TimingTest' started at 2026-10-22 03:03:59.329.
+Test Case '-[TimingTest testFlutter]' started.
+    t =     0.00s Start Test at 2026-10-22 03:03:59.330
+    t =     0.03s Set Up
+    t =     0.03s Open dev.drawdo.textLatency
+    t =     0.03s     Launch dev.drawdo.textLatency
+    t =     0.03s         Terminate dev.drawdo.textLatency:77219
+    t =     1.19s         Setting up automation session
+    t =     1.34s         Wait for dev.drawdo.textLatency to idle
+    t =     2.46s Waiting 8.0s for "Record Screen" Button to exist
+    t =     3.47s     Checking `Expect predicate `existsNoRetry == 1` for object "Record Screen" Button`
+    t =     3.47s         Checking existence of `"Record Screen" Button`
+    t =     3.58s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.58s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.60s Tap "Record Screen" Button
+    t =     3.60s     Wait for com.apple.springboard to idle
+    t =     3.61s     Find the "Record Screen" Button
+    t =     3.67s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.67s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.68s     Check for interrupting elements affecting "Record Screen" Button
+    t =     3.74s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.74s Ignoring failure to get hierarchy for remote element in process 75535 (Error getting main window kAXErrorServerNotFound)
+    t =     3.77s     Synthesize event
+    t =     4.06s     Wait for com.apple.springboard to idle
+    t =     4.31s Open dev.drawdo.textLatency
+    t =     4.31s     Activate dev.drawdo.textLatency
+    t =     4.33s         Wait for dev.drawdo.textLatency to idle
+    t =     4.34s Requesting snapshot of accessibility hierarchy for app with pid 77235
+    t =     4.39s Requesting snapshot of accessibility hierarchy for app with pid 77235
+2026-10-22 03:04:03.741239+0200 SchedulingTest-Runner[77234:4036206] Application: Attributes: Application, 0x107ed9a40, pid: 77235, label: 'Text Latency'
+Element subtree:
+ →Application, 0x107ed9a40, pid: 77235, label: 'Text Latency'
+    Window (Main), 0x107ed8f00, {{0.0, 0.0}, {390.0, 844.0}}
+      Other, 0x107ed9040, {{0.0, 0.0}, {390.0, 844.0}}
+        Other, 0x107eda800, {{0.0, 0.0}, {390.0, 844.0}}
+          Other, 0x107ed8640, {{0.0, 0.0}, {390.0, 844.0}}
+Path to element:
+ →Application, 0x107ed9a40, pid: 77235, label: 'Text Latency'
+Query chain:
+ →Find: Application 'dev.drawdo.textLatency'
+  Output: {
+    Application, 0x107ed8780, pid: 77235, label: 'Text Latency'
+  }
+2026-10-22 03:04:03.741342+0200 SchedulingTest-Runner[77234:4036206] SCHEDULING_STARTED
+    t =    62.42s Tear Down
+Test Case '-[TimingTest testFlutter]' passed (62.688 seconds).
+Test Suite 'TimingTest' passed at 2026-10-22 03:05:02.020.
+	 Executed 1 test, with 0 failures (0 unexpected) in 62.688 (62.690) seconds
+Test Suite 'SchedulingTest.xctest' passed at 2026-10-22 03:05:02.022.
+	 Executed 1 test, with 0 failures (0 unexpected) in 62.688 (62.693) seconds
+Test Suite 'Selected tests' passed at 2026-10-22 03:05:02.024.
+	 Executed 1 test, with 0 failures (0 unexpected) in 62.688 (62.695) seconds
+2026-10-21 21:05:02.246 xcodebuild[92756:236450010] [MT] IDETestOperationsObserverDebug: 67.343 elapsed -- Testing started completed.
+2026-10-21 21:05:02.246 xcodebuild[92756:236450010] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-21 21:05:02.246 xcodebuild[92756:236450010] [MT] IDETestOperationsObserverDebug: 67.343 sec, +67.343 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/crdt-scheduling-driver/build/Logs/Test/Test-SchedulingTest-2026.10.21_21-03-54--0400.xcresult
+
+** TEST EXECUTE SUCCEEDED **
+
+Testing started

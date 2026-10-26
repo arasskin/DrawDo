@@ -1,0 +1,72 @@
+<div id="text-update-timeline">
+  <style>
+    #text-update-timeline { color: var(--foreground); }
+    #text-update-timeline .timeline { margin: 20px 0 26px; }
+    #text-update-timeline .scale { display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--muted-foreground); }
+    #text-update-timeline .lane { margin: 10px 0; }
+    #text-update-timeline .label { display: flex; justify-content: space-between; gap: 12px; }
+    #text-update-timeline .label span:last-child { white-space: nowrap; }
+    #text-update-timeline .track { height: 12px; margin-top: 5px; position: relative; background: color-mix(in srgb, var(--foreground) 5%, transparent); }
+    #text-update-timeline .segment { position: absolute; height: 100%; left: var(--start); width: var(--length); min-width: 2px; background: var(--viz-series-1); }
+    #text-update-timeline .unresolved { background: color-mix(in srgb, var(--foreground) 35%, transparent); }
+    #text-update-timeline .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 12px; }
+    #text-update-timeline .swatch { display: inline-block; width: 14px; height: 8px; margin-right: 6px; background: var(--viz-series-1); }
+    #text-update-timeline .swatch.unresolved { background: color-mix(in srgb, var(--foreground) 35%, transparent); }
+  </style>
+  <h3>From received state to updated text</h3>
+  <div class="text-small text-muted">Optimized app · 1 KB document · median milestones · 60 updates per device</div>
+  <div class="legend text-small">
+    <span><span class="swatch"></span>Merge or text mutation</span>
+    <span><span class="swatch unresolved"></span>Other work + scheduling / delivery</span>
+  </div>
+  <section class="timeline" aria-label="Android timeline, elapsed milliseconds after Datafriend callback">
+    <h3>Android · Moto G7</h3>
+    <div class="scale text-small tabular-nums"><span>0 ms</span><span>20</span><span>40</span><span>60 ms</span></div>
+    <div class="lane">
+      <div class="label"><span>CRDT merge + publish complete</span><span class="tabular-nums">0.84 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment" style="--start:0%;--length:1.3977%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Native UI handler starts</span><span class="tabular-nums">2.85 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment unresolved" style="--start:1.3977%;--length:3.3495%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Text + selection assigned</span><span class="tabular-nums">14.99 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment" style="--start:4.7472%;--length:20.2289%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Native draw callback completes</span><span class="tabular-nums">27.51 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment unresolved" style="--start:24.9761%;--length:20.8679%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Frame commit callback</span><span class="tabular-nums">33.90 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment unresolved" style="--start:45.8440%;--length:10.6534%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Compositor presentation</span><span class="tabular-nums">54.85 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment unresolved" style="--start:56.4974%;--length:34.9212%"></span></div>
+    </div>
+  </section>
+  <section class="timeline" aria-label="iPhone timeline, elapsed milliseconds after Datafriend callback; endpoint is capture delivery, not physical presentation">
+    <h3>iPhone 13</h3>
+    <div class="scale text-small tabular-nums"><span>0 ms</span><span>20</span><span>40</span><span>60 ms</span></div>
+    <div class="lane">
+      <div class="label"><span>CRDT merge + publish complete</span><span class="tabular-nums">0.34 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment" style="--start:0%;--length:0.5700%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Native UI handler starts</span><span class="tabular-nums">0.41 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment unresolved" style="--start:0.5700%;--length:0.1058%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Text + selection assigned</span><span class="tabular-nums">2.15 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment" style="--start:0.6758%;--length:2.9000%"></span></div>
+    </div>
+    <div class="lane">
+      <div class="label"><span>Updated frame delivered by ReplayKit</span><span class="tabular-nums">23.09 ms</span></div>
+      <div class="track" aria-hidden="true"><span class="segment unresolved" style="--start:3.5758%;--length:34.9033%"></span></div>
+    </div>
+    <div class="text-small text-muted">Capture endpoint; physical presentation time unmeasured.</div>
+  </section>
+  <div class="text-small text-muted">Origin: Datafriend watch callback after import. Network transit and earlier polling/import excluded. Milestones are separate medians, not one recorded update. Gray intervals are not isolated waiting time. 60 Hz reference: 16.67 ms per refresh; vsync phase unmeasured.</div>
+</div>

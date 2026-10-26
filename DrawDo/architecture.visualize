@@ -1,0 +1,13 @@
+DrawDo
+    DrawDo/src/main.c
+DrawDo_state
+    DrawDo/src/model.c
+    datafriend/include/datafriend/db.h
+DrawDo_screen
+    DrawDo/src/screen.c
+    DrawDo/src/render/text.c
+    accessible_ui/access.h
+DrawDo_native_events
+    native/loop.h
+    text_buffers/editor.h
+    datafriend/include/datafriend/network.h

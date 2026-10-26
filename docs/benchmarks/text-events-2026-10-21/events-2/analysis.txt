@@ -1,0 +1,195 @@
+Surface mismatch android 300001 2
+Capture missing 300001
+Capture missing 300002
+Capture missing 300003
+Capture missing 300004
+Capture missing 300005
+Capture missing 300006
+Capture missing 300007
+Capture missing 300008
+Capture missing 300009
+Capture missing 300010
+Capture missing 300011
+Capture missing 300012
+Capture missing 300013
+Capture missing 300014
+Capture missing 300015
+Capture missing 300016
+Capture missing 300017
+Capture missing 300018
+Capture missing 300019
+Capture missing 300020
+Capture missing 300021
+Capture missing 300022
+Capture missing 300023
+Capture missing 300024
+Capture missing 300025
+Capture missing 300026
+Capture missing 300027
+Capture missing 300028
+Capture missing 300029
+Capture missing 300030
+Capture missing 300031
+Capture missing 300032
+Capture missing 300033
+Capture missing 300034
+Capture missing 300035
+Capture missing 300036
+Capture missing 300037
+Capture missing 300038
+Capture missing 300039
+Capture missing 300040
+Capture missing 300041
+Capture missing 300042
+Capture missing 300043
+Capture missing 300044
+Capture missing 300045
+Capture missing 300046
+Capture missing 300047
+Capture missing 300048
+Capture missing 300049
+Capture missing 300050
+Capture missing 300051
+Capture missing 300052
+Capture missing 300053
+Capture missing 300054
+Capture missing 300055
+Capture missing 300056
+Capture missing 300057
+Capture missing 300058
+Capture missing 300059
+Capture missing 300060
+{
+  "android": {
+    "ready_to_request": {
+      "n": 60,
+      "median": 1.9463279999999998,
+      "p95": 7.968177,
+      "min": 0.117448,
+      "max": 10.264115
+    },
+    "ready_to_handler": {
+      "n": 60,
+      "median": 3.723464,
+      "p95": 9.58875,
+      "min": 1.187448,
+      "max": 12.177501
+    },
+    "ready_to_assignment": {
+      "n": 60,
+      "median": 20.0324755,
+      "p95": 26.155158,
+      "min": 7.352918,
+      "max": 37.456358
+    },
+    "ready_to_draw": {
+      "n": 60,
+      "median": 26.3440655,
+      "p95": 33.082763,
+      "min": 13.485834,
+      "max": 49.692505
+    },
+    "ready_to_commit": {
+      "n": 60,
+      "median": 33.847087,
+      "p95": 40.03891,
+      "min": 17.833126,
+      "max": 54.952349
+    },
+    "request_to_handler": {
+      "n": 60,
+      "median": 1.729375,
+      "p95": 2.666198,
+      "min": 0.983281,
+      "max": 3.569219
+    },
+    "assignment_block": {
+      "n": 60,
+      "median": 15.362606,
+      "p95": 20.086721,
+      "min": 6.16547,
+      "max": 34.98641
+    },
+    "editable_replace": {
+      "n": 60,
+      "median": 14.746694000000002,
+      "p95": 18.240158,
+      "min": 5.937188,
+      "max": 28.289638
+    },
+    "assignment_to_predraw": {
+      "n": 60,
+      "median": 1.9828649999999999,
+      "p95": 3.088959,
+      "min": 0.910417,
+      "max": 5.021199
+    },
+    "draw_block": {
+      "n": 60,
+      "median": 1.7859379999999998,
+      "p95": 2.870417,
+      "min": 0.578698,
+      "max": 5.102136
+    },
+    "handler_phase_since_vsync": {
+      "n": 60,
+      "median": 11.934503,
+      "p95": 15.951366,
+      "min": 0.985796,
+      "max": 17.753401
+    },
+    "ready_to_presentation": {
+      "n": 59,
+      "median": 56.645474,
+      "p95": 64.578392,
+      "min": 36.010211,
+      "max": 65.601881
+    },
+    "assignment_to_presentation": {
+      "n": 59,
+      "median": 37.694951,
+      "p95": 41.923337,
+      "min": 25.670523,
+      "max": 42.147504
+    },
+    "missing_ready": []
+  },
+  "ios": {
+    "ready_to_request": {
+      "n": 60,
+      "median": 0.046,
+      "p95": 1.836,
+      "min": 0.022,
+      "max": 2.12
+    },
+    "ready_to_handler": {
+      "n": 60,
+      "median": 0.056,
+      "p95": 1.846,
+      "min": 0.03,
+      "max": 2.13
+    },
+    "ready_to_assignment": {
+      "n": 60,
+      "median": 1.626,
+      "p95": 3.524,
+      "min": 1.101,
+      "max": 16.03
+    },
+    "request_to_handler": {
+      "n": 60,
+      "median": 0.010499999999999999,
+      "p95": 0.023,
+      "min": 0.007,
+      "max": 0.061
+    },
+    "assignment_block": {
+      "n": 60,
+      "median": 1.5345,
+      "p95": 2.303,
+      "min": 1.071,
+      "max": 15.992
+    },
+    "missing_ready": []
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "android": {
+    "ready_to_request": {
+      "n": 60,
+      "median": 8.9910685,
+      "p95": 16.530627,
+      "min": 0.197292,
+      "max": 17.124116
+    },
+    "ready_to_handler": {
+      "n": 60,
+      "median": 11.1720065,
+      "p95": 18.612814,
+      "min": 1.831928,
+      "max": 19.712294
+    },
+    "ready_to_assignment": {
+      "n": 60,
+      "median": 25.592164,
+      "p95": 33.588284,
+      "min": 13.961355,
+      "max": 40.428702
+    },
+    "ready_to_draw": {
+      "n": 60,
+      "median": 32.2426335,
+      "p95": 40.34641,
+      "min": 22.093909,
+      "max": 46.010265
+    },
+    "ready_to_commit": {
+      "n": 60,
+      "median": 38.6361235,
+      "p95": 47.093546,
+      "min": 28.269378,
+      "max": 52.478183
+    },
+    "request_to_handler": {
+      "n": 60,
+      "median": 1.9145055000000002,
+      "p95": 2.511302,
+      "min": 1.263907,
+      "max": 4.356303
+    },
+    "assignment_block": {
+      "n": 60,
+      "median": 14.811798,
+      "p95": 20.35594,
+      "min": 7.448021,
+      "max": 24.609377
+    },
+    "editable_replace": {
+      "n": 60,
+      "median": 13.8336735,
+      "p95": 18.406669,
+      "min": 7.184115,
+      "max": 19.811565
+    },
+    "assignment_to_predraw": {
+      "n": 60,
+      "median": 2.149635,
+      "p95": 4.336198,
+      "min": 0.908333,
+      "max": 8.59172
+    },
+    "draw_block": {
+      "n": 60,
+      "median": 1.6155995,
+      "p95": 1.902552,
+      "min": 0.687709,
+      "max": 2.509324
+    },
+    "handler_phase_since_vsync": {
+      "n": 60,
+      "median": 3.925652,
+      "p95": 4.919904,
+      "min": 2.205496,
+      "max": 7.013136
+    },
+    "ready_to_presentation": {
+      "n": 59,
+      "median": 57.250006,
+      "p95": 77.159122,
+      "min": 47.03662,
+      "max": 80.491623
+    },
+    "assignment_to_presentation": {
+      "n": 59,
+      "median": 31.804743,
+      "p95": 45.326983,
+      "min": 25.617763,
+      "max": 47.592609
+    },
+    "missing_ready": []
+  },
+  "ios": {
+    "ready_to_request": {
+      "n": 60,
+      "median": 7.7475000000000005,
+      "p95": 15.229,
+      "min": 0.051,
+      "max": 15.695
+    },
+    "ready_to_handler": {
+      "n": 60,
+      "median": 7.7669999999999995,
+      "p95": 15.252,
+      "min": 0.072,
+      "max": 15.718
+    },
+    "ready_to_assignment": {
+      "n": 60,
+      "median": 9.926,
+      "p95": 16.931,
+      "min": 1.621,
+      "max": 17.575
+    },
+    "request_to_handler": {
+      "n": 60,
+      "median": 0.02,
+      "p95": 0.024,
+      "min": 0.007,
+      "max": 0.025
+    },
+    "assignment_block": {
+      "n": 60,
+      "median": 1.6775,
+      "p95": 1.913,
+      "min": 1.252,
+      "max": 6.3
+    },
+    "ready_to_capture": {
+      "n": 60,
+      "median": 31.538,
+      "p95": 38.552,
+      "min": 23.302,
+      "max": 39.102
+    },
+    "missing_ready": []
+  }
+}

@@ -1,0 +1,9 @@
+--------- beginning of crash
+--------- beginning of system
+--------- beginning of main
+10-22 13:20:32.266 18697 18724 D DrawDoHandoff: release after frame 51 presented at 668004925614704
+10-22 13:20:34.199 18697 18724 D DrawDoHandoff: release after frame 167 presented at 668006858655626
+10-22 13:20:34.970 18697 18724 D DrawDoHandoff: release after frame 212 presented at 668007625027213
+10-22 13:20:36.320 18697 18724 D DrawDoHandoff: release after frame 293 presented at 668008974756045
+10-22 13:20:36.986 18697 18724 D DrawDoHandoff: release after frame 333 presented at 668009641345018
+10-22 13:22:27.756 19042 19069 D DrawDoHandoff: release after frame 44 presented at 668120416569126

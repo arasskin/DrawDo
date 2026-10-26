@@ -55,19 +55,21 @@ if (hashlib.sha256((source/'render/shaders.glsl').read_bytes()).hexdigest()!=sha
 def native():
     cache=build/'native/CMakeCache.txt'
     config_stamp=build/'native-config.stamp'
-    config=str(ndk)+'|arm64-v8a|android-24|RelWithDebInfo|-O3'
+    config=str(ndk)+'|arm64-v8a|android-24|RelWithDebInfo|-O3|c99'
     if not cache.exists() or stale(config_stamp,config):
         run(['cmake','-S',app,'-B',build/'native','-G','Ninja',
              '-DCMAKE_TOOLCHAIN_FILE='+str(ndk/'build/cmake/android.toolchain.cmake'),
-             '-DANDROID_ABI=arm64-v8a','-DANDROID_PLATFORM=android-24','-DANDROID_STL=c++_shared',
+             '-DANDROID_ABI=arm64-v8a','-DANDROID_PLATFORM=android-24','-DANDROID_STL=none',
              '-DCMAKE_BUILD_TYPE=RelWithDebInfo','-DCMAKE_C_FLAGS_RELWITHDEBINFO=-O3 -g -DNDEBUG',
-             '-DCMAKE_CXX_FLAGS_RELWITHDEBINFO=-O3 -g -DNDEBUG','-DCMAKE_EXPORT_COMPILE_COMMANDS=ON'])
+             '-DCMAKE_EXPORT_COMPILE_COMMANDS=ON'])
         config_stamp.write_text(config)
     run(['cmake','--build',build/'native','--parallel','4'])
 timed('native',native)
 
 def java():
     files=sorted((app/'android/java').rglob('*.java'))+sorted((root/'datafriend/platform/android/src/main/java').rglob('*.java'))
+    for module in ['text_buffers','accessible_ui','clipboard','haptics']:
+        files += sorted((root/module/'android/java').rglob('*.java'))
     digest=fingerprint(files,str(java_home)+str(android_jar))
     stamp=build/'java.stamp'
     if not stale(stamp,digest):return
@@ -94,8 +96,7 @@ timed('resources',resources)
 
 apk=build/'drawdo-sokol.apk'
 def package():
-    libs=[build/'native/libdrawdo_sokol.so',build/'native/datafriend/libdatafriend.so',
-          llvm/'sysroot/usr/lib/aarch64-linux-android/libc++_shared.so']
+    libs=[build/'native/libdrawdo_sokol.so',build/'native/datafriend/libdatafriend.so']
     inputs=[build/'resources.apk',build/'dex/classes.dex',*libs]
     digest=fingerprint(inputs)
     stamp=build/'package.stamp'
@@ -131,7 +132,7 @@ if a.action=='run':
 report={'phases_seconds':phases,'apk':str(apk),'apk_bytes':apk.stat().st_size,
         'apk_sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),'toolchain':str(ndk),
         'sources_sha256':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest()
-                           for p in [app/'CMakeLists.txt',Path(__file__),*sorted(source.rglob('*')),*sorted((app/'android').rglob('*'))] if p.is_file()}}
+                           for p in [app/'CMakeLists.txt',Path(__file__),*sorted(source.rglob('*')),*sorted((app/'android').rglob('*')),*sorted((root/'containers').glob('*.h')), *[p for module in ['text_buffers','accessible_ui','clipboard','haptics','native'] for p in sorted((root/module).rglob('*'))]] if p.is_file()}}
 (build/'last-build.json').write_text(json.dumps(report,indent=2)+'\n')
 print('\n'+str(apk)+f' ({apk.stat().st_size/1024/1024:.1f} MiB)')
 print(', '.join(f'{k}: {v:.2f}s' for k,v in phases.items()))

@@ -1,0 +1,12 @@
+{
+  "android": {
+    "sha256": "c479e9ba31d72054dbbcffba1f0a30f8226b59a23a8b5cd3d17b8faa634c3eaf",
+    "events": true,
+    "timing_symbols": false
+  },
+  "ios": {
+    "sha256": "6c69005e2843c1de427ed50f8d088b73454e43e92d06bbd6722023141e05a162",
+    "events": true,
+    "timing_symbols": false
+  }
+}

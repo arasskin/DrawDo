@@ -1,311 +1,395 @@
-#pragma once
+#ifndef LB_STORAGE_H
+#define LB_STORAGE_H
 #include "namespaces.h"
 #include "heap.h"
-#include <cerrno>
+#include <errno.h>
 #include <sys/file.h>
-
-// Single event-loop owner. The store, active requests, and their buffers must
-// remain at stable addresses until completion. No per-record I/O bookkeeping.
-namespace storage {
-namespace table = hash_table;
-namespace tree = record_index;
-namespace heap = file_heap;
-using namespace_id = table::key;
-using record_key = tree::key;
-
-enum class error {
-  ok, invalid_argument, not_open, namespace_missing, record_missing,
-  busy, no_memory, capacity, buffer_too_small, io_failure, more_io,
-  more_work, cancelled, invalid_state
+typedef enum {
+  lb_error_ok,
+  lb_error_invalid_argument,
+  lb_error_not_open,
+  lb_error_namespace_missing,
+  lb_error_record_missing,
+  lb_error_busy,
+  lb_error_no_memory,
+  lb_error_capacity,
+  lb_error_buffer_too_small,
+  lb_error_io_failure,
+  lb_error_more_io,
+  lb_error_more_work,
+  lb_error_cancelled,
+  lb_error_invalid_state
+} lb_error;
+typedef enum { lb_presence_absent, lb_presence_empty, lb_presence_populated } lb_store_presence;
+typedef enum { lb_phase_idle, lb_phase_ready, lb_phase_submitted, lb_phase_finished } lb_phase;
+typedef struct lb_store_result {
+  lb_error code;
+  int system_error;
+} lb_store_result;
+typedef lb_namespace lb_store_namespace_id;
+typedef uint64_t lb_store_record_key;
+/* Zero-initialize stores and requests before first use. The store and active
+ * requests must remain at stable addresses until their I/O completes. */
+typedef struct lb_store_request lb_store_request;
+typedef struct lb_store {
+  lb_file values;
+  ct_pool nodes;
+  lb_directory namespaces;
+  lb_store_request *pending;
+  size_t pending_count, pending_limit;
+  bool opened;
+} lb_store;
+struct lb_store_request {
+  lb_store *owner;
+  lb_store_request *next;
+  lb_namespace ns;
+  uint64_t key, value, previous, fingerprint;
+  void *buffer;
+  size_t transferred;
+  int rollback_ticket, retirement_ticket;
+  bool writing;
+  lb_phase state;
+  lb_store_result outcome;
 };
-struct result { error code = error::ok; int system_error = 0; };
-enum class presence { absent, empty, populated };
-enum class phase { idle, ready, submitted, finished };
-struct request;
-struct store {
-  heap::file_and_allocator values{.file_descriptor = -1, .file_allocator = {}, .has_error = true};
-  tree::pool nodes{};
-  table::directory namespaces{};
-  request *pending = nullptr;
-  size_t pending_count = 0;
-  size_t pending_limit = 64;
-  bool opened = false;
-};
-struct request {
-  store *owner = nullptr;
-  request *next = nullptr;
-  namespace_id ns{};
-  record_key key = 0;
-  tree::value_pointer value = 0;
-  tree::value_pointer previous = 0;
-  uint64_t fingerprint = 0;
-  void *buffer = nullptr;
-  size_t transferred = 0;
-  int rollback_ticket = -1;
-  int retirement_ticket = -1;
-  bool writing = false;
-  phase state = phase::idle;
-  result outcome{};
-};
-struct io_operation {
+typedef struct lb_store_io_operation {
   int fd;
   uint64_t offset;
   void *buffer;
   uint32_t length;
   bool writing;
-};
-
-// Also used to unwind partial initialization. There must be no outstanding I/O.
-inline void release_resources(store *s) {
-  table::for_each(&s->namespaces, [](namespace_id, tree::header& index) { tree::destroy(&index); });
-  table::destroy(&s->namespaces);
-  heap::destroy(&s->values);
-  s->~store();
-  ::new(s) store{};
+} lb_store_io_operation;
+static inline bool lb_directory_bad(const lb_directory *t) {
+  return !t->initialized;
+}
+static inline bool lb_directory_contains(lb_directory *t, lb_namespace ns) {
+  return lb_directory_get(t, ns) != NULL;
+}
+static inline bool lb_index_empty(const lb_index *h) {
+  return !h->root;
+}
+static inline void lb_store_release_resources(lb_store *s) {
+  size_t i;
+  for (i = 0; i < s->namespaces.count; ++i)
+    lb_index_destroy(&s->namespaces.entries[i].value);
+  lb_directory_destroy(&s->namespaces);
+  if (s->values.file_allocator.slab_allocator.start != NULL)
+    lb_file_destroy(&s->values);
+  ct_pool_destroy(&s->nodes);
+  memset(s, 0, sizeof(*s));
+  s->values.file_descriptor = -1;
+  s->values.has_error = true;
 }
 
 // Dedicated disposable cache file, locked before truncation. Call on a fresh or
-// destroyed store; it must not subsequently move, because tree headers borrow it.
-inline result create(store *s, const char *path, uint64_t file_limit,
-                     size_t pending_limit = 64, size_t initial_namespaces = table::DEFAULT_INITIAL_CAPACITY,
-                     tree::pool::system_allocate_fn index_allocate = nullptr,
-                     table::allocate_fn namespace_allocate = table::system_allocate) {
-  if (s->opened) return {error::busy};
-  if (path == nullptr || file_limit == 0 || file_limit > tree::OFFSET_MASK + 1 || pending_limit == 0 ||
-      !table::valid_capacity(initial_namespaces) || !namespace_allocate) return {error::invalid_argument};
-  s->values = heap::create(path, file_limit);
-  if (s->values.has_error) return {error::io_failure, errno};
+// destroyed lb_store; it must not subsequently move, because tree headers borrow it.
+static inline lb_store_result lb_store_create(lb_store *s, const char *path, uint64_t file_limit,
+                                              size_t pending_limit, size_t initial_namespaces,
+                                              ct_allocate_fn index_allocate,
+                                              ct_allocate_fn namespace_allocate) {
+  if (s->opened)
+    return (lb_store_result){lb_error_busy, 0};
+  if (path == NULL || file_limit == 0 || file_limit > LB_OFFSET_MASK + 1 || pending_limit == 0 ||
+      !lb_directory_valid(initial_namespaces) || !namespace_allocate)
+    return (lb_store_result){lb_error_invalid_argument, 0};
+  s->values = lb_file_create(path, file_limit);
+  if (s->values.has_error)
+    return (lb_store_result){lb_error_io_failure, errno};
   if (flock(s->values.file_descriptor, LOCK_EX | LOCK_NB) != 0) {
     const int saved = errno;
-    release_resources(s);
-    return {error::io_failure, saved};
+    lb_store_release_resources(s);
+    return (lb_store_result){lb_error_io_failure, saved};
   }
-  if(index_allocate) {
-    std::destroy_at(&s->nodes);
-    std::construct_at(&s->nodes,index_allocate);
-  }
-  s->namespaces = table::create(initial_namespaces, namespace_allocate);
-  if (table::bad(&s->namespaces)) {
-    release_resources(s);
-    return {error::no_memory};
+  ct_pool_init(&s->nodes, index_allocate);
+  s->namespaces = lb_directory_create(initial_namespaces, namespace_allocate);
+  if (lb_directory_bad(&s->namespaces)) {
+    lb_store_release_resources(s);
+    return (lb_store_result){lb_error_no_memory, 0};
   }
   if (ftruncate(s->values.file_descriptor, 0) != 0) {
     const int saved = errno;
-    release_resources(s);
-    return {error::io_failure, saved};
+    lb_store_release_resources(s);
+    return (lb_store_result){lb_error_io_failure, saved};
   }
   s->pending_limit = pending_limit;
   s->opened = true;
-  return {};
+  return (lb_store_result)CT_ZERO;
 }
 
-inline result destroy(store *s) {
-  if (s->pending_count != 0) return {error::busy};
-  release_resources(s);
-  return {};
+static inline lb_store_result lb_store_destroy(lb_store *s) {
+  if (s->pending_count != 0)
+    return (lb_store_result){lb_error_busy, 0};
+  lb_store_release_resources(s);
+  return (lb_store_result)CT_ZERO;
 }
 
-inline bool namespace_busy(store *s, namespace_id ns) {
-  for (request *r = s->pending; r != nullptr; r = r->next)
-    if (table::operator==(r->ns, ns)) return true;
+static inline bool lb_store_namespace_busy(lb_store *s, lb_store_namespace_id ns) {
+  for (lb_store_request *r = s->pending; r != NULL; r = r->next)
+    if (lb_namespace_equal(r->ns, ns))
+      return true;
   return false;
 }
 
 // Different records can issue I/O concurrently, including within one namespace.
 // Multiple reads can share a record; mutation waits for all of its reads.
-inline bool record_busy(store *s, namespace_id ns, record_key key, bool writing) {
-  for (request *r = s->pending; r != nullptr; r = r->next)
-    if (table::operator==(r->ns, ns) && r->key == key && (writing || r->writing)) return true;
+static inline bool lb_store_record_busy(lb_store *s, lb_store_namespace_id ns,
+                                        lb_store_record_key key, bool writing) {
+  for (lb_store_request *r = s->pending; r != NULL; r = r->next)
+    if (lb_namespace_equal(r->ns, ns) && r->key == key && (writing || r->writing))
+      return true;
   return false;
 }
 
-inline presence lookup_namespace(store *s, namespace_id ns) {
-  auto *index = table::get(&s->namespaces, ns);
-  return index == nullptr ? presence::absent : tree::is_empty(index) ? presence::empty : presence::populated;
+static inline lb_store_presence lb_store_lookup_namespace(lb_store *s, lb_store_namespace_id ns) {
+  lb_index *index = lb_directory_get(&s->namespaces, ns);
+  return index == NULL           ? lb_presence_absent
+         : lb_index_empty(index) ? lb_presence_empty
+                                 : lb_presence_populated;
 }
 
-inline result create_namespace(store *s, namespace_id ns) {
-  if (!s->opened) return {error::not_open};
-  if (table::contains(&s->namespaces, ns)) return {};
-  return table::unsafe_insert(&s->namespaces, ns, tree::create(&s->nodes))
-    ? result{} : result{error::no_memory};
+static inline lb_store_result lb_store_create_namespace(lb_store *s, lb_store_namespace_id ns) {
+  if (!s->opened)
+    return (lb_store_result){lb_error_not_open, 0};
+  if (lb_directory_contains(&s->namespaces, ns))
+    return (lb_store_result)CT_ZERO;
+  return lb_directory_insert(&s->namespaces, ns, lb_index_create(&s->nodes))
+             ? (lb_store_result)CT_ZERO
+             : (lb_store_result){lb_error_no_memory, 0};
 }
 
-inline result erase_record(store *s, namespace_id ns, record_key key) {
-  if (!s->opened) return {error::not_open};
-  auto *index = table::get(&s->namespaces, ns);
-  if (index == nullptr) return {error::namespace_missing};
-  if (record_busy(s, ns, key, true)) return {error::busy};
-  const auto entry = tree::find(index, key);
-  if (!entry) return {error::record_missing};
-  const auto value = entry->value;
-  const int ticket = heap::prepare_release(&s->values.file_allocator);
-  if (ticket == -1) return {error::no_memory};
-  if(tree::erase(index,key)!=tree::erase_result::removed) {
-    heap::cancel_release(&s->values.file_allocator,ticket);
-    return {error::no_memory};
+static inline lb_store_result lb_store_erase_record(lb_store *s, lb_store_namespace_id ns,
+                                                    lb_store_record_key key) {
+  if (!s->opened)
+    return (lb_store_result){lb_error_not_open, 0};
+  lb_index *index = lb_directory_get(&s->namespaces, ns);
+  if (index == NULL)
+    return (lb_store_result){lb_error_namespace_missing, 0};
+  if (lb_store_record_busy(s, ns, key, true))
+    return (lb_store_result){lb_error_busy, 0};
+  ct_record entry;
+  if (!lb_index_find(index, key, &entry))
+    return (lb_store_result){lb_error_record_missing, 0};
+  const uint64_t value = entry.value;
+  const int ticket = lb_heap_prepare(&s->values.file_allocator);
+  if (ticket == -1)
+    return (lb_store_result){lb_error_no_memory, 0};
+  if (lb_index_erase(index, key) != 1) {
+    lb_heap_cancel(&s->values.file_allocator, ticket);
+    return (lb_store_result){lb_error_no_memory, 0};
   }
-  heap::release_prepared(&s->values.file_allocator, tree::vpointer_get_offset(value),
-                         tree::vpointer_get_size(value), ticket);
-  return {};
+  lb_heap_release_prepared(&s->values.file_allocator, lb_voffset(value), lb_vsize(value), ticket);
+  return (lb_store_result)CT_ZERO;
 }
 
 // Bounded work per call. more_work means some records remain; an allocation
 // failure can also leave a partially cleared namespace. Both are safe to retry.
-inline result clear_namespace(store *s, namespace_id ns, size_t record_budget = 256) {
-  if (!s->opened) return {error::not_open};
-  if (record_budget == 0) return {error::invalid_argument};
-  auto *index = table::get(&s->namespaces, ns);
-  if (index == nullptr) return {error::namespace_missing};
-  if (namespace_busy(s, ns)) return {error::busy};
-  while (!tree::is_empty(index) && record_budget-- != 0) {
-    const auto key = tree::select(index,0)->key;
-    const result erased = erase_record(s, ns, key);
-    if (erased.code != error::ok) return erased;
+static inline lb_store_result lb_store_clear_namespace(lb_store *s, lb_store_namespace_id ns,
+                                                       size_t record_budget) {
+  if (!s->opened)
+    return (lb_store_result){lb_error_not_open, 0};
+  if (record_budget == 0)
+    return (lb_store_result){lb_error_invalid_argument, 0};
+  lb_index *index = lb_directory_get(&s->namespaces, ns);
+  if (index == NULL)
+    return (lb_store_result){lb_error_namespace_missing, 0};
+  if (lb_store_namespace_busy(s, ns))
+    return (lb_store_result){lb_error_busy, 0};
+  while (!lb_index_empty(index) && record_budget-- != 0) {
+    ct_record first;
+    lb_index_select(index, 0, &first);
+    const uint64_t key = first.key;
+    const lb_store_result erased = lb_store_erase_record(s, ns, key);
+    if (erased.code != lb_error_ok)
+      return erased;
   }
-  return tree::is_empty(index) ? result{} : result{error::more_work};
+  return lb_index_empty(index) ? (lb_store_result)CT_ZERO
+                               : (lb_store_result){lb_error_more_work, 0};
 }
 
-inline result remove_namespace(store *s, namespace_id ns, size_t record_budget = 256) {
-  result cleared = clear_namespace(s, ns, record_budget);
-  if (cleared.code == error::ok) table::dissociate(&s->namespaces, ns);
+static inline lb_store_result lb_store_remove_namespace(lb_store *s, lb_store_namespace_id ns,
+                                                        size_t record_budget) {
+  lb_store_result cleared = lb_store_clear_namespace(s, ns, record_budget);
+  if (cleared.code == lb_error_ok)
+    lb_directory_erase(&s->namespaces, ns);
   return cleared;
 }
 
-inline void attach(store *s, request *r) {
+static inline void lb_store_attach(lb_store *s, lb_store_request *r) {
   r->owner = s;
   r->next = s->pending;
   s->pending = r;
   ++s->pending_count;
-  r->state = phase::ready;
+  r->state = lb_phase_ready;
 }
 
-inline result prepare_read(store *s, request *r, namespace_id ns, record_key key,
-                           void *buffer, size_t capacity) {
-  if (!s->opened) return {error::not_open};
-  if (r->owner != nullptr) return {error::busy};
-  auto *index = table::get(&s->namespaces, ns);
-  if (index == nullptr) return {error::namespace_missing};
-  if (record_busy(s, ns, key, false) || s->pending_count >= s->pending_limit) return {error::busy};
-  const auto value = tree::get(index, key);
-  if (value == tree::NULLVALUEPOINTER) return {error::record_missing};
-  if (capacity < tree::vpointer_get_size(value)) return {error::buffer_too_small};
-  if (buffer == nullptr) return {error::invalid_argument};
-  *r = {};
-  r->ns = ns; r->key = key; r->value = value; r->buffer = buffer;
-  attach(s, r);
-  return {};
+static inline lb_store_result lb_store_prepare_read(lb_store *s, lb_store_request *r,
+                                                    lb_store_namespace_id ns,
+                                                    lb_store_record_key key, void *buffer,
+                                                    size_t capacity) {
+  if (!s->opened)
+    return (lb_store_result){lb_error_not_open, 0};
+  if (r->owner != NULL)
+    return (lb_store_result){lb_error_busy, 0};
+  lb_index *index = lb_directory_get(&s->namespaces, ns);
+  if (index == NULL)
+    return (lb_store_result){lb_error_namespace_missing, 0};
+  if (lb_store_record_busy(s, ns, key, false) || s->pending_count >= s->pending_limit)
+    return (lb_store_result){lb_error_busy, 0};
+  const uint64_t value = lb_index_get(index, key);
+  if (value == 0)
+    return (lb_store_result){lb_error_record_missing, 0};
+  if (capacity < lb_vsize(value))
+    return (lb_store_result){lb_error_buffer_too_small, 0};
+  if (buffer == NULL)
+    return (lb_store_result){lb_error_invalid_argument, 0};
+  memset(r, 0, sizeof(*r));
+  r->rollback_ticket = r->retirement_ticket = -1;
+  r->ns = ns;
+  r->key = key;
+  r->value = value;
+  r->buffer = buffer;
+  lb_store_attach(s, r);
+  return (lb_store_result)CT_ZERO;
 }
 
 // The fingerprint is the current internal tree summary, supplied by the caller;
 // it is not a negentropy record ID. Buffer contents must stay unchanged until done.
-inline result prepare_write(store *s, request *r, namespace_id ns, record_key key,
-                            const void *buffer, size_t length, uint64_t fingerprint) {
-  if (!s->opened) return {error::not_open};
-  if (r->owner != nullptr) return {error::busy};
-  if (buffer == nullptr || length == 0 || length > heap::MAX_VALUE_SIZE) return {error::invalid_argument};
-  auto *index = table::get(&s->namespaces, ns);
-  if (index == nullptr) return {error::namespace_missing};
-  if (record_busy(s, ns, key, true) || s->pending_count >= s->pending_limit) return {error::busy};
-  const auto previous = tree::get(index, key);
-  auto *allocator = &s->values.file_allocator;
-  const int rollback = heap::prepare_release(allocator);
-  if (rollback == -1) return {error::no_memory};
-  const int retirement = previous == 0 ? -1 : heap::prepare_release(allocator);
+static inline lb_store_result lb_store_prepare_write(lb_store *s, lb_store_request *r,
+                                                     lb_store_namespace_id ns,
+                                                     lb_store_record_key key, const void *buffer,
+                                                     size_t length, uint64_t fingerprint) {
+  if (!s->opened)
+    return (lb_store_result){lb_error_not_open, 0};
+  if (r->owner != NULL)
+    return (lb_store_result){lb_error_busy, 0};
+  if (buffer == NULL || length == 0 || length > LB_MAX_VALUE)
+    return (lb_store_result){lb_error_invalid_argument, 0};
+  lb_index *index = lb_directory_get(&s->namespaces, ns);
+  if (index == NULL)
+    return (lb_store_result){lb_error_namespace_missing, 0};
+  if (lb_store_record_busy(s, ns, key, true) || s->pending_count >= s->pending_limit)
+    return (lb_store_result){lb_error_busy, 0};
+  const uint64_t previous = lb_index_get(index, key);
+  lb_heap *allocator = &s->values.file_allocator;
+  const int rollback = lb_heap_prepare(allocator);
+  if (rollback == -1)
+    return (lb_store_result){lb_error_no_memory, 0};
+  const int retirement = previous == 0 ? -1 : lb_heap_prepare(allocator);
   if (previous != 0 && retirement == -1) {
-    heap::cancel_release(allocator, rollback);
-    return {error::no_memory};
+    lb_heap_cancel(allocator, rollback);
+    return (lb_store_result){lb_error_no_memory, 0};
   }
-  auto allocation = heap::reserve(allocator, length);
+  lb_offset allocation = lb_heap_reserve(allocator, length);
   if (allocation.has_error) {
-    heap::cancel_release(allocator, rollback);
-    heap::cancel_release(allocator, retirement);
-    return {error::capacity};
+    lb_heap_cancel(allocator, rollback);
+    lb_heap_cancel(allocator, retirement);
+    return (lb_store_result){lb_error_capacity, 0};
   }
-  *r = {};
-  r->ns = ns; r->key = key; r->previous = previous;
-  r->value = tree::vpointer_create(allocation.offset, uint16_t(length));
-  r->fingerprint = fingerprint; r->buffer = const_cast<void *>(buffer);
-  r->rollback_ticket = rollback; r->retirement_ticket = retirement; r->writing = true;
-  attach(s, r);
-  return {};
+  memset(r, 0, sizeof(*r));
+  r->rollback_ticket = r->retirement_ticket = -1;
+  r->ns = ns;
+  r->key = key;
+  r->previous = previous;
+  r->value = lb_vpointer(allocation.offset, (uint16_t)(length));
+  r->fingerprint = fingerprint;
+  r->buffer = (void *)(buffer);
+  r->rollback_ticket = rollback;
+  r->retirement_ticket = retirement;
+  r->writing = true;
+  lb_store_attach(s, r);
+  return (lb_store_result)CT_ZERO;
 }
 
 // Obtain one operation and mark it submitted. The driver must eventually report
 // its completion exactly once, even after disconnect or kernel cancellation.
-inline result start_io(request *r, io_operation *operation) {
-  if (r->owner == nullptr || r->state != phase::ready) return {error::invalid_state};
-  *operation = {.fd = r->owner->values.file_descriptor,
-                .offset = tree::vpointer_get_offset(r->value) + r->transferred,
-                .buffer = static_cast<uint8_t *>(r->buffer) + r->transferred,
-                .length = uint32_t(tree::vpointer_get_size(r->value) - r->transferred),
-                .writing = r->writing};
-  r->state = phase::submitted;
-  return {};
+static inline lb_store_result lb_store_start_io(lb_store_request *r,
+                                                lb_store_io_operation *operation) {
+  if (r->owner == NULL || r->state != lb_phase_ready)
+    return (lb_store_result){lb_error_invalid_state, 0};
+  *operation = (lb_store_io_operation){.fd = r->owner->values.file_descriptor,
+                                       .offset = lb_voffset(r->value) + r->transferred,
+                                       .buffer = (uint8_t *)(r->buffer) + r->transferred,
+                                       .length = (uint32_t)(lb_vsize(r->value) - r->transferred),
+                                       .writing = r->writing};
+  r->state = lb_phase_submitted;
+  return (lb_store_result)CT_ZERO;
 }
 
 // Internal cleanup: only after the submitted operation has completed, or while
-// cancelling a ready request that the kernel cannot access.
-inline result finish(request *r, result outcome) {
-  store *s = r->owner;
-  auto *allocator = &s->values.file_allocator;
+// cancelling a ready lb_store_request that the kernel cannot access.
+static inline lb_store_result lb_store_finish(lb_store_request *r, lb_store_result outcome) {
+  lb_store *s = r->owner;
+  lb_heap *allocator = &s->values.file_allocator;
   if (r->writing) {
-    if (outcome.code == error::ok) {
-      heap::cancel_release(allocator, r->rollback_ticket);
+    if (outcome.code == lb_error_ok) {
+      lb_heap_cancel(allocator, r->rollback_ticket);
       if (r->previous != 0)
-        heap::release_prepared(allocator, tree::vpointer_get_offset(r->previous),
-                               tree::vpointer_get_size(r->previous), r->retirement_ticket);
+        lb_heap_release_prepared(allocator, lb_voffset(r->previous), lb_vsize(r->previous),
+                                 r->retirement_ticket);
     } else {
-      heap::release_prepared(allocator, tree::vpointer_get_offset(r->value),
-                             tree::vpointer_get_size(r->value), r->rollback_ticket);
-      heap::cancel_release(allocator, r->retirement_ticket);
+      lb_heap_release_prepared(allocator, lb_voffset(r->value), lb_vsize(r->value),
+                               r->rollback_ticket);
+      lb_heap_cancel(allocator, r->retirement_ticket);
     }
   }
-  request **link = &s->pending;
-  while (*link != r) link = &(*link)->next;
+  lb_store_request **link = &s->pending;
+  while (*link != r)
+    link = &(*link)->next;
   *link = r->next;
   --s->pending_count;
-  r->owner = nullptr; r->next = nullptr;
-  r->rollback_ticket = -1; r->retirement_ticket = -1;
-  r->state = phase::finished; r->outcome = outcome;
+  r->owner = NULL;
+  r->next = NULL;
+  r->rollback_ticket = -1;
+  r->retirement_ticket = -1;
+  r->state = lb_phase_finished;
+  r->outcome = outcome;
   return outcome;
 }
 
-inline result complete_io(request *r, int completed_bytes) {
-  if (r->owner == nullptr || r->state != phase::submitted) return {error::invalid_state};
+static inline lb_store_result lb_store_complete_io(lb_store_request *r, int completed_bytes) {
+  if (r->owner == NULL || r->state != lb_phase_submitted)
+    return (lb_store_result){lb_error_invalid_state, 0};
   if (completed_bytes == -EINTR || completed_bytes == -EAGAIN) {
-    r->state = phase::ready;
-    return {error::more_io};
+    r->state = lb_phase_ready;
+    return (lb_store_result){lb_error_more_io, 0};
   }
   if (completed_bytes < 0)
-    return finish(r, {completed_bytes == -ECANCELED ? error::cancelled : error::io_failure,
-                      completed_bytes == INT_MIN ? EIO : -completed_bytes});
-  const size_t remaining = tree::vpointer_get_size(r->value) - r->transferred;
-  if (completed_bytes == 0 || size_t(completed_bytes) > remaining)
-    return finish(r, {error::io_failure, EIO});
+    return lb_store_finish(
+        r,
+        (lb_store_result){completed_bytes == -ECANCELED ? lb_error_cancelled : lb_error_io_failure,
+                          completed_bytes == INT_MIN ? EIO : -completed_bytes});
+  const size_t remaining = lb_vsize(r->value) - r->transferred;
+  if (completed_bytes == 0 || (size_t)(completed_bytes) > remaining)
+    return lb_store_finish(r, (lb_store_result){lb_error_io_failure, EIO});
   r->transferred += completed_bytes;
-  if (size_t(completed_bytes) < remaining) {
-    r->state = phase::ready;
-    return {error::more_io};
+  if ((size_t)(completed_bytes) < remaining) {
+    r->state = lb_phase_ready;
+    return (lb_store_result){lb_error_more_io, 0};
   }
   if (r->writing) {
     // Re-look up: unrelated namespaces may have grown or repacked the table.
-    auto *index = table::get(&r->owner->namespaces, r->ns);
-    if (index == nullptr) return finish(r, {error::invalid_state});
+    lb_index *index = lb_directory_get(&r->owner->namespaces, r->ns);
+    if (index == NULL)
+      return lb_store_finish(r, (lb_store_result){lb_error_invalid_state, 0});
     if (r->previous != 0) {
-      if (!tree::replace(index, r->key, r->value, r->fingerprint))
-        return finish(r, {error::invalid_state});
-    } else if (tree::unsafe_associate(index, r->key, r->value, r->fingerprint) != tree::NO_ERRORS)
-      return finish(r, {error::no_memory});
+      if (!lb_index_replace(index, r->key, r->value, r->fingerprint))
+        return lb_store_finish(r, (lb_store_result){lb_error_invalid_state, 0});
+    } else if (lb_index_set(index, r->key, r->value, r->fingerprint) < 0)
+      return lb_store_finish(r, (lb_store_result){lb_error_no_memory, 0});
   }
-  return finish(r, {});
+  return lb_store_finish(r, (lb_store_result)CT_ZERO);
 }
 
 // A submitted buffer cannot be released yet. Cancel it through the I/O driver
-// and deliver its original completion before destroying the request or buffer.
-inline result cancel(request *r) {
-  if (r->owner == nullptr) return {error::invalid_state};
-  if (r->state == phase::submitted) return {error::busy};
-  return finish(r, {error::cancelled});
+// and deliver its original completion before destroying the lb_store_request or buffer.
+static inline lb_store_result lb_store_cancel(lb_store_request *r) {
+  if (r->owner == NULL)
+    return (lb_store_result){lb_error_invalid_state, 0};
+  if (r->state == lb_phase_submitted)
+    return (lb_store_result){lb_error_busy, 0};
+  return lb_store_finish(r, (lb_store_result){lb_error_cancelled, 0});
 }
-}
+
+#ifdef __cplusplus
+#include "cpp/storage.h"
+#endif
+#endif

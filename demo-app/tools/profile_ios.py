@@ -20,11 +20,12 @@ def launch(args=(),env=None):
  return run(['device','process','launch','--device',a.device,'--terminate-existing',*options,bundle,*map(str,args)])
 meta={'started':time.time(),'args':vars(a),'scope':'same scripted app-thread workloads, Sokol/Metal, async disk flush, no network; Metal drawable presentation timestamps; excludes hardware input and keyboard latency',
       'sources_sha256':{str(f.relative_to(root)):hashlib.sha256(f.read_bytes()).hexdigest() for directory in ['demo-app/src','datafriend/src','datafriend/include','datafriend/platform'] for f in sorted((root/directory).rglob('*')) if f.is_file()},'runs':[]}
+meta['sources_sha256'].update({str(f.relative_to(root)):hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted((root/'containers').glob('*.h'))})
 binary=root/'demo-app/build/ios/Release-iphoneos/drawdo_sokol.app/drawdo_sokol'
 meta['binary_sha256']=hashlib.sha256(binary.read_bytes()).hexdigest()
 meta['build_files_sha256']={str(f.relative_to(root)):hashlib.sha256(f.read_bytes()).hexdigest() for f in [root/'demo-app/CMakeLists.txt',root/'datafriend/CMakeLists.txt',root/'demo-app/tools/build_ios.py',Path(__file__),root/'demo-app/tools/profile_report.py']}
 cache=root/'demo-app/build/ios/CMakeCache.txt'
-meta['compiler_settings']=[line for line in cache.read_text().splitlines() if line.startswith(('CMAKE_C_FLAGS_RELEASE:','CMAKE_CXX_FLAGS_RELEASE:','CMAKE_OBJCXX_FLAGS_RELEASE:'))]
+meta['compiler_settings']=[line for line in cache.read_text().splitlines() if line.startswith(('CMAKE_C_FLAGS_RELEASE:','CMAKE_OBJC_FLAGS_RELEASE:'))]
 info=root/'demo-app/build/iphone-details.json'
 if info.exists():
  device=json.loads(info.read_text())['result']

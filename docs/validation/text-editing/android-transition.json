@@ -1,0 +1,15 @@
+{
+  "cycles": 3,
+  "samples": 718,
+  "distinct_decoded_frames": 498,
+  "text_region_pixels": [
+    70,
+    730,
+    940,
+    360
+  ],
+  "minimum_bright_text_pixels": 19996,
+  "maximum_bright_text_pixels": 20166,
+  "zero_text_samples": 0,
+  "recording": "/tmp/inline-flash-fixed.mp4"
+}

@@ -1,12 +1,11 @@
 lines
-@visualize terminal harness socket /var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/visualize-44b93a97.harness.sock placement bottom 0 480 1033 label littlebear unfaded true
+@visualize terminal harness socket /var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/visualize-44b93a97.harness.sock placement bottom 0 637 1032 label littlebear voice en-au/Karen
 #box littlebear
 fold assets
 box third_party
 hide ?
 box docs
 fold littlebear.tests
-@visualize terminal 7 socket /var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/visualize-44b93a97.7.sock placement top 0 476 1033 label datafriend unfaded true
 #fold reference
 box src.app
 fold src.app.ios
@@ -35,5 +34,15 @@ fold datafriend-benchmarks
 box scripts
 box demo-app.
 fold-hide reference
-@visualize zoom 0
 fold datafriend.tests
+@visualize zoom 0
+box containers.
+fold demo-app.tests.
+@visualize terminal 12 socket /var/folders/xv/khhyqqz54bn3yq0x8gss7g5m0000gn/T/visualize-44b93a97.12.sock placement top 0 832 384 voice en-au/Karen
+box accessible_ui
+box clipboard.
+box haptics.
+box text_buffers.
+box crdt-demo-app.
+fold-hide crdt-demo-app
+@visualize camera 0.164017581869323 365.563740450839 317.806679300623

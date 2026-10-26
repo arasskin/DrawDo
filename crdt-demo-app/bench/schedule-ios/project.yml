@@ -1,0 +1,24 @@
+name: SchedulingTest
+options:
+  deploymentTarget:
+    iOS: '15.0'
+settings:
+  base:
+    CODE_SIGN_STYLE: Automatic
+    GENERATE_INFOPLIST_FILE: YES
+    CLANG_ENABLE_OBJC_ARC: YES
+targets:
+  SchedulingTest:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [TimingTest.m]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.drawdo.SchedulingTest
+schemes:
+  SchedulingTest:
+    build:
+      targets:
+        SchedulingTest: all
+    test:
+      targets: [SchedulingTest]

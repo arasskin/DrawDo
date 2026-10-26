@@ -1,0 +1,16 @@
+Internal ctest changing into directory: /work/demo-app/build/c99-linux-asan
+Test project /work/demo-app/build/c99-linux-asan
+    Start 1: task_model_test
+1/5 Test #1: task_model_test ..................   Passed    0.03 sec
+    Start 2: particle_model_test
+2/5 Test #2: particle_model_test ..............   Passed   14.36 sec
+    Start 3: text_cache_test
+3/5 Test #3: text_cache_test ..................   Passed    0.01 sec
+    Start 4: document_test
+4/5 Test #4: document_test ....................   Passed    0.01 sec
+    Start 5: document_model_test
+5/5 Test #5: document_model_test ..............   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =  14.44 sec

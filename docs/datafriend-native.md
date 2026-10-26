@@ -1,7 +1,11 @@
 # Datafriend native engine and interface
 
-> Historical Dart/C-ABI integration. Dart and Flutter are unsupported as of
-> 2026-10-08; the supported interface is the direct C++ API in `datafriend/README.md`.
+For new C applications, use the [direct C API](datafriend-c-api.md). The binary
+contract below is retained for compatibility and historical reference.
+
+> The engine is now C99, with C APIs and header-only C++ adapters described in
+> [Datafriend](../datafriend/README.md). The wire contract below remains supported;
+> references to Dart describe the archived integration, which is unsupported.
 
 The current architecture is described in [live mutable query results](datafriend-live-results.md).
 The engine uses packed-key dense maps for query results and direct namespace

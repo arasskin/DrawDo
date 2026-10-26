@@ -1,0 +1,103 @@
+MISSING RECEIVE android 200035
+MISSING RECEIVE android 200037
+MISSING RECEIVE android 200038
+MISSING RECEIVE android 200039
+CAPTURE MISSING 100057
+CAPTURE MISSING 100058
+{
+  "android": {
+    "merge": {
+      "n": 56,
+      "median": 0.8947134999999999,
+      "p95": 1.170521,
+      "min": 0.69125,
+      "max": 1.405105
+    },
+    "request": {
+      "n": 56,
+      "median": 1.0860940000000001,
+      "p95": 1.463646,
+      "min": 1.003073,
+      "max": 1.705677
+    },
+    "native_begin": {
+      "n": 56,
+      "median": 2.7127605,
+      "p95": 3.357865,
+      "min": 2.315261,
+      "max": 3.702917
+    },
+    "native_set": {
+      "n": 56,
+      "median": 15.1532045,
+      "p95": 18.260106,
+      "min": 12.747553,
+      "max": 18.870522
+    },
+    "draw_or_layout": {
+      "n": 56,
+      "median": 20.3326585,
+      "p95": 23.986408,
+      "min": 17.303804,
+      "max": 24.146669
+    },
+    "commit": {
+      "n": 56,
+      "median": 27.7003415,
+      "p95": 31.116565,
+      "min": 23.763857,
+      "max": 32.32917
+    },
+    "os_present": {
+      "n": 56,
+      "median": 54.9189895,
+      "p95": 56.023547,
+      "min": 38.629691,
+      "max": 56.173599
+    }
+  },
+  "ios": {
+    "merge": {
+      "n": 60,
+      "median": 0.343,
+      "p95": 0.459,
+      "min": 0.257,
+      "max": 0.773
+    },
+    "request": {
+      "n": 60,
+      "median": 0.379,
+      "p95": 0.509,
+      "min": 0.282,
+      "max": 0.81
+    },
+    "native_begin": {
+      "n": 60,
+      "median": 0.389,
+      "p95": 0.529,
+      "min": 0.288,
+      "max": 0.82
+    },
+    "native_set": {
+      "n": 60,
+      "median": 1.9889999999999999,
+      "p95": 2.712,
+      "min": 1.559,
+      "max": 22.757
+    },
+    "draw_or_layout": {
+      "n": 1,
+      "median": 25.528,
+      "p95": 25.528,
+      "min": 25.528,
+      "max": 25.528
+    },
+    "capture_callback": {
+      "n": 58,
+      "median": 23.2215,
+      "p95": 24.348,
+      "min": 21.806,
+      "max": 54.987
+    }
+  }
+}

@@ -107,10 +107,10 @@ void pending_and_replacement() {
   CHECK(st::clear_namespace(&f.s, A).code == st::error::busy);
   CHECK(st::remove_namespace(&f.s, A).code == st::error::busy);
   CHECK(st::destroy(&f.s).code == st::error::busy);
-  const auto before_growth = f.s.namespaces.entries.bucket_count();
+  const auto before_growth = f.s.namespaces.buckets;
   for (uint64_t i = 100; i < 300; ++i)
     CHECK(st::create_namespace(&f.s, {i, i * 3}).code == st::error::ok);
-  CHECK(f.s.namespaces.entries.bucket_count() > before_growth);
+  CHECK(f.s.namespaces.buckets > before_growth);
   CHECK(drive(&write, 1).code == st::error::ok);
   CHECK(get(&f.s, A, 10) == "new");
   put(&f.s, A, 11, "reuse");
@@ -196,13 +196,13 @@ void index_failure() {
   int fd=mkstemp(f.path); CHECK(fd>=0); close(fd);
   CHECK(st::create(&f.s,f.path,128,64,1,allocate_index).code==st::error::ok);
   CHECK(st::create_namespace(&f.s,A).code==st::error::ok);
-  st::request r;
+  st::request r{};
   CHECK(st::prepare_write(&f.s,&r,A,1,"old",3,hash("old")).code==st::error::ok);
   const auto failed_offset=tr::vpointer_get_offset(r.value);
   fail_index_allocation=true;
   CHECK(drive(&r).code==st::error::no_memory);
   CHECK(st::lookup_namespace(&f.s,A)==st::presence::empty);
-  CHECK(f.s.nodes.stats().live_bytes==0 && f.s.nodes.stats().reserved_bytes==0);
+  CHECK(f.s.nodes.stats.live_bytes==0 && f.s.nodes.stats.reserved_bytes==0);
   fail_index_allocation=false;
   put(&f.s,A,1,"old");
   CHECK(offset(&f.s,A,1)==failed_offset);
@@ -214,7 +214,7 @@ void index_failure() {
   CHECK(st::create_namespace(&f.s,hash_table::ALL_ONES).code==st::error::ok);
   put(&f.s,hash_table::ALL_ONES,UINT64_MAX,"special");
   CHECK(st::destroy(&f.s).code==st::error::ok);
-  CHECK(f.s.nodes.stats().live_bytes==0 && f.s.nodes.stats().reserved_bytes==0);
+  CHECK(f.s.nodes.stats.live_bytes==0 && f.s.nodes.stats.reserved_bytes==0);
   destroy(&f);
 }
 void deletion_failure() {
@@ -232,12 +232,12 @@ void deletion_failure() {
     fail_index_allocation=true;
     for(size_t cap=4;24+8*cap<=4096;cap+=std::max<size_t>(1,cap/4)) {
       const auto bytes=24+8*cap;
-      while(auto* block=f.s.nodes.allocate(bytes)) held.emplace_back(block,bytes);
+      while(auto* block=ct_pool_allocate(&f.s.nodes,bytes)) held.emplace_back(block,bytes);
     }
     auto* index=hash_table::get(&f.s.namespaces,A);
     const auto before=tr::list(index);
     const auto erased=st::erase_record(&f.s,A,key);
-    for(auto [block,bytes]:held) f.s.nodes.deallocate(block,bytes);
+    for(auto [block,bytes]:held) ct_pool_deallocate(&f.s.nodes,block,bytes);
     fail_index_allocation=false;
     if(erased.code==st::error::no_memory) {
       CHECK(tr::list(index)==before);tr::validate(index);
@@ -304,7 +304,7 @@ void namespace_failures_and_relocation() {
   CHECK(st::prepare_write(&f.s, &write, A, 10, "new", 3, hash("new")).code == st::error::ok);
   // Erasing the first dense entry moves the last header, whose I/O is pending.
   CHECK(st::remove_namespace(&f.s, B).code == st::error::ok);
-  CHECK(hash_table::equal{}(f.s.namespaces.entries.begin()->first, A));
+  CHECK(hash_table::equal{}(f.s.namespaces.entries[0].key, A));
   size_t failed_growths = 0;
   for (uint64_t i = 100; i < 300; ++i) {
     const auto count = hash_table::count(&f.s.namespaces);

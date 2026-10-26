@@ -20,8 +20,8 @@ for name,field in [('shaders.glsl','source_sha256'),('shaders.h','header_sha256'
 def run(args):subprocess.run(list(map(str,args)),check=True)
 run(['cmake','-S',app,'-B',build,'-G','Xcode','-DCMAKE_SYSTEM_NAME=iOS','-DCMAKE_OSX_SYSROOT=iphoneos',
      '-DCMAKE_OSX_ARCHITECTURES=arm64','-DCMAKE_OSX_DEPLOYMENT_TARGET=15.0',
-     '-DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG','-DCMAKE_CXX_FLAGS_RELEASE=-O3 -DNDEBUG',
-     '-DCMAKE_OBJCXX_FLAGS_RELEASE=-O3 -DNDEBUG','-DDEVELOPMENT_TEAM='+a.team])
+     '-DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG',
+     '-DCMAKE_OBJC_FLAGS_RELEASE=-O3 -DNDEBUG','-DDEVELOPMENT_TEAM='+a.team])
 run(['cmake','--build',build,'--config','Release','--parallel','4','--','-allowProvisioningUpdates','-allowProvisioningDeviceRegistration'])
 if a.action=='run':
  run(['xcrun','devicectl','device','install','app','--device',a.device,build/'Release-iphoneos/drawdo_sokol.app'])

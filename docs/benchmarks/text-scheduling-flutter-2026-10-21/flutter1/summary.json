@@ -1,0 +1,186 @@
+{
+  "android": {
+    "ready_to_request": {
+      "n": 60,
+      "median": 0.670573,
+      "p95": 1.054583,
+      "min": 0.151823,
+      "max": 8.120469
+    },
+    "ready_to_handler": {
+      "n": 60,
+      "median": 1.212474,
+      "p95": 1.629583,
+      "min": 0.374479,
+      "max": 8.67099
+    },
+    "ready_to_assignment": {
+      "n": 60,
+      "median": 1.4653125,
+      "p95": 1.965156,
+      "min": 0.498073,
+      "max": 8.971615
+    },
+    "ready_to_draw": {
+      "n": 60,
+      "median": 30.253414499999998,
+      "p95": 39.653441,
+      "min": 9.510678,
+      "max": 44.349119
+    },
+    "request_to_handler": {
+      "n": 60,
+      "median": 0.5457035,
+      "p95": 0.660521,
+      "min": 0.197084,
+      "max": 0.791614
+    },
+    "assignment_block": {
+      "n": 60,
+      "median": 0.262474,
+      "p95": 0.409739,
+      "min": 0.123594,
+      "max": 0.462031
+    },
+    "flutter_build": {
+      "n": 60,
+      "median": 17.981,
+      "p95": 20.072,
+      "min": 6.859,
+      "max": 21.861
+    },
+    "flutter_raster": {
+      "n": 60,
+      "median": 11.8855,
+      "p95": 15.473,
+      "min": 6.229,
+      "max": 23.091
+    },
+    "ready_to_raster_finish": {
+      "n": 60,
+      "median": 42.8684955,
+      "p95": 54.2557345,
+      "min": 18.0163905,
+      "max": 58.4888135
+    },
+    "assignment_to_build_start": {
+      "n": 60,
+      "median": 11.4013895,
+      "p95": 17.8801725,
+      "min": 1.6128485,
+      "max": 19.8293065
+    },
+    "ready_to_presentation": {
+      "n": 60,
+      "median": 61.460605,
+      "p95": 81.363028,
+      "min": 33.668232,
+      "max": 90.047873
+    },
+    "assignment_to_presentation": {
+      "n": 60,
+      "median": 60.1385475,
+      "p95": 79.593862,
+      "min": 32.960003,
+      "max": 81.68756
+    },
+    "handler_phase_since_vsync": {
+      "n": 60,
+      "median": 8.3009715,
+      "p95": 16.252179,
+      "min": 0.124466,
+      "max": 16.4812
+    },
+    "missing_ready": [],
+    "clock_check": {
+      "40": 598514481856023,
+      "41": 598514481874000,
+      "42": 598514481876492
+    }
+  },
+  "ios": {
+    "ready_to_request": {
+      "n": 60,
+      "median": 0.2565,
+      "p95": 0.401,
+      "min": 0.115,
+      "max": 4.395
+    },
+    "ready_to_handler": {
+      "n": 60,
+      "median": 0.455,
+      "p95": 0.582,
+      "min": 0.185,
+      "max": 4.556
+    },
+    "ready_to_assignment": {
+      "n": 60,
+      "median": 0.5405,
+      "p95": 0.672,
+      "min": 0.239,
+      "max": 4.662
+    },
+    "ready_to_draw": {
+      "n": 60,
+      "median": 12.5575,
+      "p95": 19.679,
+      "min": 3.442,
+      "max": 20.412
+    },
+    "request_to_handler": {
+      "n": 60,
+      "median": 0.1895,
+      "p95": 0.233,
+      "min": 0.064,
+      "max": 0.246
+    },
+    "assignment_block": {
+      "n": 60,
+      "median": 0.0945,
+      "p95": 0.141,
+      "min": 0.054,
+      "max": 0.156
+    },
+    "flutter_build": {
+      "n": 60,
+      "median": 4.899,
+      "p95": 5.312,
+      "min": 1.986,
+      "max": 5.459
+    },
+    "flutter_raster": {
+      "n": 60,
+      "median": 1.4975,
+      "p95": 1.985,
+      "min": 0.725,
+      "max": 15.734
+    },
+    "ready_to_raster_finish": {
+      "n": 60,
+      "median": 14.0915,
+      "p95": 21.6075,
+      "min": 4.5165,
+      "max": 35.4695
+    },
+    "assignment_to_build_start": {
+      "n": 60,
+      "median": 7.1605,
+      "p95": 14.2175,
+      "min": 0.5765,
+      "max": 15.6305
+    },
+    "ready_to_capture": {
+      "n": 60,
+      "median": 48.6805,
+      "p95": 57.073,
+      "min": 38.503,
+      "max": 87.96
+    },
+    "missing_ready": [],
+    "clock_check": {
+      "40": 817858406450000,
+      "41": 817975377996000,
+      "42": 817858406453000
+    }
+  }
+}

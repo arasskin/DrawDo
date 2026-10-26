@@ -94,3 +94,13 @@ The service listens on port 7777 on all interfaces, preserving the deployment
 endpoint. Configure Datafriend with that port (its standalone default is 7778).
 This setup does not change host or DigitalOcean firewall rules. The protocol
 allows public reads and requires Ed25519 signatures for owner writes.
+
+## Current working-tree deployment — 2026-10-21
+
+The current C99 server replaced the older C++ executable in release
+`74e4a01e55d7a8dde43ae94f4697f7a5f1d61400-20261021-1`. It passed the native C99
+suite and full signed TCP protocol test before activation, then local and public
+protocol health checks. This is a working-tree build based on the named root
+commit, not a GitHub Actions run. The release records source hashes in
+`SOURCE_MANIFEST.json` and its origin in `BUILD_ORIGIN`. See the
+[validation record](validation/text-editing.md#server-update--october-21).

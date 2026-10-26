@@ -6,34 +6,33 @@ uses the existing AELMDB and Littlebear indexes, not the UI views.
 
 ## Supported native client
 
-`datafriend::network` owns nonblocking TCP framing, multiplexed channels,
+`df_network` owns nonblocking TCP framing, multiplexed channels,
 reconciliation scheduling, signed writes, reconnect/backoff and heartbeats.
 The application pumps it on the same serialized context as engine/view access.
 Numeric IPv4 and IPv6 endpoints are supported; DNS resolution is not implemented.
 No futures, network worker or engine locks are involved. The pump has a soft
 budget between operations; one database apply or reconciliation is not preempted.
 
-```cpp
+```c
 #include <datafriend/network.h>
 
-// Secure platform storage and signing stay inside Datafriend.
-datafriend::identity key("document-demo-v1", false);
-auto owner_name = datafriend::public_key_hex(key);
-datafriend::engine owner(owner_path, datafriend::durability::asynchronous,
-                         1 << 28, owner_name);
-datafriend::engine replica(replica_path, datafriend::durability::asynchronous,
-                           1 << 28, peer_public_key);
-datafriend::network connection("147.182.181.182", 7777);
-connection.push(owner, key);
-connection.subscribe(replica, peer_public_key, [&](const auto& changed) {
-  bindings.publish(changed);
-});
-
-// In the application loop. Local edits are detected by the store revision.
-connection.pump();
+/* Stores are opened with their owner public key as namespace. */
+df_network *connection = df_network_open("147.182.181.182", 7777, &error);
+df_network_push(connection, owner, identity, &error);
+uint32_t channel = df_network_follow(connection, replica, &error);
+/* Replica query watches receive remote commits automatically. */
+df_network_pump(connection, 1500);
+/* When removing a friend, outside pump/callbacks: */
+df_network_detach(connection, channel, &error);
 ```
 
-Stores and the signing identity must outlive the connection. Each attached store
+See the [native C API guide](datafriend-c-api.md) for complete ownership,
+notification and detach contracts. `push`, `follow` (subscribe), and `pump` are
+functions. The compatibility subscription interface has one optional callback
+with changed query IDs; ordinary native apps use store watches.
+
+Stores and the signing identity must outlive their attachment. Detach or close
+the connection before closing them. Each attached store
 has one sync exchange; do not call its low-level `sync` functions separately.
 Callbacks run on the calling thread after complete remote publication. They may
 read views and edit other stores, but must not destroy those stores/the connection

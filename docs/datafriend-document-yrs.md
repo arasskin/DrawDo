@@ -13,9 +13,9 @@ reserved for reading old stores, and old local receipt facts are deleted on open
 The app uses [Yrs 0.24.0](https://github.com/y-crdt/y-crdt/tree/v0.24.0), commit
 `7dbc9d402533af3efa1e936342abeec499988b6b`, through its `libyrs.h` C API. It is
 **not header-only**: CMake builds and statically links its Rust implementation.
-Datafriend itself has no CRDT or Rust dependency. The MIT license, unmodified
-upstream sources/header, locked Cargo dependencies and file hashes are retained
-under `third_party/yrs`. The newer 0.28.0 release did not compile with the installed
+Datafriend itself has no CRDT or Rust dependency. The MIT license, upstream Rust sources, locked Cargo dependencies and file hashes are retained
+under `third_party/yrs`. The C99 app port patches only opaque declarations in
+the C header; see [provenance](provenance.md). The newer 0.28.0 release did not compile with the installed
 Rust toolchain, so it was not adopted.
 
 CRDT-Lite was considered for its header-only integration, but its line-based text

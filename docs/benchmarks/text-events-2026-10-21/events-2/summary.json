@@ -1,0 +1,99 @@
+{
+  "android": {
+    "ready_to_request": {
+      "n": 60,
+      "median": 1.9463279999999998,
+      "p95": 7.968177,
+      "min": 0.117448,
+      "max": 10.264115
+    },
+    "ready_to_handler": {
+      "n": 60,
+      "median": 3.723464,
+      "p95": 9.58875,
+      "min": 1.187448,
+      "max": 12.177501
+    },
+    "ready_to_assignment": {
+      "n": 60,
+      "median": 20.0324755,
+      "p95": 26.155158,
+      "min": 7.352918,
+      "max": 37.456358
+    },
+    "ready_to_draw": {
+      "n": 60,
+      "median": 26.3440655,
+      "p95": 33.082763,
+      "min": 13.485834,
+      "max": 49.692505
+    },
+    "ready_to_commit": {
+      "n": 60,
+      "median": 33.847087,
+      "p95": 40.03891,
+      "min": 17.833126,
+      "max": 54.952349
+    },
+    "request_to_handler": {
+      "n": 60,
+      "median": 1.729375,
+      "p95": 2.666198,
+      "min": 0.983281,
+      "max": 3.569219
+    },
+    "assignment_block": {
+      "n": 60,
+      "median": 15.362606,
+      "p95": 20.086721,
+      "min": 6.16547,
+      "max": 34.98641
+    },
+    "editable_replace": {
+      "n": 60,
+      "median": 14.746694000000002,
+      "p95": 18.240158,
+      "min": 5.937188,
+      "max": 28.289638
+    },
+    "assignment_to_predraw": {
+      "n": 60,
+      "median": 1.9828649999999999,
+      "p95": 3.088959,
+      "min": 0.910417,
+      "max": 5.021199
+    },
+    "draw_block": {
+      "n": 60,
+      "median": 1.7859379999999998,
+      "p95": 2.870417,
+      "min": 0.578698,
+      "max": 5.102136
+    },
+    "handler_phase_since_vsync": {
+      "n": 60,
+      "median": 11.934503,
+      "p95": 15.951366,
+      "min": 0.985796,
+      "max": 17.753401
+    },
+    "ready_to_presentation": {
+      "n": 59,
+      "median": 56.645474,
+      "p95": 64.578392,
+      "min": 36.010211,
+      "max": 65.601881
+    },
+    "assignment_to_presentation": {
+      "n": 59,
+      "median": 37.694951,
+      "p95": 41.923337,
+      "min": 25.670523,
+      "max": 42.147504
+    },
+    "missing_ready": []
+  },
+  "ios": {
+    "invalid": "Stale events.csv identical to events-1; frames.csv empty. Excluded from all comparisons."
+  }
+}

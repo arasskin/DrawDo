@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.22)
+project(text_probe C)
+add_library(text_probe SHARED ../../../../../../probe.c bridge.c)
+target_include_directories(text_probe PRIVATE ../../../../../../../..)
+set_target_properties(text_probe PROPERTIES C_STANDARD 99)

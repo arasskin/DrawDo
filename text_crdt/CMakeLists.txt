@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.22)
+get_filename_component(REPO "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+include(yrs.cmake)
+add_library(text_crdt STATIC crdt.c)
+target_include_directories(text_crdt PUBLIC "${REPO}")
+target_link_libraries(text_crdt PUBLIC document_yrs)
+target_compile_features(text_crdt PUBLIC c_std_99)
+set_target_properties(text_crdt PROPERTIES POSITION_INDEPENDENT_CODE ON)

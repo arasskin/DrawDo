@@ -1,0 +1,12 @@
+name: text_latency
+description: Physical-device text scheduling benchmark.
+publish_to: none
+version: 1.0.0+1
+environment:
+  sdk: ^3.11.1
+dependencies:
+  flutter:
+    sdk: flutter
+  ffi: 2.2.0
+flutter:
+  uses-material-design: true

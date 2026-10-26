@@ -1,0 +1,1 @@
+Excluded: iPhone events.csv was stale (identical to events-1) and frames.csv was empty. Android trace is fresh. Cause not established. Later builds delete events.csv on startup and record suspend/resume events.

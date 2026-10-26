@@ -1,0 +1,18 @@
+{
+  "binaries": {
+    "crdt-demo-app/build/android/crdt-demo.apk": {
+      "sha256": "05c50642f4d752248974dab73215fca499c0b36dbf0fd15a666bfbdaa2f31e30",
+      "bytes": 4452906
+    },
+    "crdt-demo-app/build/ios/Release-iphoneos/crdt_demo.app/crdt_demo": {
+      "sha256": "141696227002368847ddfc904dc6dda6468e393ab705893570d0acbc96b1971b",
+      "bytes": 1561392
+    }
+  },
+  "host_tests": [
+    "document_test",
+    "editor_test"
+  ],
+  "iphone_result": "/tmp/crdt-sync-final.xcresult",
+  "server": "147.182.181.182:7777"
+}

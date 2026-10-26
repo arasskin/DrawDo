@@ -699,27 +699,27 @@ void direct_reads() {
   db.modify({{},{{1,"order",integer(7)},{2,"order",integer(-9)},{3,"order",integer(7)},
     {1,"part",integer(1)},{2,"part",integer(0)},{3,"part",integer(0)},{1,"blob",bytes("a\0b",3)}}});
   auto result=db.result(all); df_buffer out{};
-  auto attr=[&](const char* name) {return df_result_attribute(&result,reinterpret_cast<const uint8_t*>(name),std::char_traits<char>::length(name));};
+  auto attr=[&](const char* name) {return df_result_attribute(result.native_handle(),reinterpret_cast<const uint8_t*>(name),std::char_traits<char>::length(name));};
   const auto order=attr("order"), part=attr("part"), blob=attr("blob");
-  require(!df_result_attributes(&result,1,&out),"entity attribute enumeration");
+  require(!df_result_attributes(result.native_handle(),1,&out),"entity attribute enumeration");
   reader names{{reinterpret_cast<const char*>(out.data),out.size}};
   auto name_count=names.u32(); std::set<std::string> fields;
   for(uint32_t i=0;i<name_count;++i) fields.insert(names.blob());
   names.end(); df_free(out.data);
   require(fields==std::set<std::string>({"order","part","blob"}),"attribute names include only requested row");
-  require(!df_result_attributes(&result,99,&out),"absent entity enumeration");
+  require(!df_result_attributes(result.native_handle(),99,&out),"absent entity enumeration");
   reader missing_names{{reinterpret_cast<const char*>(out.data),out.size}};
   require(missing_names.u32()==0,"absent entity had attributes"); missing_names.end(); df_free(out.data);
-  require(!df_result_entities(&result,order,part,&out)&&out.size==12,"direct entity index");
+  require(!df_result_entities(result.native_handle(),order,part,&out)&&out.size==12,"direct entity index");
   auto* ids=reinterpret_cast<const uint32_t*>(out.data);
   require(ids[0]==2&&ids[1]==3&&ids[2]==1,"signed/secondary ordering"); df_free(out.data);
-  require(df_result_value(&result,1,blob,&out)==0&&out.size==3,"borrowed field");
+  require(df_result_value(result.native_handle(),1,blob,&out)==0&&out.size==3,"borrowed field");
   const auto* borrowed=out.data;
   require(borrowed==reinterpret_cast<const uint8_t*>(result.value(1,blob)->data()),"field was copied");
   const bytes retained(reinterpret_cast<const char*>(out.data),out.size);
-  require(df_result_find(&result,blob,borrowed,out.size)==1,"direct find");
-  require(df_result_count_value(&result,blob,borrowed,out.size)==1,"direct count");
-  require(df_result_value(&result,99,blob,&out)==1&&!out.data,"missing borrowed field");
+  require(df_result_find(result.native_handle(),blob,borrowed,out.size)==1,"direct find");
+  require(df_result_count_value(result.native_handle(),blob,borrowed,out.size)==1,"direct count");
+  require(df_result_value(result.native_handle(),99,blob,&out)==1&&!out.data,"missing borrowed field");
   db.modify({{},{{0,"kind","other"},{4,"order",integer(INT64_MAX)},
     {5,"order",integer(INT64_MIN)},{6,"order",integer(7)},{7,"kind","other"}}});
   require(result.entities(order)==std::vector<uint32_t>({5,2,1,3,6,4,0,7}),"missing primary sorts last, including integer extremes and ID ties");
@@ -729,11 +729,11 @@ void direct_reads() {
   require(result.entities(order)==std::vector<uint32_t>({5,2,3,6,4,0,1,7}),"removed order moves to missing group");
   db.modify({{},{{1,"blob","replacement"},{2,"order","invalid"}}});
   require(retained==bytes("a\0b",3),"owned field copy changed");
-  require(df_result_entities(&result,order,0,&out)==1,"invalid order accepted"); df_free(out.data);
-  auto access=std::make_shared<query_result::access>(); query_result poisoned(std::make_shared<view_scope>(),access); access->poisoned=true;
-  require(df_result_value(&poisoned,1,blob,&out)==-1,"poisoned direct read succeeded");
-  require(df_result_entities(&poisoned,0,0,&out)==1,"poisoned enumeration succeeded"); df_free(out.data);
-  require(df_result_attributes(&poisoned,1,&out)==1,"poisoned attributes succeeded"); df_free(out.data);
+  require(df_result_entities(result.native_handle(),order,0,&out)==1,"invalid order accepted"); df_free(out.data);
+  query_result poisoned; df_test_poison_view(poisoned.native_handle());
+  require(df_result_value(poisoned.native_handle(),1,blob,&out)==-1,"poisoned direct read succeeded");
+  require(df_result_entities(poisoned.native_handle(),0,0,&out)==1,"poisoned enumeration succeeded"); df_free(out.data);
+  require(df_result_attributes(poisoned.native_handle(),1,&out)==1,"poisoned attributes succeeded"); df_free(out.data);
 }
 void c_api() {
   directory d; df_buffer out{}; auto* db=df_open(reinterpret_cast<const uint8_t*>(d.path.data()),d.path.size(),1,&out); require(db,"C open");

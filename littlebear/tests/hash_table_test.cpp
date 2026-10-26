@@ -169,7 +169,7 @@ void random_operations() {
       case 1:
       case 2: {
         table::value v{};
-        v.root = reinterpret_cast<void*>(uintptr_t(random()));
+        v.root = reinterpret_cast<ct_node*>(uintptr_t(random()));
         CHECK(table::associate(&t, key, v));
         expected[pair(key)] = v;
         break;
@@ -183,7 +183,7 @@ void random_operations() {
     CHECK(table::count(&t) == expected.size());
     if (step % 997 == 0) verify(&t, expected);
   }
-  CHECK(t.entries.bucket_count() > 1);
+  CHECK(t.buckets > 1);
   verify(&t, expected);
   table::destroy(&t);
 }

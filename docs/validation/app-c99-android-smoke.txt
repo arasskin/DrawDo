@@ -1,0 +1,12 @@
+--------- beginning of main
+10-14 16:52:44.156 31253 31278 I DrawDoSokol: Ready: C99 tasks with Datafriend row views
+10-14 16:53:34.649 31253 31278 I DrawDoSokol: Action: button=0 edit_us=14432 rebuilt_buttons=4 count=100 paused=0 local=1
+10-14 16:53:35.438 31253 31278 I DrawDoSokol: Action: button=1 edit_us=3289 rebuilt_buttons=4 count=300 paused=0 local=1
+10-14 16:53:36.233 31253 31278 I DrawDoSokol: Action: button=2 edit_us=11344 rebuilt_buttons=4 count=1000 paused=0 local=1
+10-14 16:53:37.036 31253 31278 I DrawDoSokol: Action: button=3 edit_us=34160 rebuilt_buttons=4 count=3000 paused=0 local=1
+10-14 16:53:37.809 31253 31278 I DrawDoSokol: Action: button=2 edit_us=39631 rebuilt_buttons=4 count=1000 paused=0 local=1
+10-14 16:53:38.569 31253 31278 I DrawDoSokol: Action: button=5 edit_us=386 rebuilt_buttons=2 count=1000 paused=0 local=0
+10-14 16:53:39.355 31253 31278 I DrawDoSokol: Action: button=4 edit_us=190 rebuilt_buttons=2 count=1000 paused=0 local=1
+10-14 16:53:40.122 31253 31278 I DrawDoSokol: Action: button=6 edit_us=216 rebuilt_buttons=1 count=1000 paused=1 local=1
+10-14 16:53:41.817 31253 31278 I DrawDoSokol: Action: button=6 edit_us=214 rebuilt_buttons=1 count=1000 paused=0 local=1
+10-14 16:53:43.862 31253 31278 I DrawDoTasks: revision=0 list=1 rows=8 counter=1 detail=1 mounted=8 filter=All items=13

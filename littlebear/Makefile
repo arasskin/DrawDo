@@ -1,4 +1,6 @@
+CC = cc
 CXX = g++
+CFLAGS = -std=c99 -pedantic-errors -Wall -Wextra $(NIX_CFLAGS_COMPILE)
 BUILD ?= build
 CPPFLAGS += -Isrc -Itests
 CXXFLAGS = -std=c++23 -Wall -Wextra $(NIX_CFLAGS_COMPILE)
@@ -8,20 +10,27 @@ SANITIZERS = -fsanitize=address,undefined -fno-omit-frame-pointer
 # Compiler-generated dependencies rebuild only affected targets, including shared headers.
 DEPFLAGS = -MMD -MP
 TEST_NAMES := size_class_test wide_tree_test hash_table_test storage_test reconciliation_test index_sync_test
-TESTS := $(addprefix $(BUILD)/tests/,$(TEST_NAMES))
-SANITIZER_TESTS := $(addprefix $(BUILD)/sanitize/,$(TEST_NAMES))
+TESTS := $(addprefix $(BUILD)/tests/,$(TEST_NAMES)) $(BUILD)/tests/c99_test
+SANITIZER_TESTS := $(addprefix $(BUILD)/sanitize/,$(TEST_NAMES)) $(BUILD)/sanitize/c99_test
 
 .PHONY: all server debug test sanitize clean
 all: server
 server: $(BUILD)/server
-$(BUILD)/server: src/server.cpp
+$(BUILD)/server: src/server.c Makefile
 	@mkdir -p $(@D)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEPFLAGS) -O3 -DNDEBUG -o $@ $< $(LDFLAGS) -luring -lsodium
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEPFLAGS) -MF $@.c.d -O3 -DNDEBUG -o $@ $< $(LDFLAGS) -luring -lsodium
 
 debug: $(BUILD)/server-debug
-$(BUILD)/server-debug: src/server.cpp
+$(BUILD)/server-debug: src/server.c Makefile
 	@mkdir -p $(@D)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEPFLAGS) -O1 -g $(SANITIZERS) -o $@ $< $(LDFLAGS) -luring -lsodium
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEPFLAGS) -MF $@.c.d -O1 -g $(SANITIZERS) -o $@ $< $(LDFLAGS) -luring -lsodium
+
+$(BUILD)/tests/c99_test: tests/c99_test.c
+	@mkdir -p $(@D)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEPFLAGS) -O2 -g -o $@ $< $(LDFLAGS)
+$(BUILD)/sanitize/c99_test: tests/c99_test.c
+	@mkdir -p $(@D)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(DEPFLAGS) -O1 -g $(SANITIZERS) -o $@ $< $(LDFLAGS)
 
 $(BUILD)/tests/%: tests/%.cpp
 	@mkdir -p $(@D)
@@ -40,4 +49,6 @@ sanitize: $(SANITIZER_TESTS)
 
 clean:
 	rm -rf $(BUILD)
--include $(wildcard $(BUILD)/*.d $(BUILD)/tests/*.d $(BUILD)/sanitize/*.d)
+# C server depfiles have a distinct suffix so old C++ source dependencies cannot
+# prevent an existing build directory from rebuilding after the language port.
+-include $(wildcard $(BUILD)/*.c.d $(BUILD)/tests/*.d $(BUILD)/sanitize/*.d)

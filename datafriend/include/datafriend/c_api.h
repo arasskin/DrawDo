@@ -16,7 +16,7 @@ DF_API void df_free(void* memory);
 // handle + owned 32-byte public key; null + error on failure. No seed export.
 // ephemeral=1 explicitly creates an unpersisted test identity; 0 is production.
 DF_API void* df_identity_open(const uint8_t* alias, size_t size, int ephemeral, df_buffer* reply);
-// Only signs an LBS4 write envelope matching this key and the attribute schema.
+// Only signs an LBS5 write envelope matching this key and the attribute schema.
 // Returns owned 64-byte Ed25519 signature, or error. Calls must be serialized.
 DF_API int df_identity_sign(void* identity, const uint8_t* message, size_t size, df_buffer* reply);
 // Wipes the in-memory key. Does not delete the stored identity.

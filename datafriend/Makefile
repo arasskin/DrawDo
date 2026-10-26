@@ -9,7 +9,7 @@ native:
 test native-test: native
 	ctest --test-dir $(BUILD) --output-on-failure
 sanitize:
-	cmake -S . -B build/sanitize -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined -fno-omit-frame-pointer" -DCMAKE_SHARED_LINKER_FLAGS="-fsanitize=address,undefined"
+	cmake -S . -B build/sanitize -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS="-O1 -fsanitize=address,undefined -fno-omit-frame-pointer" -DCMAKE_CXX_FLAGS="-O1 -fsanitize=address,undefined -fno-omit-frame-pointer" -DCMAKE_SHARED_LINKER_FLAGS="-fsanitize=address,undefined"
 	cmake --build build/sanitize -j $(JOBS)
 	ASAN_OPTIONS=detect_leaks=1 UBSAN_OPTIONS=halt_on_error=1 ctest --test-dir build/sanitize --output-on-failure --timeout 180
 clean:

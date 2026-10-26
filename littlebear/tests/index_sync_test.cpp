@@ -19,7 +19,7 @@ int main() {
   using packet = std::vector<uint8_t>;
   r::workspace work{};
   uint8_t memory[4096];
-  r::output out{memory, sizeof(memory)};
+  r::output out{memory, sizeof(memory), 0, 0};
   CHECK(r::begin(index_sync::source(&a), &work, &out) == r::status::complete);
   std::vector<packet> packets{{memory, memory + out.size}};
   bool to_b = true;
